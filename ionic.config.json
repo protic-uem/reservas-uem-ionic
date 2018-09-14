@@ -1,0 +1,7 @@
+{
+  "name": "reservasUEM",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
