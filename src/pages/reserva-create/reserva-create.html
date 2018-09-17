@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Fazer uma reserva</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content >
+  <ion-card>
+    <ion-card-header>
+      <p>
+        Por favor, para realizar uma reserva preenche os dados abaixo
+      </p>
+    </ion-card-header>
+    <hr />
+    <ion-list>
+      <ion-item>
+        <ion-icon item-start name="pricetag"></ion-icon>
+        <ion-label>Departamento</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar">
+          <ion-option >DIN</ion-option>
+          <ion-option >DEE</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon item-start name="calendar"></ion-icon>
+        <ion-label>Data</ion-label>
+        <ion-datetime
+          displayFormat="DD/MM/YYYY"
+          pickerFormat="DD-MM-YYYY"
+          [(ngModel)]="today"
+          (ngModelChange)="refreshReservation()"
+          doneText="Selecionar"
+          cancelText="Cancelar">
+        </ion-datetime>>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
