@@ -1,13 +1,10 @@
         <ion-card class="border-card"
-                [ngClass]="{'rejeitado': reserva.status == 'REJEITADO',
-                                'aceito': reserva.status == 'ACEITO',
-                                'cancelado': reserva.status == 'CANCELADO',
-                                'pendente': reserva.status == 'PENDENTE'}"
+
          (click)="openReserva($event, reserva)" >
                         <ion-grid>
                           <ion-row>
                             <ion-col col-9 text-left>
-                                    <span class="titulo_sala">{{reserva.sala}}</span><br />
+                                    <span class="titulo_sala">{{reserva.sala}} - {{reserva.bloco}}</span><br />
                                     <span>{{reserva.disciplina}}</span>
                             </ion-col>
                             <ion-col col-3 text-right>
@@ -21,6 +18,16 @@
                             <ion-col col-6 text-right>
                                    {{reserva.status}}
                             </ion-col>
+                          </ion-row>
+                          <ion-row class="linha_status">
+                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 'REJEITADO',
+                                                  'aceito': reserva.status == 'ACEITO',
+                                                  'cancelado': reserva.status == 'CANCELADO',
+                                                  'pendente': reserva.status == 'PENDENTE'}"
+                                                  >
+
+                                  </ion-col>
+
                           </ion-row>
                         </ion-grid>
         </ion-card>

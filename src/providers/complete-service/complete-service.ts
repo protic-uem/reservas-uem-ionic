@@ -5,7 +5,7 @@ import { Reserva } from '../../model/Reserva';
 import { CustomReserva } from '../../pages/reserva-list/reserva-list';
 @Injectable()
 export class CompleteServiceProvider implements AutoCompleteService{
-  labelAttribute = "descricao";
+  labelAttribute = "sala";
 
   private reservas:Array<CustomReserva>;
   private reservasCarregadas:Array<CustomReserva>;

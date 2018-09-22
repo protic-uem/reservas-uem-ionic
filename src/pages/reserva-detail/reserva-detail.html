@@ -18,12 +18,71 @@
     </ion-card-header>
     <ion-card-content>
         <ion-card-title>
-          <span class="text-negrito">Sala: </span>{{reserva.sala}}
-          <span class="text-negrito">Dept: </span>{{reserva.dept}}
+          <span class="text-negrito">{{reserva.disciplina}}</span>
         </ion-card-title>
         <hr/>
-        <h2>Horários reservados</h2>
-        {{reserva.data}}
+        <ion-grid>
+          <ion-row>
+            <ion-col >
+
+              <span class="text-details">
+                Sala:
+              </span>
+                {{reserva.sala}}
+
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                  Departamento:
+              </span>
+                  {{reserva.dept}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                  Bloco:
+              </span>
+                  {{reserva.bloco}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                  Tipo de uso:
+              </span>
+                  {{reserva.uso}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+
+              <span class="text-details">
+                  Tipo de reserva:
+              </span>
+                  {{reserva.tipo}}
+
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                  Data da reserva:
+              </span>
+                  {{reserva.data}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col text-left>
+              <span class="text-details">
+                  Horário(s) da reserva:
+              </span><br />
+                  {{reserva.periodo}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

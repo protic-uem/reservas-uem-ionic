@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar color="primary">
     <ion-title>Fazer uma reserva</ion-title>
   </ion-navbar>
@@ -8,34 +7,87 @@
 
 <ion-content >
   <ion-card>
-    <ion-card-header>
-      <p>
-        Por favor, para realizar uma reserva preenche os dados abaixo
-      </p>
-    </ion-card-header>
-    <hr />
+    <ion-card-content>
     <ion-list>
       <ion-item>
-        <ion-icon item-start name="pricetag"></ion-icon>
+        <ion-icon item-start name="home"></ion-icon>
         <ion-label>Departamento</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar">
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.dept" required>
           <ion-option >DIN</ion-option>
           <ion-option >DEE</ion-option>
         </ion-select>
       </ion-item>
-
+      <ion-item>
+        <ion-icon item-start name="key"></ion-icon>
+        <ion-label>Sala</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.sala">
+          <ion-option >LIN 1</ion-option>
+          <ion-option >LIN 2</ion-option>
+          <ion-option >102</ion-option>
+          <ion-option >101</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="book"></ion-icon>
+        <ion-label floating>Disciplina</ion-label>
+        <ion-input [(ngModel)] = "reserva.disciplina"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-icon item-start name="calendar"></ion-icon>
         <ion-label>Data</ion-label>
+          <!-- [(ngModel)]="today"
+              (ngModelChange)="refreshReservation()"
+          -->
         <ion-datetime
+          [(ngModel)] = "reserva.data"
           displayFormat="DD/MM/YYYY"
-          pickerFormat="DD-MM-YYYY"
-          [(ngModel)]="today"
-          (ngModelChange)="refreshReservation()"
+          pickerFormat="DD-MMM-YYYY"
+          monthShortNames="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
           doneText="Selecionar"
           cancelText="Cancelar">
-        </ion-datetime>>
+        </ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="clock"></ion-icon>
+        <ion-label>Período</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" multiple="true" [(ngModel)] = "reserva.periodo">
+          <ion-option >07:45-08:35</ion-option>
+          <ion-option >08:35-09:25</ion-option>
+          <ion-option >09:40-10:30</ion-option>
+          <ion-option >10:30-11:20</ion-option>
+          <ion-option >11:20-12:10</ion-option>
+          <ion-option >13:30-14:20</ion-option>
+          <ion-option >14:20-15:10</ion-option>
+          <ion-option >15:30-16:20</ion-option>
+          <ion-option >16:20-17:10</ion-option>
+          <ion-option >17:10-18:00</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="pricetag"></ion-icon>
+        <ion-label>Uso</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso">
+          <ion-option >Prática</ion-option>
+          <ion-option >Teórica</ion-option>
+          <ion-option >Mestrado</ion-option>
+          <ion-option >Especialização</ion-option>
+          <ion-option >Defesa</ion-option>
+          <ion-option >Minicurso</ion-option>
+          <ion-option >Reunião</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="list-box"></ion-icon>
+        <ion-label>Tipo de reserva</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo">
+          <ion-option >Eventual</ion-option>
+          <ion-option >Fixo</ion-option>
+        </ion-select>
       </ion-item>
     </ion-list>
+  </ion-card-content>
+  <hr />
+    <button ion-button round class="btnReserva" (click)="reservaCreate()" >Reservar</button>
+    <button ion-button round class="btnCancelar" (click)="reservaCanceled()">Cancelar</button>
   </ion-card>
 </ion-content>

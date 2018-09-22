@@ -36,8 +36,13 @@ ioncard-reserva-my {
     font-weight: bold;
   }
 
-  .data{
-
+  .linha_status{
+    width: 100%;
+    border-radius: 5px;
+    height: 1px!important;
+  }
+  .col_status{
+    border-radius: 5px;
   }
 
 

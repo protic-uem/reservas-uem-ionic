@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, FabContainer } from 'ionic-angular';
 
 import { ReservaCreatePage } from '../../pages/reserva-create/reserva-create';
 import { ReservaMyPage } from '../../pages/reserva-my/reserva-my';
@@ -13,15 +13,13 @@ export class CustomFabComponent {
   constructor(private navCtrl:NavController) {
   }
 
-  addReserva(){
+  addReserva(fab: FabContainer){
+    fab.close();
     this.navCtrl.push(ReservaCreatePage);
   }
 
-  searchReserva(){
-    console.log("consulta de reserva clicaldo");
-  }
-
-  myReserva(){
+  myReserva(fab: FabContainer){
+    fab.close();
     this.navCtrl.push(ReservaMyPage);
   }
 

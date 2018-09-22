@@ -8,6 +8,23 @@
 </ion-header>
 
 <ion-content>
+  <ion-card>
+      <ion-list>
+        <ion-item>
+          <ion-icon item-start name="options"></ion-icon>
+          <ion-label>Status</ion-label>
+          <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)]="statusSelecionado"
+          (ionChange)="statusMudado($event)">
+            <ion-option >ACEITO</ion-option>
+            <ion-option >PENDENTE</ion-option>
+            <ion-option >CANCELADO</ion-option>
+            <ion-option >REJEITADO</ion-option>
+            <ion-option >TODOS</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+  </ion-card>
+  <hr />
   <ion-scroll #listaReservas  style="width:100%;height:100%" scrollY="true">
     <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas">
