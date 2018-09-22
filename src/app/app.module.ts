@@ -5,31 +5,36 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 import { ReservaDetailPage } from '../pages/reserva-detail/reserva-detail';
+import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
+import { LoginPage } from '../pages/login/login';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //componentes criados
 import { ComponentsModule } from '../components/components.module';
+import { ModalLoginComponent } from '../components/modal-login/modal-login';
 
 //compoentes baixados
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { CompleteServiceProvider } from '../providers/complete-service/complete-service';
+import { ConexaoProvider } from '../providers/conexao/conexao';
+import { LoginServiceProvider } from '../providers/login-service/login-service';
+import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
+import { ReservaServiceProvider } from '../providers/reserva-service/reserva-service';
 
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage,
     ReservaListPage,
     ReservaCreatePage,
-    ReservaDetailPage
+    ReservaDetailPage,
+    ReservaMyPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -42,17 +47,22 @@ import { CompleteServiceProvider } from '../providers/complete-service/complete-
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage,
     ReservaListPage,
     ReservaCreatePage,
-    ReservaDetailPage
+    ReservaDetailPage,
+    ReservaMyPage,
+    LoginPage,
+    ModalLoginComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CompleteServiceProvider
+    CompleteServiceProvider,
+    ConexaoProvider,
+    LoginServiceProvider,
+    UsuarioServiceProvider,
+    ReservaServiceProvider
   ]
 })
 export class AppModule {}

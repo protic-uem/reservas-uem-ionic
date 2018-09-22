@@ -1,5 +1,9 @@
-
-        <ion-card class="border-card" (click)="openReserva($event, reserva)" >
+        <ion-card class="border-card"
+                [ngClass]="{'rejeitado': reserva.status == 'REJEITADO',
+                                'aceito': reserva.status == 'ACEITO',
+                                'cancelado': reserva.status == 'CANCELADO',
+                                'pendente': reserva.status == 'PENDENTE'}"
+         (click)="openReserva($event, reserva)" >
                         <ion-grid>
                           <ion-row>
                             <ion-col col-9 text-left>
@@ -11,8 +15,11 @@
                             </ion-col>
                           </ion-row>
                           <ion-row>
-                            <ion-col col-12 text-left>
+                            <ion-col col-6 text-left>
                                    {{reserva.data}}
+                            </ion-col>
+                            <ion-col col-6 text-right>
+                                   {{reserva.status}}
                             </ion-col>
                           </ion-row>
                         </ion-grid>

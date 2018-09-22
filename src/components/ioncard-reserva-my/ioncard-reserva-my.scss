@@ -1,4 +1,4 @@
-ioncard-reserva {
+ioncard-reserva-my {
 
   .aceito {
     background-color: #32db64; // black
@@ -6,6 +6,14 @@ ioncard-reserva {
   .rejeitado{
     background-color: red;
   }
+  .pendente{
+    background-color: yellow;
+  }
+
+  .cancelado{
+    background-color: orange;
+  }
+
   .icon-sucess{
     color:green;
   }

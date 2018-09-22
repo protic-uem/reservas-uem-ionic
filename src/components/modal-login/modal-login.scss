@@ -1,0 +1,43 @@
+modal-login {
+
+  .scroll-content {
+      background-image: url('./../assets/imgs/wallpaperLogin.png');
+  }
+
+  .cardPadding {
+      margin-bottom: 0 !important;
+  }
+
+  .centralizar {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-height: 100%;
+      max-width: 100%;
+  }
+
+  .redimensionar {
+      padding-top: 15%;
+      padding-bottom: 15%;
+      width: 50%;
+      position: relative;
+      top: 50%;
+      transform: translateX(50%);
+      margin: auto;
+  }
+
+  .check {
+      background-color: transparent;
+      color: white;
+  }
+  .checkbox {
+      margin-right: 18px !important;
+  }
+
+  .btnLogin {
+      width: 99%;
+  }
+
+  .btnEsqueceu {
+  }
+}

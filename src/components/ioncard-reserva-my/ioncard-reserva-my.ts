@@ -5,16 +5,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CustomReserva } from '../../pages/reserva-list/reserva-list';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 
-
 @Component({
-  selector: 'ioncard-reserva',
-  templateUrl: 'ioncard-reserva.html'
+  selector: 'ioncard-reserva-my',
+  templateUrl: 'ioncard-reserva-my.html'
 })
-export class IoncardReservaComponent {
+export class IoncardReservaMyComponent {
 
  @Input() reserva:CustomReserva;
   constructor(private navCtrl:NavController) {
-
   }
 
   openReserva(event, reserva:CustomReserva){

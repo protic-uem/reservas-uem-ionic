@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { ReservaCreatePage } from '../../pages/reserva-create/reserva-create';
+import { ReservaMyPage } from '../../pages/reserva-my/reserva-my';
 
 @Component({
   selector: 'custom-fab',
@@ -17,7 +18,11 @@ export class CustomFabComponent {
   }
 
   searchReserva(){
-    console.log("Clicado em procurar reserva");
+    console.log("consulta de reserva clicaldo");
+  }
+
+  myReserva(){
+    this.navCtrl.push(ReservaMyPage);
   }
 
 }

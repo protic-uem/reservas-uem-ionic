@@ -2,6 +2,12 @@
 <ion-fab right bottom #fab>
     <button ion-fab color="primary"><ion-icon name="add"></ion-icon></button>
     <ion-fab-list side="top">
+    <button ion-fab (click)="myReserva()">
+          <ion-icon name="archive"></ion-icon>
+          <div class="label">
+            Minhas Reservas
+          </div>
+    </button>
       <button ion-fab (click)="addReserva()">
         <ion-icon name="add"></ion-icon>
         <div class="label">
@@ -11,8 +17,9 @@
       <button ion-fab (click)="searchReserva()">
         <ion-icon name="search"></ion-icon>
         <div class="label">
-          Pesquisa Avançada
+          Consultar Reserva
         </div>
       </button>
+
     </ion-fab-list>
 </ion-fab>

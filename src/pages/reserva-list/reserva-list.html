@@ -1,24 +1,23 @@
-<ion-header>
-  <ion-navbar>
+<ion-header >
+  <ion-navbar  color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Reservas</ion-title>
+    <ion-buttons right>
+      <button ion-button outline (click)="chamaLogin($event)" *ngIf="login.id === -1">Login</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-auto-complete #searchbar   [dataProvider]="complete" [options]="{ placeholder : 'Digite a reserva... ', showCancelButton:'true' }"  (itemSelected)="itemSelecionadoPeloAutocomplete($event)" ></ion-auto-complete>
+  <ion-auto-complete #searchbar   [dataProvider]="complete" [options]="{ placeholder : 'Digite a sala... ', showCancelButton:'true' }"  (itemSelected)="itemSelecionadoPeloAutocomplete($event)" ></ion-auto-complete>
 
   <ion-scroll #listaReservas  style="width:100%;height:80vh" scrollY="true">
     <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas">
         <ion-item>
-          <ion-card class="border-card">
-            <button ion-item (click)="openReserva($event, reserva)">
-              <ioncard-reserva [reserva]="reserva" ></ioncard-reserva>
-            </button>
-          </ion-card>
+          <ioncard-reserva [reserva]="reserva" ></ioncard-reserva>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Detalhes da Reserva</ion-title>
   </ion-navbar>
 </ion-header>
@@ -10,7 +10,7 @@
     <ion-card-header>
             <ion-item>
               <ion-avatar item-start>
-                <img src="assets/imgs/logo.png">
+                <img src="assets/imgs/profile.png">
               </ion-avatar>
               <h2>{{reserva.usuario}}</h2>
               <p>Professor</p>
@@ -18,15 +18,12 @@
     </ion-card-header>
     <ion-card-content>
         <ion-card-title>
-          <span class="text-negrito">Sala: </span>{{reserva.descricao}}
+          <span class="text-negrito">Sala: </span>{{reserva.sala}}
           <span class="text-negrito">Dept: </span>{{reserva.dept}}
         </ion-card-title>
         <hr/>
         <h2>Horários reservados</h2>
-        <br/>
-        14/02/2018 - 13:30 às 15:20
-        <br />
-        16/02/2018 - 15:40 às 17:10
+        {{reserva.data}}
     </ion-card-content>
   </ion-card>
 </ion-content>
