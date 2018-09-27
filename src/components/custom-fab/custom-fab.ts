@@ -11,6 +11,8 @@ import { ReservaMyPage } from '../../pages/reserva-my/reserva-my';
 export class CustomFabComponent {
 
   constructor(private navCtrl:NavController) {
+
+
   }
 
   addReserva(fab: FabContainer){

@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, MenuController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { Storage } from '@ionic/storage';
 import { ReservaListPage } from '../pages/reserva-list/reserva-list';
+import { Login } from '../model/Login';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,13 +13,20 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = ReservaListPage;
-
+  deslogado: boolean = false;
   pages: Array<{title: string, component: any}>;
+  login: Login = new Login();
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+    private storage:Storage, private menuCtrl:MenuController, private events:Events) {
+    this.verificarUsuarioLogado();
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
+    this.events.subscribe("userloggedin", (user:Login) => {
+      console.log("evento:"+user.nome);
+        this.login = user;
+    });
+
     this.pages = [
       { title: 'Reservas', component: ReservaListPage }
 
@@ -26,18 +34,35 @@ export class MyApp {
 
   }
 
+
+  async verificarUsuarioLogado(){
+    await this.storage.get("login").then((login: Login) => {
+      this.login = login;
+    } );
+  }
+
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  logout() {
+    this.deslogado = true;
+    this.storage.set("login", new Login());
+    this.storage.set("keepConnected", false);
+    this.nav.setRoot(ReservaListPage);
+    this.events.publish("userloggedin", new Login());
+    //this.nav.setRoot(ReservaListPage);
+  }
+
+  atualizaMenu(){
+      //this.verificarUsuarioLogado();
+  }
+
 }

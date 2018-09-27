@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, MenuController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 //Páginas
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 //Provedores
@@ -22,13 +23,16 @@ export class ReservaListPage {
 
   private reservas:Array<CustomReserva>;
   private reservasCarregadas:Array<CustomReserva>;
-  private   login: Login = new Login();
+  private login: Login = new Login();
 
   departamentoSelecionado:string = '';
   blocoSelecionado:string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private complete:CompleteServiceProvider,
-    private modalCrl:ModalController) {
+    private modalCrl:ModalController, private storage: Storage, public menuCtrl: MenuController) {
+
+        this.loadResources();
+
   }
 
   ionViewDidLoad() {
@@ -43,6 +47,20 @@ export class ReservaListPage {
   new CustomReserva('PAA', 'Sala 200', 'DEE','25/09/2018', 'REJEITADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'D67')];
 
       this.reservasCarregadas = this.reservas;
+
+  }
+
+
+  async loadResources() {
+    await this.storage.get("login")
+      .then((login) => {
+        if (login) {
+          this.login = login;
+          console.log("usuario logado:"+login.nome);
+        } else {
+          this.login = new Login();
+        }
+      });
   }
 
 
@@ -60,8 +78,8 @@ export class ReservaListPage {
   chamaLogin(event) {
     //this.navCtrl.push(LoginPage);
     let loginModal = this.modalCrl.create(ModalLoginComponent);
-    loginModal.onDidDismiss(data => {
-      console.log(data);
+    loginModal.onDidDismiss(() => {
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
     });
     loginModal.present();
 

@@ -5,7 +5,7 @@
     </button>
     <ion-title>Reservas</ion-title>
     <ion-buttons right>
-      <button ion-button outline (click)="chamaLogin($event)" *ngIf="login.id === -1">Login</button>
+      <button ion-button outline (click)="chamaLogin($event)" *ngIf="login.id === undefined">Login</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -41,5 +41,5 @@
       </ion-item-sliding>
     </ion-list>
   </ion-scroll>
-    <custom-fab style="position:static;"></custom-fab>
+    <custom-fab style="position:static;" *ngIf="login.id != undefined"></custom-fab>
 </ion-content>

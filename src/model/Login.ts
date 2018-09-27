@@ -1,28 +1,20 @@
 export class Login {
   id: number;
-  email: string;
-  senha: string;
-  permissao: number;
+  nome:string;
+  telefone:string;
+  privilegio: string;
+  id_departamento: number;
+  status: number;
 
-  constructor(idLogin?: number, emailLogin?: string, senhaLogin?: string,
-      permissaoLogin?: number) {
-    if (idLogin) {
-      this.id = idLogin;
-      this.email = emailLogin;
-      this.senha = senhaLogin;
-      this.permissao = permissaoLogin;
-    } else {
-      this.id = -1;
-      this.email = "";
-      this.senha = "";
-      this.permissao = -1;
-    }
+  constructor(idLogin?: number, nome?: string, telefone?: string,
+      privilegio?: string, id_departamento?:number, status?:number) {
+        this.id = idLogin;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.privilegio = privilegio;
+        this.id_departamento = id_departamento;
+        this.status = status;
   }
 
-  public clone(login: Login): void {
-    this.id = login.id;
-    this.email = login.email;
-    this.senha = login.senha;
-    this.permissao = login.permissao;
-  }
+
 }

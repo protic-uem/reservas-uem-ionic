@@ -23,13 +23,6 @@ export class ReservaCreatePage {
 
   reservaCreate(){
     this.reservaConfirm();
-
-
-    let toast = this.toastCtrl.create({
-      message: 'Reserva feita com sucesso',
-      duration: 3000
-    });
-    toast.present();
   }
 
   reservaConfirm(){
@@ -56,6 +49,11 @@ export class ReservaCreatePage {
             //retorar um objeto de sucesso, e mostrat toast de reserva realizada com sucesso
             //na página principal de reservas
               this.navCtrl.pop();
+              let toast = this.toastCtrl.create({
+                message: 'Reserva feita com sucesso',
+                duration: 3000
+              });
+              toast.present();
           }
         }
       ]
