@@ -56,6 +56,7 @@ export class ReservaListPage {
       .then((login) => {
         if (login) {
           this.login = login;
+          console.log("Id usuario base 64:"+btoa(login.id+""));
           console.log("usuario logado:"+login.nome);
         } else {
           this.login = new Login();
@@ -70,19 +71,12 @@ export class ReservaListPage {
     });
   }
 
-  itemSelecionadoPeloAutocomplete(evento:any){
-    let dado = this.searchbar.getValue();//pega a descricao da reserva selecionada e coloca em dado
-    this.reservas = this.reservasCarregadas.filter(item => item.sala.toLowerCase().startsWith(dado.toLowerCase()));
-  }
-
   chamaLogin(event) {
-    //this.navCtrl.push(LoginPage);
     let loginModal = this.modalCrl.create(ModalLoginComponent);
     loginModal.onDidDismiss(() => {
         this.navCtrl.setRoot(this.navCtrl.getActive().component);
     });
     loginModal.present();
-
   }
 
   pesquisaMudado(component, event){

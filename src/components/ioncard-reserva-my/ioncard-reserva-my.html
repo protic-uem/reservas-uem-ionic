@@ -4,8 +4,8 @@
                         <ion-grid>
                           <ion-row>
                             <ion-col col-9 text-left>
-                                    <span class="titulo_sala">{{reserva.sala}} - {{reserva.bloco}}</span><br />
-                                    <span>{{reserva.disciplina}}</span>
+                                    <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
+                                    <span>{{reserva.nome_disciplina}}</span>
                             </ion-col>
                             <ion-col col-3 text-right>
                                     <span class="dept">{{reserva.dept}}</span>
@@ -13,19 +13,21 @@
                           </ion-row>
                           <ion-row>
                             <ion-col col-6 text-left>
-                                   {{reserva.data}}
+                                   {{reserva.data_reserva}}
                             </ion-col>
                             <ion-col col-6 text-right>
-                                   {{reserva.status}}
+                                    <span *ngIf="reserva.status === 0">PENDENTE</span>
+                                    <span *ngIf="reserva.status === 1">ACEITO</span>
+                                    <span *ngIf="reserva.status === 2">REJEITADO</span>
+                                    <span *ngIf="reserva.status === 3">CANCELADO</span>
                             </ion-col>
                           </ion-row>
                           <ion-row class="linha_status">
-                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 'REJEITADO',
-                                                  'aceito': reserva.status == 'ACEITO',
-                                                  'cancelado': reserva.status == 'CANCELADO',
-                                                  'pendente': reserva.status == 'PENDENTE'}"
+                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 2,
+                                                  'aceito': reserva.status == 1,
+                                                  'cancelado': reserva.status == 3,
+                                                  'pendente': reserva.status == 0}"
                                                   >
-
                                   </ion-col>
 
                           </ion-row>

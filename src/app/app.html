@@ -6,7 +6,9 @@
           <img src="assets/imgs/semPerfil.png">
         </ion-avatar>
         <h1>Reserva de Sala</h1>
-        Olá, {{login.nome}}
+        Seja Bem Vindo!<br />
+        <span *ngIf="login.id != undefined">{{login.nome}}</span>
+        <span *ngIf="login.id === undefined" class="msg_bemvindo">Visitante</span>
       </ion-item>
     </ion-toolbar>
   </ion-header>
@@ -15,11 +17,17 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
-      <button menuClose *ngIf="login.id != undefined" ion-item (click)="logout()">
-        Logout
-      </button>
     </ion-list>
+    <ion-footer no-shadow>
+    	<ion-toolbar position="bottom">
+    		<button ion-button full round menuClose *ngIf="login.id != undefined" (click)="logout()">
+          <ion-icon name="exit" style="margin-right: 4px;"></ion-icon>
+            Sair
+          </button>
+    	</ion-toolbar>
+    </ion-footer>
   </ion-content>
+
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
-import { CustomReserva } from '../reserva-list/reserva-list';
+import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
+import { Login } from '../../model/Login';
+import { Storage } from '@ionic/storage';
+import { ReservaUsuario } from '../../model/ReservaUsuario';
+
+
+
 
 @IonicPage()
 @Component({
@@ -11,37 +17,49 @@ import { CustomReserva } from '../reserva-list/reserva-list';
 })
 export class ReservaMyPage {
 
-  private reservas:Array<CustomReserva>;
-  private reservasCarregadas:Array<CustomReserva>;
+  private reservas:Array<ReservaUsuario>;
+  private reservasCarregadas:Array<ReservaUsuario>;
+  private login:Login;
 
   statusSelecionado:string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-
-    this.reservas = [new CustomReserva('Estrutura de dados', 'Sala 10', 'DIN','25/09/2018', 'ACEITO', 'Alan Lopes', 'Prática', 'Eventual', '07:45-08:20,08:20-09:10,19:30-21:10,21:10-22:00 ', 'C56'),
-  new CustomReserva('Estrutura de dados', 'Sala 02', 'DIN','15/09/2018', 'CANCELADO', 'Alisson Lopes', 'Teórica', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Fundamentos de Algoritmos', 'LIN 1', 'DIN','05/09/2018', 'PENDENTE', 'Wesley Romão', 'Defesa', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Grafos', 'Sala 105', 'DIN','20/09/2018', 'REJEITADO', 'Mamoru' , 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Análise de Algoritmos', 'Sala 102', 'DIN','25/09/2018', 'ACEITO', 'Diego Fernandes' , 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Banco de dados 1', 'LIN 2', 'DIN','25/09/2018', 'ACEITO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Banco de dados 2', 'Sala 04', 'DIN','25/09/2018', 'CANCELADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('Arquitetura de computadores', 'Sala 101', 'DIN','25/09/2018', 'REJEITADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-  new CustomReserva('PAA', 'Sala 200', 'DIN','25/09/2018', 'REJEITADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56')];
-
-  this.reservasCarregadas = this.reservas;
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private reservaService:ReservaServiceProvider, private storage:Storage) {
+        this.loadResources();//pegar o usuário logado e depois carregar as reservas
 
   }
 
-  ionViewDidLoad() {
+  async loadResources() {
+    await this.storage.get("login")
+      .then((login) => {
+        if (login) {
+          this.login = login;
+          this.atualizarMinhasReservas();
+        } else {
+          this.login = new Login();
+        }
+      });
+  }
+
+
+  atualizarMinhasReservas(){
+    this.reservaService.carregarReservaPorUsuario(this.login.id)
+      .then( (reservas:Array<ReservaUsuario>) => {
+        this.storage.set("reservas", reservas);
+        this.reservas = reservas;
+        this.reservasCarregadas = reservas;
+      } )
+      .catch( () => "Erro na requisição de minhas reservas" );
 
   }
 
   statusMudado(event){
-    if(event == 'TODOS'){
+    console.log("Evento mudado:"+event);
+    if(event == -1){
       this.reservas = this.reservasCarregadas;
     }
     else{
-      this.reservas = this.reservasCarregadas.filter(item => item.status.toLowerCase().startsWith(event.toString().toLowerCase()))
+      this.reservas = this.reservasCarregadas.filter(item => item.status == event);
     }
   }
 

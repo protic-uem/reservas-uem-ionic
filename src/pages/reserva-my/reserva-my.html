@@ -15,11 +15,11 @@
           <ion-label>Status</ion-label>
           <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)]="statusSelecionado"
           (ionChange)="statusMudado($event)">
-            <ion-option >ACEITO</ion-option>
-            <ion-option >PENDENTE</ion-option>
-            <ion-option >CANCELADO</ion-option>
-            <ion-option >REJEITADO</ion-option>
-            <ion-option >TODOS</ion-option>
+            <ion-option value=0>PENDENTE</ion-option>
+            <ion-option value=1>ACEITO</ion-option>
+            <ion-option value=2>REJEITADO</ion-option>
+            <ion-option value=3>CANCELADO</ion-option>
+            <ion-option value=-1>TODOS</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
