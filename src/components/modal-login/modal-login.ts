@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavController, NavParams, MenuController, Platform, App, Events  } from 'ionic-angular';
+import { ViewController, NavController, NavParams, MenuController, Platform, App, Events, LoadingController,AlertController  } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
 import { Login } from '../../model/Login';
@@ -18,7 +18,8 @@ export class ModalLoginComponent {
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private menuCtrl: MenuController, private platform:Platform,
   private app:App, private storage:Storage, private loginService:LoginServiceProvider,
-  private viewCtrl:ViewController, private ev:Events) {
+  private viewCtrl:ViewController, private ev:Events, private loadingCtrl: LoadingController,
+  private alertCtrl:AlertController) {
 
     this.storage.get("login")
         .then( (value) => {
@@ -38,16 +39,43 @@ export class ModalLoginComponent {
   }
 
   login(){
+
+    let loading = this.loadingCtrl.create({
+      content: 'Por favor, aguarde...'
+    });
+
+    loading.present();
     this.loginService.confirmLogin(this.email.toLowerCase(), this.senha)
       .then( (login:Login) => {
         console.log("login nome:"+login.nome);
         this.ev.publish("userloggedin", login);
         this.storage.set("login", login);
         this.storage.set("keepConnected", this.keepConnected);
-      } )
-      .catch( () => "Erro na requisição de login" );
+        loading.dismiss();
+        this.viewCtrl.dismiss();
+        } )
+      .catch( (error) => {
+        console.log("Erro na requisição de login");
+        loading.dismiss();
+        this.presentConfirm(error.message);
+      });
 
-    this.viewCtrl.dismiss();
+  }
+
+  presentConfirm(error:string) {
+    let alert = this.alertCtrl.create({
+      title: 'Atenção',
+      message: 'Houve um erro na requisição de login: '+error,
+      buttons: [
+        {
+          text: 'Okay',
+          handler: () => {
+            this.viewCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }

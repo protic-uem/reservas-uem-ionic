@@ -33,6 +33,8 @@ export class LoginServiceProvider extends ConexaoProvider{
       }
 
       confirmLogin(email: string, senha: string){
+        console.log("usuario:"+btoa(email));
+        console.log("senha:"+btoa(senha));
         return new Promise((resolve, reject) => {
           this.http.get(this.baseUri+'VerificarUsuario/'+this.hash+'&email='
                     +btoa(email)+'&senha='+btoa(senha)).subscribe((result:any) => {

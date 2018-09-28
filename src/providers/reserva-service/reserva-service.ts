@@ -69,6 +69,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
           });
         });
   }
+
   //atualiza uma determianda reserva
   atualizarReserva(encapsula){
     let headers = new Headers();
