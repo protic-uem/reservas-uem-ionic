@@ -38,7 +38,7 @@ export class LoginServiceProvider extends ConexaoProvider{
         return new Promise((resolve, reject) => {
           this.http.get(this.baseUri+'VerificarUsuario/'+this.hash+'&email='
                     +btoa(email)+'&senha='+btoa(senha)).subscribe((result:any) => {
-            if(result.retorno == "false"){
+            if(result.retorno == false){
               resolve(new Login());
             }
             else{

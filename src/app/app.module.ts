@@ -10,13 +10,13 @@ import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 import { ReservaDetailPage } from '../pages/reserva-detail/reserva-detail';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { LoginPage } from '../pages/login/login';
+import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserva-visitante-list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //componentes criados
 import { ComponentsModule } from '../components/components.module';
-import { ModalLoginComponent } from '../components/modal-login/modal-login';
 
 //compoentes baixados
 import { AutoCompleteModule } from 'ionic2-auto-complete';
@@ -34,7 +34,8 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
     ReservaCreatePage,
     ReservaDetailPage,
     ReservaMyPage,
-    LoginPage
+    LoginPage,
+    ReservaVisitanteListPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +53,7 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
     ReservaDetailPage,
     ReservaMyPage,
     LoginPage,
-    ModalLoginComponent
+    ReservaVisitanteListPage,
   ],
   providers: [
     StatusBar,

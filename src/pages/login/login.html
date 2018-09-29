@@ -1,31 +1,26 @@
 <ion-content >
   <div class="centralizar">
     <img src="assets/imgs/uemLogo.png" class="redimensionar">
+    <form [formGroup]="loginForm"  novalidate>
+      <ion-list>
+        <ion-card class="cardPadding">
+          <ion-item>
+            <ion-icon item-start name="contact"></ion-icon>
+            <ion-input type="text" placeholder="Digite seu e-mail" formControlName="email" [(ngModel)]="email"></ion-input>
 
-    <ion-list>
-      <ion-card class="cardPadding">
-        <ion-item>
-          <ion-icon item-start name="contact"></ion-icon>
-          <ion-input type="text" placeholder="Usuário" [(ngModel)]="email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-icon item-start name="key"></ion-icon>
-          <ion-input type="password" placeholder="Senha" [(ngModel)]="senha"></ion-input>
-        </ion-item>
-      </ion-card>
-
-      <ion-item class="check" no-lines>
-        <ion-label>Mantenha-me conectado</ion-label>
-        <ion-checkbox [(ngModel)]="keepConnected" (ionChange)="saveConnected($event)"></ion-checkbox>
-      </ion-item>
-    </ion-list>
-
-    <button ion-button round class="btnLogin" (click)="verifyLogin()">Login</button>
-    <br>
-    <br>
-    <button ion-button round class="btnLogin">Esqueceu sua senha?</button>
-
+          </ion-item>
+            <h6  *ngIf="errorEmail" class="error">{{messageEmail}}</h6>
+          <ion-item>
+            <ion-icon item-start name="key"></ion-icon>
+            <ion-input type="password" placeholder="Senha" formControlName="senha" [(ngModel)]="senha"></ion-input>
+          </ion-item>
+          <h6  *ngIf="errorSenha" class="error">{{messageSenha}}</h6>
+        </ion-card>
+      </ion-list>
+    </form>
+    <button ion-button round class="btnLogin" (click)="login()">Login</button>
+    <br />
+    <button ion-button round class="btnLogin" (click)="entrarVisitante()">Entrar como visitante</button>
   </div>
 
 </ion-content>

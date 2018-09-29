@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { Login } from '../model/Login';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,8 +13,7 @@ import { Login } from '../model/Login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = ReservaListPage;
-  deslogado: boolean = false;
+  rootPage: any = LoginPage;
   pages: Array<{title: string, component: any}>;
   login: Login = new Login();
 
@@ -53,16 +53,11 @@ export class MyApp {
   }
 
   logout() {
-    this.deslogado = true;
     this.storage.set("login", new Login());
-    this.storage.set("keepConnected", false);
-    this.nav.setRoot(ReservaListPage);
+    this.nav.setRoot(LoginPage);
     this.events.publish("userloggedin", new Login());
-    //this.nav.setRoot(ReservaListPage);
   }
 
-  atualizaMenu(){
-      //this.verificarUsuarioLogado();
-  }
+
 
 }

@@ -5,6 +5,7 @@ page-login {
 
     .cardPadding {
         margin-bottom: 0 !important;
+        border-radius: 5px !important;
     }
 
     .centralizar {
@@ -37,6 +38,8 @@ page-login {
         width: 99%;
     }
 
-    .btnEsqueceu {
+    .error{
+      color: red;
+      margin-left: 10px;
     }
 }

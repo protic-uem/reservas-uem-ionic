@@ -1,4 +1,3 @@
-import { Reserva } from './Reserva';
 /**
 * Reserva pertencente a um determiando usuário
 */

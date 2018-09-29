@@ -3,17 +3,14 @@ import { CustomFabComponent } from './custom-fab/custom-fab';
 import { IoncardReservaComponent } from './ioncard-reserva/ioncard-reserva';
 import { IonicModule } from 'ionic-angular';
 import { IoncardReservaMyComponent } from './ioncard-reserva-my/ioncard-reserva-my';
-import { ModalLoginComponent } from './modal-login/modal-login';
 
 @NgModule({
 	declarations: [CustomFabComponent,
     IoncardReservaComponent,
-    IoncardReservaMyComponent,
-    ModalLoginComponent],
+    IoncardReservaMyComponent],
 	imports: [IonicModule],
 	exports: [CustomFabComponent,
     IoncardReservaComponent,
-    IoncardReservaMyComponent,
-    ModalLoginComponent]
+    IoncardReservaMyComponent]
 })
 export class ComponentsModule {}

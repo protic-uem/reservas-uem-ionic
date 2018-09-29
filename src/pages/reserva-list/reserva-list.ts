@@ -6,8 +6,6 @@ import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 //Provedores
 import {CompleteServiceProvider} from '../../providers/complete-service/complete-service';
 import {AutoCompleteComponent} from 'ionic2-auto-complete';
-//Componentes
-import { ModalLoginComponent } from '../../components/modal-login/modal-login';
 //Model
 import { Login } from '../../model/Login';
 
@@ -32,6 +30,7 @@ export class ReservaListPage {
     private modalCrl:ModalController, private storage: Storage, public menuCtrl: MenuController) {
 
         this.loadResources();
+        this.menuCtrl.enable(true);
 
   }
 
@@ -69,14 +68,6 @@ export class ReservaListPage {
     this.navCtrl.push(ReservaDetailPage, {
       item: reserva
     });
-  }
-
-  chamaLogin(event) {
-    let loginModal = this.modalCrl.create(ModalLoginComponent);
-    loginModal.onDidDismiss(() => {
-        this.navCtrl.setRoot(this.navCtrl.getActive().component);
-    });
-    loginModal.present();
   }
 
   pesquisaMudado(component, event){
