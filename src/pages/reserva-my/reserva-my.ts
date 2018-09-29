@@ -54,7 +54,6 @@ export class ReservaMyPage {
   }
 
   statusMudado(event){
-    console.log("Evento mudado:"+event);
     if(event == -1){
       this.reservas = this.reservasCarregadas;
     }

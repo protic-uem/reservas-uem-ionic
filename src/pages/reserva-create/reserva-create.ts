@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import {CustomReserva} from '../reserva-list/reserva-list';
+import { Validators, FormBuilder } from '@angular/forms';
+
+
 @IonicPage()
 @Component({
   selector: 'page-reserva-create',
@@ -10,27 +13,69 @@ export class ReservaCreatePage {
 
   reserva:CustomReserva;
 
+  //variáveis para a validação de erros nos input's
+  reservaForm:any;
+  //caso verdadeiro, desativa o input de disciplina
+  disciplinaDisabled = true;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private toastCtrl:ToastController, private alertCtrl:AlertController) {
+    private toastCtrl:ToastController, private alertCtrl:AlertController,
+    private formBuilder:FormBuilder) {
 
       this.reserva = new CustomReserva;
 
+      //Criar o formulário de validação
+      this.reservaForm = formBuilder.group({
+        departamento:['',Validators.required],
+        sala:['',Validators.required],
+        disciplina:['',],
+        data:['',Validators.required],
+        periodo:['',Validators.required],
+        uso:['',Validators.required],
+        tipoReserva:['',Validators.required]
+      });
+
+
   }
 
-  ionViewDidLoad() {
-
-  }
-
+  //cria uma reserva
   reservaCreate(){
-    this.reservaConfirm();
+    if(this.validarReserva())
+      this.reservaConfirm();
   }
 
+  //validar se todos os campos foram preenchidos
+  validarReserva(){
+    let{departamento, sala, disciplina, data, periodo, uso, tipoReserva} = this.reservaForm.controls;
+
+    if(!this.reservaForm.valid){
+        this.presetError();
+      return false;
+    }else{
+      return true;
+    }
+
+  }
+
+
+  usoMudado(event){
+    if(event == 'Prática'){
+      this.disciplinaDisabled = false;
+    }else if(event == 'Teórica'){
+      this.disciplinaDisabled = false;
+    }
+    else{
+      this.disciplinaDisabled = true;
+    }
+  }
+
+  //apresenta o alerta para a confirmação dos dados da reserva
   reservaConfirm(){
     const alert = this.alertCtrl.create({
       title:'Tem certeza?',
       message: '<b>Departamento:</b> '+this.reserva.dept +'<br/>'+
                 '<b>Sala:</b> '+this.reserva.sala+'<br/>'+
-                '<b>Disciplina:</b> '+this.reserva.disciplina+'<br/>'+
+                '<b>Disciplina:</b> '+(this.reserva.disciplina == undefined?'':this.reserva.disciplina)+'<br/>'+
                 '<b>Data:</b> '+this.reserva.data+'<br/>'+
                 '<b>Período:</b> '+this.reserva.periodo+'<br/>'+
                 '<b>Uso:</b> '+this.reserva.uso+'<br/>'+
@@ -62,7 +107,7 @@ export class ReservaCreatePage {
     alert.present();
   }
 
-
+  //apresenta o Toast de reserva cancelada
   reservaCanceled(){
     let toast = this.toastCtrl.create({
       message: 'Reserva cancelada',
@@ -72,8 +117,19 @@ export class ReservaCreatePage {
         this.navCtrl.pop();
   }
 
-  alertaPresent(){
 
+  //apresenta o alerta sobre o erro
+  presetError(){
+  const alertError = this.alertCtrl.create({
+    title:'Atenção!',
+    message: 'Por favor, preencha todos os campos',
+    buttons: [
+      {
+        text: 'Okay',
+      }
+    ]
+  });
+  alertError.present();
   }
 
 }

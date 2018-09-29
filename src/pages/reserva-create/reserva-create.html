@@ -7,12 +7,13 @@
 
 <ion-content >
   <ion-card>
+  <form [formGroup]="reservaForm"  novalidate>
     <ion-card-content>
     <ion-list>
       <ion-item>
         <ion-icon item-start name="home"></ion-icon>
         <ion-label>Departamento</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.dept" required>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.dept" required>
           <ion-option >DIN</ion-option>
           <ion-option >DEE</ion-option>
         </ion-select>
@@ -20,7 +21,7 @@
       <ion-item>
         <ion-icon item-start name="key"></ion-icon>
         <ion-label>Sala</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.sala">
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "reserva.sala">
           <ion-option >LIN 1</ion-option>
           <ion-option >LIN 2</ion-option>
           <ion-option >102</ion-option>
@@ -28,9 +29,24 @@
         </ion-select>
       </ion-item>
       <ion-item>
+        <ion-icon item-start name="pricetag"></ion-icon>
+        <ion-label>Uso</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso"
+          formControlName="uso" (ionChange)="usoMudado($event)">
+          <ion-option >Prática</ion-option>
+          <ion-option >Teórica</ion-option>
+          <ion-option >Mestrado</ion-option>
+          <ion-option >Especialização</ion-option>
+          <ion-option >Defesa</ion-option>
+          <ion-option >Minicurso</ion-option>
+          <ion-option >Reunião</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
         <ion-icon item-start name="book"></ion-icon>
         <ion-label floating>Disciplina</ion-label>
-        <ion-input [(ngModel)] = "reserva.disciplina"></ion-input>
+        <ion-input [(ngModel)] = "reserva.disciplina" formControlName="disciplina"
+          disabled="{{disciplinaDisabled}}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-icon item-start name="calendar"></ion-icon>
@@ -44,13 +60,15 @@
           pickerFormat="DD-MMM-YYYY"
           monthShortNames="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
           doneText="Selecionar"
-          cancelText="Cancelar">
+          cancelText="Cancelar"
+          formControlName="data">
         </ion-datetime>
       </ion-item>
       <ion-item>
         <ion-icon item-start name="clock"></ion-icon>
         <ion-label>Período</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" multiple="true" [(ngModel)] = "reserva.periodo">
+        <ion-select  okText="Selecionar" cancelText="Cancelar" multiple="true" [(ngModel)] = "reserva.periodo"
+          formControlName="periodo">
           <ion-option >07:45-08:35</ion-option>
           <ion-option >08:35-09:25</ion-option>
           <ion-option >09:40-10:30</ion-option>
@@ -63,29 +81,19 @@
           <ion-option >17:10-18:00</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>
-        <ion-icon item-start name="pricetag"></ion-icon>
-        <ion-label>Uso</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso">
-          <ion-option >Prática</ion-option>
-          <ion-option >Teórica</ion-option>
-          <ion-option >Mestrado</ion-option>
-          <ion-option >Especialização</ion-option>
-          <ion-option >Defesa</ion-option>
-          <ion-option >Minicurso</ion-option>
-          <ion-option >Reunião</ion-option>
-        </ion-select>
-      </ion-item>
+
       <ion-item>
         <ion-icon item-start name="list-box"></ion-icon>
         <ion-label>Tipo de reserva</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo">
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo"
+          formControlName="tipoReserva">
           <ion-option >Eventual</ion-option>
           <ion-option >Fixo</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>
   </ion-card-content>
+  </form>
   <hr />
     <button ion-button round class="btnReserva" (click)="reservaCreate()" >Reservar</button>
     <button ion-button round class="btnCancelar" (click)="reservaCanceled()">Cancelar</button>

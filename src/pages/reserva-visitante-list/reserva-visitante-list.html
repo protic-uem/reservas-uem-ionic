@@ -14,6 +14,7 @@
           <ion-icon item-start name="home"></ion-icon>
           <ion-label>Departamento</ion-label>
           <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="pesquisaMudado('dept', $event)" >
+            <ion-option value=''>TODOS</ion-option>
             <ion-option >DIN</ion-option>
             <ion-option >DEE</ion-option>
           </ion-select>
@@ -22,12 +23,21 @@
           <ion-icon item-start name="pricetags"></ion-icon>
           <ion-label>Bloco</ion-label>
           <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="pesquisaMudado('bloco', $event)">
+            <ion-option value=''>TODOS</ion-option>
             <ion-option >C56</ion-option>
             <ion-option >D67</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
   </ion-card>
+  <hr />
+
+        <ion-badge class="center">
+          <h5 *ngIf="blocoSelecionado == '' && departamentoSelecionado ==''" >Últimas reservas realizadas</h5>
+          <h5 *ngIf="blocoSelecionado != '' || departamentoSelecionado != ''" >Pesquisa filtrada</h5>
+        </ion-badge>
+
+
   <hr />
   <ion-scroll #listaReservas  style="width:100%;height:80vh" scrollY="true">
     <ion-list>
