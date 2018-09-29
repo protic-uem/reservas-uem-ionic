@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
+import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +29,8 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: 'Reservas', component: ReservaListPage }
+      { title: 'Reservas', component: ReservaListPage },
+      { title: 'Ajuda Usuários', component: AjudaUsuarioPage }
 
     ];
 

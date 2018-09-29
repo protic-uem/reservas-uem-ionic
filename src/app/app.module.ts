@@ -11,6 +11,7 @@ import { ReservaDetailPage } from '../pages/reserva-detail/reserva-detail';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { LoginPage } from '../pages/login/login';
 import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserva-visitante-list';
+import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,7 +36,8 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
     ReservaDetailPage,
     ReservaMyPage,
     LoginPage,
-    ReservaVisitanteListPage
+    ReservaVisitanteListPage,
+    AjudaUsuarioPage
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
     ReservaMyPage,
     LoginPage,
     ReservaVisitanteListPage,
+    AjudaUsuarioPage
   ],
   providers: [
     StatusBar,
