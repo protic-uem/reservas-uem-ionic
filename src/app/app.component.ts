@@ -16,15 +16,15 @@ export class MyApp {
 
   rootPage: any = LoginPage;
   pages: Array<{title: string, component: any}>;
-  login: Login = new Login();
+  login: Login;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private storage:Storage, private menuCtrl:MenuController, private events:Events) {
+    this.login = new Login();
     this.verificarUsuarioLogado();
     this.initializeApp();
 
     this.events.subscribe("userloggedin", (user:Login) => {
-      console.log("evento:"+user.nome);
         this.login = user;
     });
 

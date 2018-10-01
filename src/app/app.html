@@ -7,7 +7,7 @@
         </ion-avatar>
         <h1>Reserva de Sala</h1>
         Seja Bem Vindo!<br />
-        <span class="msg_bemvindo">{{login.nome}}</span>
+        <span class="msg_bemvindo" *ngIf="login != null && login.id != undefined">{{login.nome}}</span>
       </ion-item>
     </ion-toolbar>
   </ion-header>
