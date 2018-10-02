@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 //Páginas
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
-import { CustomReserva } from '../reserva-list/reserva-list';
+import { ReservaView } from '../../model/ReservaView';
+import { Disciplina } from '../../model/Disciplina';
+import { Departamento } from '../../model/Departamento';
+
+//Provedores
+import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
+import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
+import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 
 
 @IonicPage()
@@ -14,70 +21,148 @@ import { CustomReserva } from '../reserva-list/reserva-list';
 })
 export class ReservaVisitanteListPage {
 
-  private reservas:Array<CustomReserva>;
-  private reservasCarregadas:Array<CustomReserva>;
+  private reservas:Array<ReservaView>;
+  private disciplinas:Array<Disciplina>;
+  private departamentos:Array<Departamento>;
 
-  departamentoSelecionado:string = '';
-  blocoSelecionado:string = '';
+  departamentoSelecionado = undefined;
+  disciplinaSelecionada = undefined;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
+    private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
+    private reservaVisitanteService:ReservaVisitanteServiceProvider,
+    private departamentoService:DepartamentoServiceProvider,
+    private disciplinaService:DisciplinaServiceProvider) {
+
 
     this.menuCtrl.enable(false);
-    
+    this.reservas = new Array<ReservaView>();
+    this.disciplinas = new Array<Disciplina>();
+    this.departamentos = new Array<Departamento>();
+    this.carregarTodosDepartamentos();
+  }
+
+  //Carrega todos os departamentos do banco de dados
+  carregarTodosDepartamentos(){
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando departamentos...'
+    });
+
+    this.departamentoService.carregarTodosDepartamentos()
+      .then( (departamentos:Array<Departamento>) => {
+        if(departamentos.length > 0){
+          this.departamentos = departamentos;
+          this.storage.set("departamentos", departamentos);
+          loading.dismiss().then(() => {
+              //this.navCtrl.setRoot(ReservaListPage);
+          });
+        }else{
+          loading.dismiss();
+          this.presentConfirm("Houve um erro na requisição de departamentos: Não houve departamentos encontrados na base de dados");
+        }
+
+        } )
+      .catch( (error) => {
+        loading.dismiss();
+        this.presentConfirm(error.message);
+      });
+
+  }
+
+  //Carrega todas as dicipinas referente a um determinado departamento
+  carregarDisciplinasPorDepartamento(id_departamento:number){
+
+      let loading = this.loadingCtrl.create({
+        content: 'Carregando disciplinas...'
+      });
+
+      this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
+        .then( (disciplinas:Array<Disciplina>) => {
+          if(disciplinas.length > 0){
+            this.disciplinas = disciplinas;
+            this.storage.set("disciplinas", disciplinas);
+            loading.dismiss().then(() => {
+                //this.navCtrl.setRoot(ReservaListPage);
+            });
+          }else{
+            loading.dismiss();
+            this.presentConfirm("Houve um erro na requisição de disciplinas: Não houve discilpinas encontradas na base de dados");
+          }
+
+          } )
+        .catch( (error) => {
+          loading.dismiss();
+          this.presentConfirm(error.message);
+        });
+
+
   }
 
 
-  ionViewDidLoad() {
-        this.reservas = [new CustomReserva('Estrutura de dados', 'Sala 10', 'DIN','25/09/2018', 'ACEITO', 'Alan Lopes', 'Prática', 'Eventual', '07:45-08:20,08:20-09:10,19:30-21:10,21:10-22:00 ', 'C56'),
-      new CustomReserva('Estrutura de dados', 'Sala 02', 'DIN','15/09/2018', 'CANCELADO', 'Alisson Lopes', 'Teórica', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Fundamentos de Algoritmos', 'LIN 1', 'DEE','05/09/2018', 'PENDENTE', 'Wesley Romão', 'Defesa', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Grafos', 'Sala 105', 'DIN','20/09/2018', 'REJEITADO', 'Mamoru' , 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Análise de Algoritmos', 'Sala 102', 'DIN','25/09/2018', 'ACEITO', 'Diego Fernandes' , 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Banco de dados 1', 'LIN 2', 'DIN','25/09/2018', 'ACEITO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Banco de dados 2', 'Sala 04', 'DIN','25/09/2018', 'CANCELADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'C56'),
-      new CustomReserva('Arquitetura de computadores', 'Sala 101', 'DIN','25/09/2018', 'REJEITADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'D67'),
-      new CustomReserva('PAA', 'Sala 200', 'DEE','25/09/2018', 'REJEITADO', 'Alan Lopes', 'Prática', 'Eventual', '19:30-21:10', 'D67')];
+  //Caso ocorrar algum erro, apresente o erro ao usuário
+    presentConfirm(msg:string) {
+      let alert = this.alertCtrl.create({
+        title: 'Atenção',
+        message: msg,
+        buttons: [
+          {
+            text: 'Okay',
+            handler: () => {
 
-          this.reservasCarregadas = this.reservas;
+            }
+          }
+        ]
+      });
+      alert.present();
+    }
 
-  }
 
-
-  openReserva(event, reserva:CustomReserva){
+  openReserva(event, reserva:ReservaView){
       this.navCtrl.push(ReservaDetailPage, {
         item: reserva
       });
   }
 
-  pesquisaMudado(component, event){
-    if(component == 'dept')
-      this.departamentoSelecionado = event;
+ //Caso o usuário selecione algum departamento
+ //carregar todas disciplinas referente ao departamento
+ changeDepartamento(valor){
+   this.departamentoSelecionado = valor;
 
-    if(component == 'bloco')
-      this.blocoSelecionado = event;
+   if(valor != undefined)
+    this.carregarDisciplinasPorDepartamento(valor);
+
+ }
+
+ changeDisciplina(valor){
+   this.disciplinaSelecionada = valor;
+
+   let loading = this.loadingCtrl.create({
+     content: 'Carregando reservas...'
+   });
+
+   this.reservaVisitanteService.
+   carregarReservaVisitante(this.departamentoSelecionado, this.disciplinaSelecionada)
+   .then((reservas:Array<ReservaView>) => {
+     if(reservas.length > 0){
+       this.reservas = reservas;
+       this.storage.set("reservas", reservas);
+       loading.dismiss().then(() => {
+           //this.navCtrl.setRoot(ReservaListPage);
+       });
+     }else{
+       loading.dismiss();
+       this.presentConfirm("Houve um erro na requisição de reservas: Não houve reservas encontradas na base de dados");
+     }
+
+     } )
+   .catch((error) => {
+     loading.dismiss();
+     this.presentConfirm(error.message);
+   });
+
+ }
 
 
-    if(this.departamentoSelecionado != '' && this.blocoSelecionado != ''){
-      this.reservas = this.reservasCarregadas.filter((item) => {
-        return item.dept.toLowerCase().startsWith(this.departamentoSelecionado.toLowerCase()) &&
-                item.bloco.toLowerCase().startsWith(this.blocoSelecionado.toLowerCase());
-        });
-    }
-    else if(this.departamentoSelecionado != ''){
-      this.reservas = this.reservasCarregadas.filter((item) => {
-        return item.dept.toLowerCase().startsWith(this.departamentoSelecionado.toLowerCase());
-      });
-    }
-    else if(this.blocoSelecionado != ''){
-      this.reservas = this.reservasCarregadas.filter((item) => {
-        return item.bloco.toLowerCase().startsWith(this.blocoSelecionado.toLowerCase());
-      });
-    }
-    else{
-      this.reservas =this.reservasCarregadas;
-    }
-
-  }
 
 
 }

@@ -1,4 +1,4 @@
-export class Reserva {
+export class ReservaView {
   //dados departamento
   nome_departamento: string;
   //dados usuário
@@ -18,8 +18,10 @@ export class Reserva {
   status: number;
 
   constructor(nome_departamento?:string, nome_usuario?:string, nome_disciplina?:string,
-    codigo_disciplina?:number, turma_disciplina?:number, numero_sala?:number, tipo_sala?:string, tipo_uso?: string,
-    tipo_reserva?: string, data_reserva?: string, periodo?: number, status?: number) {
+    codigo_disciplina?:number, turma_disciplina?:number,
+    numero_sala?:number, tipo_sala?:string,
+    tipo_uso?: string, tipo_reserva?: string,
+    data_reserva?: string, periodo?: number, status?: number) {
         this.nome_departamento = nome_departamento;
         this.nome_usuario = nome_usuario;
         this.nome_disciplina = nome_disciplina;

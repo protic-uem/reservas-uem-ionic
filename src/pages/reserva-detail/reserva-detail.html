@@ -12,12 +12,12 @@
               <ion-avatar item-start>
                 <img src="assets/imgs/profile.png">
               </ion-avatar>
-              <h2>{{login.nome}}</h2>
+              <h2> {{reserva.nome_usuario}}</h2>
             </ion-item>
     </ion-card-header>
     <ion-card-content>
         <ion-card-title>
-          <span class="text-negrito">{{reserva.nome_disciplina}}</span>
+          <span class="text-negrito">{{reserva.codigo_disciplina}} - {{reserva.nome_disciplina}}</span>
         </ion-card-title>
         <hr/>
         <ion-grid>
@@ -36,15 +36,7 @@
               <span class="text-details">
                   Departamento:
               </span>
-                  {{reserva.dept}}
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <span class="text-details">
-                  Bloco:
-              </span>
-                  {{reserva.bloco}}
+                  {{reserva.nome_departamento}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -52,7 +44,7 @@
               <span class="text-details">
                   Tipo de uso:
               </span>
-                  {{reserva.uso}}
+                  {{reserva.tipo_uso}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -61,7 +53,7 @@
               <span class="text-details">
                   Tipo de reserva:
               </span>
-                  {{reserva.tipo}}
+                  {{reserva.tipo_reserva}}
 
             </ion-col>
           </ion-row>

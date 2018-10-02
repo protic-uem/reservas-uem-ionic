@@ -13,33 +13,26 @@
         <ion-item>
           <ion-icon item-start name="home"></ion-icon>
           <ion-label>Departamento</ion-label>
-          <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="pesquisaMudado('dept', $event)" >
-            <ion-option value=''>TODOS</ion-option>
-            <ion-option >DIN</ion-option>
-            <ion-option >DEE</ion-option>
+          <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDepartamento($event)" >
+            <ion-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-icon item-start name="pricetags"></ion-icon>
-          <ion-label>Bloco</ion-label>
-          <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="pesquisaMudado('bloco', $event)">
-            <ion-option value=''>TODOS</ion-option>
-            <ion-option >C56</ion-option>
-            <ion-option >D67</ion-option>
+          <ion-icon item-start name="book"></ion-icon>
+          <ion-label>Disciplina</ion-label>
+          <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)">
+            <ion-option value="undefined">SELECIONE</ion-option>
+            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.nome}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
   </ion-card>
   <hr />
-
-        <ion-badge class="center">
-          <span *ngIf="blocoSelecionado == '' && departamentoSelecionado ==''" >Últimas reservas realizadas</span>
-          <span *ngIf="blocoSelecionado != '' || departamentoSelecionado != ''" >Pesquisa filtrada</span>
-        </ion-badge>
-
-
-  <hr />
-  <ion-scroll #listaReservas  style="width:100%;height:80vh" scrollY="true">
+  <ion-row justify-content-center>
+    <span *ngIf="reservas != null && reservas.length == 0"> Por favor, preencha os campos de pesquisa</span>
+  </ion-row>
+  <ion-scroll #listaReservas  style="width:100%;height:80vh" scrollY="true"
+      *ngIf="reservas != null && reservas.length != 0">
     <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas">
         <ion-item>

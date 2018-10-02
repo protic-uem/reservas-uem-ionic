@@ -26,6 +26,9 @@ import { ConexaoProvider } from '../providers/conexao/conexao';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
 import { ReservaServiceProvider } from '../providers/reserva-service/reserva-service';
+import { ReservaVisitanteServiceProvider } from '../providers/reserva-visitante-service/reserva-visitante-service';
+import { DisciplinaServiceProvider } from '../providers/disciplina-service/disciplina-service';
+import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
 
 
 @NgModule({
@@ -66,7 +69,10 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
     ConexaoProvider,
     LoginServiceProvider,
     UsuarioServiceProvider,
-    ReservaServiceProvider
+    ReservaServiceProvider,
+    ReservaVisitanteServiceProvider,
+    DisciplinaServiceProvider,
+    DepartamentoServiceProvider
   ]
 })
 export class AppModule {}
