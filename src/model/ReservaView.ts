@@ -1,4 +1,7 @@
+import { Periodo } from './Periodo';
+
 export class ReservaView {
+
   //dados departamento
   nome_departamento: string;
   //dados usuário
@@ -14,7 +17,7 @@ export class ReservaView {
   tipo_uso: string;
   tipo_reserva: string;
   data_reserva: string;
-  periodo: number;
+  periodo: string;
   status: number;
 
   constructor(nome_departamento?:string, nome_usuario?:string, nome_disciplina?:string,
@@ -32,7 +35,21 @@ export class ReservaView {
         this.tipo_uso = tipo_uso;
         this.tipo_reserva = tipo_reserva;
         this.data_reserva = data_reserva;
-        this.periodo = periodo;
         this.status = status;
+
+        if(periodo == 1)
+          this.periodo = Periodo.um;
+        else if(periodo == 2)
+          this.periodo = Periodo.dois;
+        else if(periodo == 3)
+          this.periodo = Periodo.tres;
+        else if(periodo == 4)
+          this.periodo = Periodo.quatro;
+        else if(periodo == 5)
+          this.periodo = Periodo.cinco;
+        else if(periodo == 6)
+          this.periodo = Periodo.seis;
+
+
     }
 }

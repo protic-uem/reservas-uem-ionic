@@ -58,7 +58,7 @@ export class ReservaVisitanteListPage {
           });
         }else{
           loading.dismiss();
-          this.presentConfirm("Houve um erro na requisição de departamentos: Não houve departamentos encontrados na base de dados");
+          this.presentConfirm("Nenhum departamento foi encontrado");
         }
 
         } )
@@ -86,7 +86,7 @@ export class ReservaVisitanteListPage {
             });
           }else{
             loading.dismiss();
-            this.presentConfirm("Houve um erro na requisição de disciplinas: Não houve discilpinas encontradas na base de dados");
+            this.presentConfirm("Nenhuma disciplina foi encontrada");
           }
 
           } )
@@ -151,7 +151,7 @@ export class ReservaVisitanteListPage {
        });
      }else{
        loading.dismiss();
-       this.presentConfirm("Houve um erro na requisição de reservas: Não houve reservas encontradas na base de dados");
+       this.presentConfirm("Nenhuma reserva ativa foi encontrada");
      }
 
      } )
