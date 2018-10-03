@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events, AlertController } from 'ionic-angular';
-import { ReservaListPage } from '../reserva-list/reserva-list';
+import { ReservaMyPage } from '../reserva-my/reserva-my';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
 import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
@@ -65,7 +65,7 @@ export class LoginPage {
             this.ev.publish("userloggedin", login);
             this.storage.set("login", login);
             loading.dismiss().then(() => {
-                this.navCtrl.setRoot(ReservaListPage);
+                this.navCtrl.setRoot(ReservaMyPage);
             });
           }else{
             loading.dismiss();

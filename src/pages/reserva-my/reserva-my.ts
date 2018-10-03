@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
@@ -24,8 +24,10 @@ export class ReservaMyPage {
   statusSelecionado:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private reservaService:ReservaServiceProvider, private storage:Storage) {
+    private reservaService:ReservaServiceProvider, private storage:Storage,
+    private menuCtrl:MenuController) {
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
+        this.menuCtrl.enable(true);
 
   }
 

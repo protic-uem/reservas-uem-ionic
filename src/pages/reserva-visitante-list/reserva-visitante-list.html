@@ -29,8 +29,12 @@
   </ion-card>
   <hr />
   <ion-row justify-content-center>
-    <span *ngIf="reservas != null && reservas.length == 0"> Por favor, preencha os campos de pesquisa</span>
+    <span *ngIf="blocoSelecionado == undefined && disciplinaSelecionada == undefined"> Por favor, preencha os campos de pesquisa</span>
+    <span *ngIf="reservasNaoEncontrada">
+                Nenhuma reserva encontrada com esses parâmetros.
+    </span>
   </ion-row>
+
   <ion-scroll #listaReservas  style="width:100%;height:80vh" scrollY="true"
       *ngIf="reservas != null && reservas.length != 0">
     <ion-list>

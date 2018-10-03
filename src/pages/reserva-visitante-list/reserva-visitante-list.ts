@@ -27,6 +27,7 @@ export class ReservaVisitanteListPage {
 
   departamentoSelecionado = undefined;
   disciplinaSelecionada = undefined;
+  reservasNaoEncontrada:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
     private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
@@ -146,18 +147,23 @@ export class ReservaVisitanteListPage {
      if(reservas.length > 0){
        this.reservas = reservas;
        this.storage.set("reservas", reservas);
+       this.reservasNaoEncontrada = false;
        loading.dismiss().then(() => {
            //this.navCtrl.setRoot(ReservaListPage);
        });
      }else{
+       this.reservas  = new Array<ReservaView>();
        loading.dismiss();
        this.presentConfirm("Nenhuma reserva ativa foi encontrada");
+       this.reservasNaoEncontrada = true;
      }
 
      } )
    .catch((error) => {
+     this.reservas  = new Array<ReservaView>();
      loading.dismiss();
      this.presentConfirm(error.message);
+      this.reservasNaoEncontrada = true;
    });
 
  }
