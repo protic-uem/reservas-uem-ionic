@@ -21,7 +21,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaUsuario>();
 
   return new Promise((resolve, reject) => {
-    this.http.get(this.baseUri+'GetMinhasReservas/'+this.hash+'&id_usuario='
+    this.http.get(this.baseUri+'reserva/buscaPorUsuario/'+this.hash+'&id_usuario='
               +btoa(id_usuario+"")).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new ReservaUsuario());

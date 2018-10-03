@@ -62,7 +62,7 @@ export class ReservaVisitanteServiceProvider extends ConexaoProvider{
 
   //Retornar a URL conforme os parâmetros
   getUrl(id_departamento:number, id_disciplina:number):string{
-    var url = this.baseUri+'GetReservasVisitante/'+this.hash;
+    var url = this.baseUri+'reserva/buscaPorDepartamentoDisciplina'+this.hash;
 
     if(id_departamento != undefined && id_disciplina != undefined)
       return url+'&id_departamento='+btoa(id_departamento+"")+'&id_disciplina='+btoa(id_disciplina+"");

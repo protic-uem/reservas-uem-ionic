@@ -7,7 +7,7 @@ export class Login {
   status: number;
 
   constructor(idLogin?: number, nome?: string, telefone?: string,
-      privilegio?: string, id_departamento?:number, status?:number) {
+       id_departamento?:number, privilegio?: string, status?:number) {
         this.id = idLogin;
         this.nome = nome;
         this.telefone = telefone;

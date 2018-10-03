@@ -16,62 +16,24 @@
         <ion-input readonly="true" [(ngModel)]="login.nome" formControlName="usuario"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon item-start name="home"></ion-icon>
-        <ion-label>Departamento</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.id_departamento" required>
-          <ion-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-icon item-start name="key"></ion-icon>
-        <ion-label>Sala</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "reserva.sala">
-          <ion-option >LIN 1</ion-option>
-          <ion-option >LIN 2</ion-option>
-          <ion-option >102</ion-option>
-          <ion-option >101</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-icon item-start name="pricetag"></ion-icon>
-        <ion-label>Uso</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso"
-          formControlName="uso" (ionChange)="usoMudado($event)">
-          <ion-option >Prática</ion-option>
-          <ion-option >Teórica</ion-option>
-          <ion-option >Mestrado</ion-option>
-          <ion-option >Especialização</ion-option>
-          <ion-option >Defesa</ion-option>
-          <ion-option >Minicurso</ion-option>
-          <ion-option >Reunião</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-icon item-start name="book"></ion-icon>
-        <ion-label floating>Disciplina</ion-label>
-        <ion-input [(ngModel)] = "reserva.disciplina" formControlName="disciplina"
-          disabled="{{disciplinaDisabled}}"></ion-input>
-      </ion-item>
-      <ion-item>
         <ion-icon item-start name="calendar"></ion-icon>
         <ion-label>Data</ion-label>
-          <!-- [(ngModel)]="today"
-              (ngModelChange)="refreshReservation()"
-          -->
         <ion-datetime
-          [(ngModel)] = "reserva.data"
+          [(ngModel)] = "reserva.data_reserva"
           displayFormat="DD/MM/YYYY"
-          pickerFormat="DD-MMM-YYYY"
+          pickerFormat="YYYY-MM-DD"
           monthShortNames="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
           doneText="Selecionar"
           cancelText="Cancelar"
-          formControlName="data">
+          formControlName="data"
+          [min]="hoje"
+          [max]="dataDocente">
         </ion-datetime>
       </ion-item>
       <ion-item>
         <ion-icon item-start name="clock"></ion-icon>
         <ion-label>Período</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" multiple="true" [(ngModel)] = "reserva.periodo"
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
           formControlName="periodo">
           <ion-option >07:45-08:35</ion-option>
           <ion-option >08:35-09:25</ion-option>
@@ -85,14 +47,50 @@
           <ion-option >17:10-18:00</ion-option>
         </ion-select>
       </ion-item>
-
+      <ion-item>
+        <ion-icon item-start name="pricetag"></ion-icon>
+        <ion-label>Uso</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso"
+          formControlName="uso" (ionChange)="changeUso($event)">
+          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Prática</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Teórica</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Mestrado</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Especialização</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Defesa</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Minicurso</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Reunião</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="home"></ion-icon>
+        <ion-label>Departamento</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.id_departamento"
+          (ionChange)="changeDepartamento($event)" required>
+          <ion-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="book"></ion-icon>
+        <ion-label>Disciplina</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "reserva.id_disciplina"
+          [disabled]="disciplinaDisabled">
+          <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.nome}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon item-start name="key"></ion-icon>
+        <ion-label>Sala</ion-label>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "reserva.id_sala">
+          <ion-option *ngFor="let sala of salas" [value]="sala.id">{{sala.numero}}</ion-option>
+        </ion-select>
+      </ion-item>
       <ion-item>
         <ion-icon item-start name="list-box"></ion-icon>
         <ion-label>Tipo de reserva</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo"
           formControlName="tipoReserva">
-          <ion-option >Eventual</ion-option>
-          <ion-option >Fixo</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>
         </ion-select>
       </ion-item>
     </ion-list>

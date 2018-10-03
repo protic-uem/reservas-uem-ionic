@@ -61,7 +61,6 @@ export class LoginPage {
       this.loginService.confirmLogin(this.email.toLowerCase(), this.senha)
         .then( (login:Login) => {
           if(login.id !== undefined){
-            console.log("login nome:"+login.nome);
             this.ev.publish("userloggedin", login);
             this.storage.set("login", login);
             loading.dismiss().then(() => {

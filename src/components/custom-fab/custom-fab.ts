@@ -21,12 +21,12 @@ export class CustomFabComponent {
 
   addReserva(fab: FabContainer){
     fab.close();
-    this.navCtrl.push(ReservaCreatePage, {login:Login});
+    this.navCtrl.push(ReservaCreatePage, {login:this.login});
   }
 
   searchReserva(fab: FabContainer){
     fab.close();
-    this.navCtrl.push(ReservaListPage, {login:Login});
+    this.navCtrl.push(ReservaListPage, {login:this.login});
   }
 
 }

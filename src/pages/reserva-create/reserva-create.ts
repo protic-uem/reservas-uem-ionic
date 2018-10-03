@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
 import { Validators, FormBuilder } from '@angular/forms';
-import { parse, isSunday, isSaturday } from 'date-fns';
+import { parse, format, isSunday, isSaturday, addWeeks, addMonths } from 'date-fns';
 import { Storage } from '@ionic/storage';
 
 //Modelos
@@ -22,7 +22,7 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 })
 export class ReservaCreatePage {
 
-  reserva:Reserva;
+  private reserva:Reserva;
 
   //variáveis para a validação de erros nos input's
   reservaForm:any;
@@ -33,14 +33,19 @@ export class ReservaCreatePage {
   private departamentos:Array<Departamento>;
 
   private login:Login;
+  private dataDocente:string;
+  private hoje:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
-    private loadingCtrl:LoadingController,
+    private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
     private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider) {
 
       this.reserva = new Reserva;
       this.login = new Login();
+
+      this.hoje = format(new Date(), 'YYYY-MM-DD');
+
 
       //Criar o formulário de validação
       this.reservaForm = formBuilder.group({
@@ -61,6 +66,14 @@ export class ReservaCreatePage {
       else
         this.carregarTodosDepartamentos();
 
+        //Caso seja docente, só podera realizar reservas de 3 semanas a referente
+        //Caso seja secretário, poderá 1 mês a frente
+        if(this.login.nome != undefined){
+          if(this.login.privilegio == 'Docente')
+            this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
+          else
+            this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
+      }
 
 
   }
@@ -93,35 +106,66 @@ export class ReservaCreatePage {
           });
         }else{
           loading.dismiss();
-          this.presentConfirm("Nenhum departamento foi encontrado");
+          this.apresentarErro("Nenhum departamento foi encontrado");
         }
 
         } )
       .catch( (error) => {
         loading.dismiss();
-        this.presentConfirm(error.message);
+        this.apresentarErro(error.message);
       });
 
     }
 
+    //Carrega todas as dicipinas referente a um determinado departamento
+    carregarDisciplinasPorDepartamento(id_departamento:number){
 
-    //Caso ocorrar algum erro, apresente o erro ao usuário
-      presentConfirm(msg:string) {
-        let alert = this.alertCtrl.create({
-          title: 'Atenção',
-          message: msg,
-          buttons: [
-            {
-              text: 'Okay',
-              handler: () => {
-
-              }
-            }
-          ]
+        let loading = this.loadingCtrl.create({
+          content: 'Carregando disciplinas...'
         });
-        alert.present();
-      }
 
+        this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
+          .then( (disciplinas:Array<Disciplina>) => {
+            if(disciplinas.length > 0){
+              this.disciplinas = disciplinas;
+              this.storage.set("disciplinas", disciplinas);
+              loading.dismiss().then(() => {
+                  //this.navCtrl.setRoot(ReservaListPage);
+              });
+            }else{
+              loading.dismiss();
+              this.apresentarErro("Nenhuma disciplina foi encontrada");
+            }
+
+            } )
+          .catch( (error) => {
+            loading.dismiss();
+            this.apresentarErro(error.message);
+          });
+
+
+    }
+
+
+    //Caso o usuário selecione algum departamento
+    //carregar todas disciplinas referente ao departamento
+    changeDepartamento(valor){
+      if(valor != undefined)
+       this.carregarDisciplinasPorDepartamento(valor);
+
+    }
+
+    //Ativa o input de disciplina, depedendo do tipo de uso escolhido
+    changeUso(valor){
+      if(valor == 'Prática'){
+        this.disciplinaDisabled = false;
+      }else if(valor == 'Teórica'){
+        this.disciplinaDisabled = false;
+      }
+      else{
+        this.disciplinaDisabled = true;
+      }
+    }
 
 
   //cria uma reserva
@@ -154,17 +198,7 @@ export class ReservaCreatePage {
   }
 
 
-  //Ativa o input de disciplina, depedendo do tipo de uso escolhido
-  usoMudado(event){
-    if(event == 'Prática'){
-      this.disciplinaDisabled = false;
-    }else if(event == 'Teórica'){
-      this.disciplinaDisabled = false;
-    }
-    else{
-      this.disciplinaDisabled = true;
-    }
-  }
+
 
   //apresenta o alerta para a confirmação dos dados da reserva
   reservaConfirm(){
