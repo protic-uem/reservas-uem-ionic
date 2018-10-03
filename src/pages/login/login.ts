@@ -65,7 +65,9 @@ export class LoginPage {
             this.ev.publish("userloggedin", login);
             this.storage.set("login", login);
             loading.dismiss().then(() => {
-                this.navCtrl.setRoot(ReservaMyPage);
+                this.navCtrl.setRoot(ReservaMyPage, {
+                  login: login
+                });
             });
           }else{
             loading.dismiss();

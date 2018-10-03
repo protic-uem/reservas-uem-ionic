@@ -11,11 +11,15 @@
     <ion-card-content>
     <ion-list>
       <ion-item>
+        <ion-icon item-start name="person"></ion-icon>
+        <ion-label floating>Usuário</ion-label>
+        <ion-input readonly="true" [(ngModel)]="login.nome" formControlName="usuario"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-icon item-start name="home"></ion-icon>
         <ion-label>Departamento</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.dept" required>
-          <ion-option >DIN</ion-option>
-          <ion-option >DEE</ion-option>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.id_departamento" required>
+          <ion-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>

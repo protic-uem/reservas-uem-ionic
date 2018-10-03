@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 //Páginas
-import { CustomReserva } from '../../pages/reserva-list/reserva-list';
+import { ReservaView } from '../../model/ReservaView';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 
 
@@ -12,12 +12,12 @@ import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 })
 export class IoncardReservaComponent {
 
- @Input() reserva:CustomReserva;
+ @Input() reserva:ReservaView;
   constructor(private navCtrl:NavController) {
 
   }
 
-  openReserva(event, reserva:CustomReserva){
+  openReserva(event, reserva:ReservaView){
     this.navCtrl.push(ReservaDetailPage, {
       item: reserva
     });

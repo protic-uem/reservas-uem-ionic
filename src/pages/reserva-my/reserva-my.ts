@@ -26,7 +26,12 @@ export class ReservaMyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private menuCtrl:MenuController) {
-        this.loadResources();//pegar o usuário logado e depois carregar as reservas
+        this.login = this.navParams.get('login');
+        if(this.login == undefined)
+          this.loadResources();//pegar o usuário logado e depois carregar as reservas
+        else
+          this.atualizarMinhasReservas();
+
         this.menuCtrl.enable(true);
 
   }

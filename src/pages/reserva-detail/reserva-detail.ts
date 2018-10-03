@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {CustomReserva} from '../reserva-list/reserva-list';
+import {ReservaView} from '../../model/ReservaView';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
 import { ReservaUsuario } from '../../model/ReservaUsuario';
@@ -13,7 +13,7 @@ import { ReservaUsuario } from '../../model/ReservaUsuario';
 })
 export class ReservaDetailPage {
 
-  private reserva:ReservaUsuario;
+  private reserva:ReservaView;
   private login:Login;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
