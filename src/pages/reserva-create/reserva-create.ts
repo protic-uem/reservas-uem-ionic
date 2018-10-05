@@ -9,11 +9,14 @@ import { Storage } from '@ionic/storage';
 import { Disciplina } from '../../model/Disciplina';
 import { Departamento } from '../../model/Departamento';
 import { Login } from '../../model/Login';
+import { Sala } from '../../model/Sala';
 
 //Provedores
 import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
 import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
+import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
+
 
 @IonicPage()
 @Component({
@@ -29,20 +32,29 @@ export class ReservaCreatePage {
   //caso verdadeiro, desativa o input de disciplina
   disciplinaDisabled = true;
 
-  private disciplinas:Array<Disciplina>;
-  private departamentos:Array<Departamento>;
+   disciplinas:Array<Disciplina>;
+   departamentos:Array<Departamento>;
+   salas:Array<Sala>;
 
-  private login:Login;
-  private dataDocente:string;
-  private hoje:string;
+   disciplinaSelecionada:Disciplina;
+   departamentoSelecionado:Departamento;
+   salaSelecionada:Sala;
+
+   login:Login;
+   dataDocente:string;
+   hoje:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
     private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
-    private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider) {
+    private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider,
+    private salaService:SalaServiceProvider) {
 
       this.reserva = new Reserva;
       this.login = new Login();
+      this.disciplinaSelecionada = new Disciplina();
+      this.departamentoSelecionado = new Departamento();
+      this.salaSelecionada = new Sala();
 
       this.hoje = format(new Date(), 'YYYY-MM-DD');
 
@@ -130,7 +142,7 @@ export class ReservaCreatePage {
               this.disciplinas = disciplinas;
               this.storage.set("disciplinas", disciplinas);
               loading.dismiss().then(() => {
-                  //this.navCtrl.setRoot(ReservaListPage);
+                this.carregarSalasPorDepartamento(id_departamento);
               });
             }else{
               loading.dismiss();
@@ -146,12 +158,43 @@ export class ReservaCreatePage {
 
     }
 
+    //Carrega todas as salas referente a um determinado departamento
+    carregarSalasPorDepartamento(id_departamento:number){
+
+        let loading = this.loadingCtrl.create({
+          content: 'Carregando salas...'
+        });
+
+        this.salaService.carregarSalaPorDepartamento(id_departamento)
+          .then( (salas:Array<Sala>) => {
+            if(salas.length > 0){
+              this.salas = salas;
+              this.storage.set("salas", salas);
+              loading.dismiss().then(() => {
+                  //this.navCtrl.setRoot(ReservaListPage);
+              });
+            }else{
+              loading.dismiss();
+              this.apresentarErro("Nenhuma sala foi encontrada");
+            }
+
+            } )
+          .catch( (error) => {
+            loading.dismiss();
+            this.apresentarErro(error.message);
+          });
+
+
+    }
+
 
     //Caso o usuário selecione algum departamento
     //carregar todas disciplinas referente ao departamento
     changeDepartamento(valor){
-      if(valor != undefined)
-       this.carregarDisciplinasPorDepartamento(valor);
+      if(valor != undefined){
+       this.carregarDisciplinasPorDepartamento(valor.id);
+       this.reserva.id_departamento = valor.id;
+     }
 
     }
 
@@ -204,7 +247,7 @@ export class ReservaCreatePage {
   reservaConfirm(){
     const alert = this.alertCtrl.create({
       title:'Tem certeza?',
-      message: '<b>Departamento:</b> '+this.reserva.nome_departamento +'<br/>'+
+      message: '<b>Departamento:</b> '+this.departamentoSelecionado.nome+'<br/>'+
                 '<b>Sala:</b> '+this.reserva.numero_sala+'<br/>'+
                 '<b>Disciplina:</b> '+(this.reserva.nome_disciplina == undefined?'':this.reserva.nome_disciplina)+'<br/>'+
                 '<b>Data:</b> '+this.reserva.data_reserva+'<br/>'+

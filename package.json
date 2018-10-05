@@ -36,6 +36,7 @@
     "ionic-angular": "3.9.2",
     "ionic2-auto-complete": "^1.6.2-alpha",
     "ionicons": "3.0.0",
+    "move-js": "^0.5.0",
     "rxjs": "5.5.11",
     "sequelize": "^4.39.0",
     "sw-toolbox": "3.6.0",

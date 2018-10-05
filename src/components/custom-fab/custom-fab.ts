@@ -4,6 +4,7 @@ import { NavController, FabContainer } from 'ionic-angular';
 import { ReservaCreatePage } from '../../pages/reserva-create/reserva-create';
 import { ReservaListPage } from '../../pages/reserva-list/reserva-list';
 import { Login } from '../../model/Login';
+import { ReservaSearchPage } from '../../pages/reserva-search/reserva-search';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class CustomFabComponent {
 
   searchReserva(fab: FabContainer){
     fab.close();
-    this.navCtrl.push(ReservaListPage, {login:this.login});
+    this.navCtrl.push(ReservaSearchPage, {login:this.login});
   }
 
 }

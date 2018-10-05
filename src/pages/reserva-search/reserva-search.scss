@@ -1,0 +1,47 @@
+page-reserva-search {
+
+  ion-content{
+    height: 100%;
+    overflow: hidden;
+  }
+
+  ion-card{
+    border-radius: 8px!important;
+    height: 10%;
+  }
+
+  ion-grid{
+    height: 90%;
+    //height: 75vh;
+  }
+  .periodo{
+    height: 16%;
+  }
+
+  .proximoDia{
+    left: 1px;
+  }
+
+  .texto{
+    font-size: 18px;
+    display: flex!important;
+     overflow-x: scroll;
+
+  }
+  .verticalLine {
+    border-right: 2px solid #fff!important;
+  }
+
+  .disponivel{
+    width: 100%;
+    text-align: center!important;
+  }
+
+  .reserva{
+    width: 100%;
+    height: 100%;
+    align-content: center!important;
+    text-align: justify;
+  }
+
+}

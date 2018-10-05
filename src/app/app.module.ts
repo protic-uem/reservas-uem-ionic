@@ -12,6 +12,8 @@ import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { LoginPage } from '../pages/login/login';
 import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserva-visitante-list';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
+import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -29,6 +31,7 @@ import { ReservaServiceProvider } from '../providers/reserva-service/reserva-ser
 import { ReservaVisitanteServiceProvider } from '../providers/reserva-visitante-service/reserva-visitante-service';
 import { DisciplinaServiceProvider } from '../providers/disciplina-service/disciplina-service';
 import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
+import { SalaServiceProvider } from '../providers/sala-service/sala-service';
 
 
 @NgModule({
@@ -40,7 +43,8 @@ import { DepartamentoServiceProvider } from '../providers/departamento-service/d
     ReservaMyPage,
     LoginPage,
     ReservaVisitanteListPage,
-    AjudaUsuarioPage
+    AjudaUsuarioPage,
+    ReservaSearchPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,8 @@ import { DepartamentoServiceProvider } from '../providers/departamento-service/d
     ReservaMyPage,
     LoginPage,
     ReservaVisitanteListPage,
-    AjudaUsuarioPage
+    AjudaUsuarioPage,
+    ReservaSearchPage
   ],
   providers: [
     StatusBar,
@@ -72,7 +77,8 @@ import { DepartamentoServiceProvider } from '../providers/departamento-service/d
     ReservaServiceProvider,
     ReservaVisitanteServiceProvider,
     DisciplinaServiceProvider,
-    DepartamentoServiceProvider
+    DepartamentoServiceProvider,
+    SalaServiceProvider
   ]
 })
 export class AppModule {}

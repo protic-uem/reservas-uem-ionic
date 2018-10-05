@@ -5,7 +5,7 @@ import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
-import { ReservaUsuario } from '../../model/ReservaUsuario';
+import { ReservaView } from '../../model/ReservaView';
 
 
 
@@ -17,8 +17,8 @@ import { ReservaUsuario } from '../../model/ReservaUsuario';
 })
 export class ReservaMyPage {
 
-  private reservas:Array<ReservaUsuario>;
-  private reservasCarregadas:Array<ReservaUsuario>;
+  private reservas:Array<ReservaView>;
+  private reservasCarregadas:Array<ReservaView>;
   private login:Login;
 
   statusSelecionado:string;
@@ -26,6 +26,10 @@ export class ReservaMyPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private menuCtrl:MenuController) {
+      
+      this.reservas = new Array<ReservaView>();
+      this.reservasCarregadas = new Array<ReservaView>();
+
         this.login = this.navParams.get('login');
         if(this.login == undefined)
           this.loadResources();//pegar o usuário logado e depois carregar as reservas
@@ -51,9 +55,10 @@ export class ReservaMyPage {
 
   atualizarMinhasReservas(){
     this.reservaService.carregarReservaPorUsuario(this.login.id)
-      .then( (reservas:Array<ReservaUsuario>) => {
+      .then( (reservas:Array<ReservaView>) => {
         this.storage.set("reservas", reservas);
         this.reservas = reservas;
+        console.log("reserva:"+reservas[0].nome_usuario);
         this.reservasCarregadas = reservas;
       } )
       .catch( () => "Erro na requisição de minhas reservas" );

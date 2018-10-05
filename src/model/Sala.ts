@@ -1,22 +1,23 @@
 export class Sala {
+  
   id: number;
-  numero: number;
   id_departamento: number;
-  classificacao: number;
+  numero: number;
   descricao: string;
+  tipo:string;
   status: number;
+  capacidade:number;
 
-  constructor(id?: number, numero?: number, id_departamento?: number,
-    classificacao?: number, descricao?: string, status?: number) {
-      if (id) {
+  constructor(id?: number, id_departamento?: number, numero?: number,
+    descricao?: string, tipo?: string,  status?: number, capacidade?:number) {
+
         this.id = id;
-        this.numero = numero;
         this.id_departamento = id_departamento;
-        this.classificacao = classificacao;
+        this.numero = numero;
         this.descricao = descricao;
+        this.tipo = tipo;
         this.status = status;
-      } else {
-        this.id = -1;
-      }
+        this.capacidade = capacidade;
+
     }
 }

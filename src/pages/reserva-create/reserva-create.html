@@ -50,10 +50,10 @@
       <ion-item>
         <ion-icon item-start name="pricetag"></ion-icon>
         <ion-label>Uso</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.uso"
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
           formControlName="uso" (ionChange)="changeUso($event)">
-          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Prática</ion-option>
-          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Teórica</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
+          <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
           <ion-option *ngIf="login.privilegio == 'Secretário'">Mestrado</ion-option>
           <ion-option *ngIf="login.privilegio == 'Secretário'">Especialização</ion-option>
           <ion-option *ngIf="login.privilegio == 'Secretário'">Defesa</ion-option>
@@ -64,9 +64,9 @@
       <ion-item>
         <ion-icon item-start name="home"></ion-icon>
         <ion-label>Departamento</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "reserva.id_departamento"
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "departamentoSelecionado"
           (ionChange)="changeDepartamento($event)" required>
-          <ion-option *ngFor="let departamento of departamentos" [value]="departamento.id">{{departamento.nome}}</ion-option>
+          <ion-option *ngFor="let departamento of departamentos" [value]="departamento">{{departamento.nome}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -87,7 +87,7 @@
       <ion-item>
         <ion-icon item-start name="list-box"></ion-icon>
         <ion-label>Tipo de reserva</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo"
+        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
           formControlName="tipoReserva">
           <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
           <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>

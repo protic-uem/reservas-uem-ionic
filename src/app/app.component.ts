@@ -7,6 +7,8 @@ import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
+import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -14,6 +16,7 @@ import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  //LoginPage
   rootPage: any = LoginPage;
   pages: Array<{title: string, component: any}>;
   login: Login;
