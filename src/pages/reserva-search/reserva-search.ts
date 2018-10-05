@@ -34,7 +34,7 @@ export class ReservaSearchPage {
     this.reservas = new Array<ReservaView>();
 
     this.login = this.navParams.get('login');
-    
+
     this.dataSelecionada = new Date().toISOString();
     this.carregarReservasPorData(format(new Date(), 'YYYY-MM-DD'), 1);
   }
@@ -74,7 +74,7 @@ export class ReservaSearchPage {
       }else{
         this.reservas  = new Array<ReservaView>();
         loading.dismiss();
-        this.presentConfirm("Nenhuma reserva ativa foi encontrada");
+        //this.presentConfirm("Nenhuma reserva ativa foi encontrada");
       }
 
       } )

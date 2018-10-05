@@ -10,6 +10,7 @@ import { Disciplina } from '../../model/Disciplina';
 import { Departamento } from '../../model/Departamento';
 import { Login } from '../../model/Login';
 import { Sala } from '../../model/Sala';
+import { Periodo } from '../../model/Periodo';
 
 //Provedores
 import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
@@ -40,9 +41,13 @@ export class ReservaCreatePage {
    departamentoSelecionado:Departamento;
    salaSelecionada:Sala;
 
+   departamentoDIN:number = 1;
+
    login:Login;
    dataDocente:string;
    hoje:string;
+
+   periodo:Periodo;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
@@ -76,7 +81,8 @@ export class ReservaCreatePage {
       if(this.login.nome == undefined)
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
       else
-        this.carregarTodosDepartamentos();
+        this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
+        //this.carregarTodosDepartamentos();
 
         //Caso seja docente, só podera realizar reservas de 3 semanas a referente
         //Caso seja secretário, poderá 1 mês a frente
@@ -95,7 +101,8 @@ export class ReservaCreatePage {
       .then((login) => {
         if (login) {
           this.login = login;
-          this.carregarTodosDepartamentos();
+          this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
+          //this.carregarTodosDepartamentos();
         } else {
           this.login = new Login();
         }
@@ -215,6 +222,9 @@ export class ReservaCreatePage {
   reservaCreate(){
     if(this.validarReserva()){
       if(!this.validarData()){
+        this.reserva.id_departamento = this.departamentoDIN;
+        if(this.login.privilegio == "Docente")
+          this.reserva.tipo_reserva = "Eventual";
         this.reservaConfirm();
       }else{
         this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
@@ -240,14 +250,11 @@ export class ReservaCreatePage {
 
   }
 
-
-
-
   //apresenta o alerta para a confirmação dos dados da reserva
   reservaConfirm(){
     const alert = this.alertCtrl.create({
       title:'Tem certeza?',
-      message: '<b>Departamento:</b> '+this.departamentoSelecionado.nome+'<br/>'+
+      message:
                 '<b>Sala:</b> '+this.reserva.numero_sala+'<br/>'+
                 '<b>Disciplina:</b> '+(this.reserva.nome_disciplina == undefined?'':this.reserva.nome_disciplina)+'<br/>'+
                 '<b>Data:</b> '+this.reserva.data_reserva+'<br/>'+

@@ -3,7 +3,7 @@
                         <ion-grid>
                           <ion-row>
                             <ion-col col-9 text-left>
-                                    <span class="titulo_sala">{{reserva.codigo_disciplina}} - Turma: {{reserva.turma_disciplina}}</span>
+                                    <span class="titulo_sala">{{reserva.codigo_disciplina}}-{{reserva.turma_disciplina}}</span>
                                     <br />
                                     <span>{{reserva.nome_disciplina}}</span>
                             </ion-col>
@@ -13,9 +13,7 @@
                           </ion-row>
                           <ion-row>
                             <ion-col col-12 text-left>
-                              <ion-badge  color="primary">
-                                   {{reserva.data_reserva}}
-                              </ion-badge>
+                                   {{reserva.data_reserva}}  {{reserva.periodo}}
                             </ion-col>
                           </ion-row>
                         </ion-grid>

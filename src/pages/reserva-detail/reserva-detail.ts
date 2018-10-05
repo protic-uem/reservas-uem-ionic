@@ -13,8 +13,9 @@ import { ReservaUsuario } from '../../model/ReservaUsuario';
 })
 export class ReservaDetailPage {
 
-  private reserva:ReservaView;
-  private login:Login;
+   reserva:ReservaView;
+   login:Login;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage) {

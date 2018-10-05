@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Fazer uma reserva</ion-title>
+    <ion-title>Efetuar Reserva</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -21,8 +21,9 @@
         <ion-datetime
           [(ngModel)] = "reserva.data_reserva"
           displayFormat="DD/MM/YYYY"
-          pickerFormat="YYYY-MM-DD"
+          pickerFormat="DDD MMM YYYY"
           monthShortNames="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
+          dayShortNames="Dom, Seg, Ter, Qua, Qui, Sex, Sab"
           doneText="Selecionar"
           cancelText="Cancelar"
           formControlName="data"
@@ -35,21 +36,17 @@
         <ion-label>Período</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
           formControlName="periodo">
-          <ion-option >07:45-08:35</ion-option>
-          <ion-option >08:35-09:25</ion-option>
-          <ion-option >09:40-10:30</ion-option>
-          <ion-option >10:30-11:20</ion-option>
-          <ion-option >11:20-12:10</ion-option>
-          <ion-option >13:30-14:20</ion-option>
-          <ion-option >14:20-15:10</ion-option>
-          <ion-option >15:30-16:20</ion-option>
-          <ion-option >16:20-17:10</ion-option>
-          <ion-option >17:10-18:00</ion-option>
+          <ion-option >7:45-9:25</ion-option>
+          <ion-option >9:40-12:00</ion-option>
+          <ion-option >13:30-15:10</ion-option>
+          <ion-option >15:30-18:00</ion-option>
+          <ion-option >19:30-21:10</ion-option>
+          <ion-option >21:20-23:00</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-icon item-start name="pricetag"></ion-icon>
-        <ion-label>Uso</ion-label>
+        <ion-label>Tipo de Uso</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
           formControlName="uso" (ionChange)="changeUso($event)">
           <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
@@ -61,20 +58,20 @@
           <ion-option *ngIf="login.privilegio == 'Secretário'">Reunião</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <!--<ion-item>
         <ion-icon item-start name="home"></ion-icon>
         <ion-label>Departamento</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="departamento" [(ngModel)] = "departamentoSelecionado"
           (ionChange)="changeDepartamento($event)" required>
           <ion-option *ngFor="let departamento of departamentos" [value]="departamento">{{departamento.nome}}</ion-option>
         </ion-select>
-      </ion-item>
+      </ion-item>-->
       <ion-item>
         <ion-icon item-start name="book"></ion-icon>
         <ion-label>Disciplina</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "reserva.id_disciplina"
           [disabled]="disciplinaDisabled">
-          <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.nome}}</ion-option>
+          <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -84,7 +81,7 @@
           <ion-option *ngFor="let sala of salas" [value]="sala.id">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="login.privilegio == 'Secretário'">
         <ion-icon item-start name="list-box"></ion-icon>
         <ion-label>Tipo de reserva</ion-label>
         <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"

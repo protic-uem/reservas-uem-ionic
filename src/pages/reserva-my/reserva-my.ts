@@ -17,16 +17,17 @@ import { ReservaView } from '../../model/ReservaView';
 })
 export class ReservaMyPage {
 
-  private reservas:Array<ReservaView>;
-  private reservasCarregadas:Array<ReservaView>;
-  private login:Login;
+   reservas:Array<ReservaView>;
+   reservasCarregadas:Array<ReservaView>;
+   login:Login;
+   reservasNaoEncontrada:boolean = false;
 
   statusSelecionado:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private menuCtrl:MenuController) {
-      
+
       this.reservas = new Array<ReservaView>();
       this.reservasCarregadas = new Array<ReservaView>();
 
@@ -56,10 +57,15 @@ export class ReservaMyPage {
   atualizarMinhasReservas(){
     this.reservaService.carregarReservaPorUsuario(this.login.id)
       .then( (reservas:Array<ReservaView>) => {
-        this.storage.set("reservas", reservas);
-        this.reservas = reservas;
-        console.log("reserva:"+reservas[0].nome_usuario);
-        this.reservasCarregadas = reservas;
+        if(reservas.length > 0){
+          this.storage.set("reservas", reservas);
+          this.reservas = reservas;
+          this.reservasCarregadas = reservas;
+          this.reservasNaoEncontrada = false;
+        }else{
+          this.reservas  = new Array<ReservaView>();
+          this.reservasNaoEncontrada = true;
+        }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );
 
@@ -71,6 +77,10 @@ export class ReservaMyPage {
     }
     else{
       this.reservas = this.reservasCarregadas.filter(item => item.status == event);
+      if(this.reservas.length > 0)
+          this.reservasNaoEncontrada = false;
+      else
+          this.reservasNaoEncontrada = true;
     }
   }
 

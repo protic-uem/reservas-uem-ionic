@@ -21,53 +21,23 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 })
 export class ReservaVisitanteListPage {
 
-  private reservas:Array<ReservaView>;
-  private disciplinas:Array<Disciplina>;
-  private departamentos:Array<Departamento>;
+   reservas:Array<ReservaView>;
+   disciplinas:Array<Disciplina>;
 
-  departamentoSelecionado = undefined;
+  departamentoSelecionado:number = 1;
   disciplinaSelecionada = undefined;
   reservasNaoEncontrada:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
     private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
     private reservaVisitanteService:ReservaVisitanteServiceProvider,
-    private departamentoService:DepartamentoServiceProvider,
     private disciplinaService:DisciplinaServiceProvider) {
 
 
     this.menuCtrl.enable(false);
     this.reservas = new Array<ReservaView>();
     this.disciplinas = new Array<Disciplina>();
-    this.departamentos = new Array<Departamento>();
-    this.carregarTodosDepartamentos();
-  }
-
-  //Carrega todos os departamentos do banco de dados
-  carregarTodosDepartamentos(){
-    let loading = this.loadingCtrl.create({
-      content: 'Carregando departamentos...'
-    });
-
-    this.departamentoService.carregarTodosDepartamentos()
-      .then( (departamentos:Array<Departamento>) => {
-        if(departamentos.length > 0){
-          this.departamentos = departamentos;
-          this.storage.set("departamentos", departamentos);
-          loading.dismiss().then(() => {
-              //this.navCtrl.setRoot(ReservaListPage);
-          });
-        }else{
-          loading.dismiss();
-          this.presentConfirm("Nenhum departamento foi encontrado");
-        }
-
-        } )
-      .catch( (error) => {
-        loading.dismiss();
-        this.presentConfirm(error.message);
-      });
-
+    this.carregarDisciplinasPorDepartamento(this.departamentoSelecionado);
   }
 
   //Carrega todas as dicipinas referente a um determinado departamento
@@ -123,16 +93,6 @@ export class ReservaVisitanteListPage {
         item: reserva
       });
   }
-
- //Caso o usuário selecione algum departamento
- //carregar todas disciplinas referente ao departamento
- changeDepartamento(valor){
-   this.departamentoSelecionado = valor;
-
-   if(valor != undefined)
-    this.carregarDisciplinasPorDepartamento(valor);
-
- }
 
  changeDisciplina(valor){
    this.disciplinaSelecionada = valor;

@@ -21,7 +21,7 @@
             [(ngModel)]="dataSelecionada"
             (ngModelChange)="changeData(dataSelecionada)"
             displayFormat="DD/MM/YYYY"
-            pickerFormat="YYYY-MM-DD"
+            pickerFormat="DD MMM YYYY"
             monthShortNames="Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez"
             doneText="Selecionar"
             cancelText="Cancelar"
@@ -55,7 +55,7 @@
         09:40<br />12:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo02.codigo_disciplina != undefined" >{{reservaPeriodo02.codigo_disciplina}}-{{reservaPeriodo02.turma_disciplina}}-{{reservaPeriodo02.nome_disciplina}}<br />
+        <span class="reserva" *ngIf="reservaPeriodo02.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo02)">{{reservaPeriodo02.codigo_disciplina}}-{{reservaPeriodo02.turma_disciplina}}-{{reservaPeriodo02.nome_disciplina}}<br />
         {{reservaPeriodo02.nome_usuario}}</span>
         <span class="disponivel" *ngIf="reservaPeriodo02.codigo_disciplina == undefined">
           Disponível
@@ -67,7 +67,7 @@
         13:30<br />15:10
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo03.codigo_disciplina != undefined">{{reservaPeriodo03.codigo_disciplina}}-{{reservaPeriodo03.turma_disciplina}}-{{reservaPeriodo03.nome_disciplina}}<br />
+        <span class="reserva" *ngIf="reservaPeriodo03.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo03)">{{reservaPeriodo03.codigo_disciplina}}-{{reservaPeriodo03.turma_disciplina}}-{{reservaPeriodo03.nome_disciplina}}<br />
         {{reservaPeriodo03.nome_usuario}}</span>
         <span class="disponivel" *ngIf="reservaPeriodo03.codigo_disciplina == undefined">
           Disponível
@@ -79,7 +79,7 @@
         15:30<br />18:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo04.codigo_disciplina != undefined">{{reservaPeriodo04.codigo_disciplina}}-{{reservaPeriodo04.turma_disciplina}}-{{reservaPeriodo04.nome_disciplina}}<br />
+        <span class="reserva" *ngIf="reservaPeriodo04.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo04)">{{reservaPeriodo04.codigo_disciplina}}-{{reservaPeriodo04.turma_disciplina}}-{{reservaPeriodo04.nome_disciplina}}<br />
         {{reservaPeriodo04.nome_usuario}}</span>
         <span class="disponivel" *ngIf="reservaPeriodo04.codigo_disciplina == undefined">
           Disponível
@@ -91,7 +91,7 @@
         19:30<br />21:10
       </ion-col>
         <ion-col style="" class="texto " col-10 text-nowrap>
-          <span class="reserva" *ngIf="reservaPeriodo05.codigo_disciplina != undefined">{{reservaPeriodo05.codigo_disciplina}}-{{reservaPeriodo05.turma_disciplina}}-{{reservaPeriodo05.nome_disciplina}}<br />
+          <span class="reserva" *ngIf="reservaPeriodo05.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo05)">{{reservaPeriodo05.codigo_disciplina}}-{{reservaPeriodo05.turma_disciplina}}-{{reservaPeriodo05.nome_disciplina}}<br />
           {{reservaPeriodo05.nome_usuario}}</span>
           <span class="disponivel" *ngIf="reservaPeriodo05.codigo_disciplina == undefined">
             Disponível
@@ -103,7 +103,7 @@
         21:20<br />23:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo06.codigo_disciplina != undefined">{{reservaPeriodo06.codigo_disciplina}}-{{reservaPeriodo06.turma_disciplina}}-{{reservaPeriodo06.nome_disciplina}}<br />
+        <span class="reserva" *ngIf="reservaPeriodo06.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo06)">{{reservaPeriodo06.codigo_disciplina}}-{{reservaPeriodo06.turma_disciplina}}-{{reservaPeriodo06.nome_disciplina}}<br />
         {{reservaPeriodo06.nome_usuario}}</span>
         <span class="disponivel" *ngIf="reservaPeriodo06.codigo_disciplina == undefined">
           Disponível
