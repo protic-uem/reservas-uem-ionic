@@ -69,16 +69,16 @@
       <ion-item>
         <ion-icon item-start name="book"></ion-icon>
         <ion-label>Disciplina</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "reserva.id_disciplina"
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
           [disabled]="disciplinaDisabled">
-          <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
+          <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-icon item-start name="key"></ion-icon>
         <ion-label>Sala</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "reserva.id_sala">
-          <ion-option *ngFor="let sala of salas" [value]="sala.id">{{sala.numero}}</ion-option>
+        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "salaSelecionada">
+          <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item *ngIf="login.privilegio == 'Secretário'">

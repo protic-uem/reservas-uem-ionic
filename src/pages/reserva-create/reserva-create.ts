@@ -66,13 +66,12 @@ export class ReservaCreatePage {
 
       //Criar o formulário de validação
       this.reservaForm = formBuilder.group({
-        departamento:['',Validators.required],
-        sala:['',Validators.required],
         disciplina:['',],
+        sala:['',Validators.required],
         data:['',Validators.required],
         periodo:['',Validators.required],
+        tipoReserva:['',],
         uso:['',Validators.required],
-        tipoReserva:['',Validators.required],
         usuario:['',Validators.nullValidator]
       });
 
@@ -81,8 +80,7 @@ export class ReservaCreatePage {
       if(this.login.nome == undefined)
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
       else
-        this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
-        //this.carregarTodosDepartamentos();
+        this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
 
         //Caso seja docente, só podera realizar reservas de 3 semanas a referente
         //Caso seja secretário, poderá 1 mês a frente
@@ -101,12 +99,19 @@ export class ReservaCreatePage {
       .then((login) => {
         if (login) {
           this.login = login;
-          this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
-          //this.carregarTodosDepartamentos();
+          this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
         } else {
           this.login = new Login();
         }
       });
+  }
+
+  //Carrega as disciplinas de acordo com o privilégio do usuário
+  carregarDisciplinaPorPrivilegio(privilegio:string){
+    if(privilegio == "Docente")
+      this.carregarDisciplinasPorUsuario(this.login.id);
+    else if(privilegio == "Secretário")
+      this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
   }
 
   //Carrega todos os departamentos do banco de dados
@@ -133,6 +138,34 @@ export class ReservaCreatePage {
         loading.dismiss();
         this.apresentarErro(error.message);
       });
+
+    }
+
+    //Carrega todas as dicipinas referente a um determinado usuario
+    carregarDisciplinasPorUsuario(id_usuario:number){
+
+        let loading = this.loadingCtrl.create({
+          content: 'Carregando disciplinas...'
+        });
+
+        this.disciplinaService.carregarDisciplinasPorUsuario(id_usuario)
+          .then( (disciplinas:Array<Disciplina>) => {
+            if(disciplinas.length > 0){
+              this.disciplinas = disciplinas;
+              this.storage.set("disciplinas", disciplinas);
+              loading.dismiss().then(() => {
+                this.carregarSalasPorDepartamento(this.departamentoDIN);
+              });
+            }else{
+              loading.dismiss();
+              this.apresentarErro("Nenhuma disciplina foi encontrada");
+            }
+
+            } )
+          .catch( (error) => {
+            loading.dismiss();
+            this.apresentarErro(error.message);
+          });
 
     }
 
@@ -199,7 +232,7 @@ export class ReservaCreatePage {
     //carregar todas disciplinas referente ao departamento
     changeDepartamento(valor){
       if(valor != undefined){
-       this.carregarDisciplinasPorDepartamento(valor.id);
+       //this.carregarDisciplinasPorDepartamento(valor.id);
        this.reserva.id_departamento = valor.id;
      }
 
@@ -223,6 +256,8 @@ export class ReservaCreatePage {
     if(this.validarReserva()){
       if(!this.validarData()){
         this.reserva.id_departamento = this.departamentoDIN;
+        this.reserva.id_sala = this.salaSelecionada.id;
+        this.reserva.id_disciplina = this.disciplinaSelecionada.id;
         if(this.login.privilegio == "Docente")
           this.reserva.tipo_reserva = "Eventual";
         this.reservaConfirm();
@@ -234,7 +269,7 @@ export class ReservaCreatePage {
 
   //validar se todos os campos foram preenchidos
   validarReserva(){
-    let{departamento, sala, disciplina, data, periodo, uso, tipoReserva} = this.reservaForm.controls;
+    let{sala, disciplina, data, periodo, uso, tipoReserva} = this.reservaForm.controls;
     if(!this.reservaForm.valid){
         this.apresentarErro('Por favor, preencha todos os campos');
       return false;
@@ -255,8 +290,8 @@ export class ReservaCreatePage {
     const alert = this.alertCtrl.create({
       title:'Tem certeza?',
       message:
-                '<b>Sala:</b> '+this.reserva.numero_sala+'<br/>'+
-                '<b>Disciplina:</b> '+(this.reserva.nome_disciplina == undefined?'':this.reserva.nome_disciplina)+'<br/>'+
+                '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
+                '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo)+'<br/>'+
                 '<b>Data:</b> '+this.reserva.data_reserva+'<br/>'+
                 '<b>Período:</b> '+this.reserva.periodo+'<br/>'+
                 '<b>Uso:</b> '+this.reserva.tipo_uso+'<br/>'+
