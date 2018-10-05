@@ -119,7 +119,7 @@ export class ReservaCreatePage {
     let loading = this.loadingCtrl.create({
       content: 'Carregando departamentos...'
     });
-
+    loading.present();
     this.departamentoService.carregarTodosDepartamentos()
       .then( (departamentos:Array<Departamento>) => {
         if(departamentos.length > 0){
@@ -147,7 +147,7 @@ export class ReservaCreatePage {
         let loading = this.loadingCtrl.create({
           content: 'Carregando disciplinas...'
         });
-
+        loading.present();
         this.disciplinaService.carregarDisciplinasPorUsuario(id_usuario)
           .then( (disciplinas:Array<Disciplina>) => {
             if(disciplinas.length > 0){
@@ -175,7 +175,7 @@ export class ReservaCreatePage {
         let loading = this.loadingCtrl.create({
           content: 'Carregando disciplinas...'
         });
-
+        loading.present();
         this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
           .then( (disciplinas:Array<Disciplina>) => {
             if(disciplinas.length > 0){
@@ -204,7 +204,7 @@ export class ReservaCreatePage {
         let loading = this.loadingCtrl.create({
           content: 'Carregando salas...'
         });
-
+        loading.present();
         this.salaService.carregarSalaPorDepartamento(id_departamento)
           .then( (salas:Array<Sala>) => {
             if(salas.length > 0){

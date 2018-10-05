@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
 
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
@@ -26,7 +26,7 @@ export class ReservaMyPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
-    private menuCtrl:MenuController) {
+    private menuCtrl:MenuController, private loadingCtrl:LoadingController) {
 
       this.reservas = new Array<ReservaView>();
       this.reservasCarregadas = new Array<ReservaView>();
@@ -55,6 +55,11 @@ export class ReservaMyPage {
 
 
   atualizarMinhasReservas(){
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando reservas...'
+    });
+
+    loading.present();
     this.reservaService.carregarReservaPorUsuario(this.login.id)
       .then( (reservas:Array<ReservaView>) => {
         if(reservas.length > 0){
@@ -62,9 +67,11 @@ export class ReservaMyPage {
           this.reservas = reservas;
           this.reservasCarregadas = reservas;
           this.reservasNaoEncontrada = false;
+          loading.dismiss();
         }else{
           this.reservas  = new Array<ReservaView>();
           this.reservasNaoEncontrada = true;
+          loading.dismiss();
         }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );

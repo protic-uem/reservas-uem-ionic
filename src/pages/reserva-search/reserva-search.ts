@@ -51,6 +51,7 @@ export class ReservaSearchPage {
       content: 'Carregando reservas...'
     });
 
+    loading.present();
     this.reservaPeriodo01 = new ReservaView();
     this.reservaPeriodo02 = new ReservaView();
     this.reservaPeriodo03 = new ReservaView();
@@ -65,9 +66,9 @@ export class ReservaSearchPage {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
+          loading.dismiss();
           this.filtragemReservas(reservas).then( () =>
             {
-              loading.dismiss();
             }
           );
 
