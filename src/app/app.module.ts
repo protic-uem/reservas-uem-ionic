@@ -14,6 +14,7 @@ import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserv
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { ReservaCreate2Page } from '../pages/reserva-create2/reserva-create2';
+import { ReservaCreateSearchPage } from '../pages/reserva-create-search/reserva-create-search';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -48,7 +49,8 @@ import { CalendarModule } from "ion2-calendar";
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
     ReservaSearchPage,
-    ReservaCreate2Page
+    ReservaCreate2Page,
+    ReservaCreateSearchPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +77,8 @@ import { CalendarModule } from "ion2-calendar";
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
     ReservaSearchPage,
-    ReservaCreate2Page
+    ReservaCreate2Page,
+    ReservaCreateSearchPage
   ],
   providers: [
     StatusBar,

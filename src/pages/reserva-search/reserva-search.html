@@ -52,7 +52,7 @@
             {{reservaPeriodo01.tipo_uso}}-{{reservaPeriodo01.numero_sala}}<br />
             {{reservaPeriodo01.nome_usuario}}
         </span>
-        <span class="disponivel" *ngIf="reservaPeriodo01.periodo == undefined">
+        <span class="disponivel" *ngIf="reservaPeriodo01.periodo == undefined" (click)="cadastrarReserva(1)">
           Disponível
         </span>
       </ion-col>
@@ -70,7 +70,7 @@
             {{reservaPeriodo02.tipo_uso}}-{{reservaPeriodo02.numero_sala}}<br />
             {{reservaPeriodo02.nome_usuario}}
         </span>
-        <span class="disponivel" *ngIf="reservaPeriodo02.periodo == undefined">
+        <span class="disponivel" *ngIf="reservaPeriodo02.periodo == undefined" (click)="cadastrarReserva(2)">
           Disponível
         </span>
       </ion-col>
@@ -87,7 +87,7 @@
             {{reservaPeriodo03.tipo_uso}}-{{reservaPeriodo03.numero_sala}}<br />
             {{reservaPeriodo03.nome_usuario}}
         </span>
-        <span class="disponivel" *ngIf="reservaPeriodo03.periodo == undefined">
+        <span class="disponivel" *ngIf="reservaPeriodo03.periodo == undefined" (click)="cadastrarReserva(3)">
           Disponível
         </span>
       </ion-col>
@@ -104,7 +104,7 @@
             {{reservaPeriodo04.tipo_uso}}-{{reservaPeriodo04.numero_sala}}<br />
             {{reservaPeriodo04.nome_usuario}}
         </span>
-        <span class="disponivel" *ngIf="reservaPeriodo04.periodo == undefined">
+        <span class="disponivel" *ngIf="reservaPeriodo04.periodo == undefined" (click)="cadastrarReserva(4)">
           Disponível
         </span>
       </ion-col>
@@ -121,7 +121,7 @@
               {{reservaPeriodo05.tipo_uso}}-{{reservaPeriodo05.numero_sala}}<br />
               {{reservaPeriodo05.nome_usuario}}
           </span>
-          <span class="disponivel" *ngIf="reservaPeriodo05.periodo == undefined">
+          <span class="disponivel" *ngIf="reservaPeriodo05.periodo == undefined" (click)="cadastrarReserva(5)">
             Disponível
           </span>
         </ion-col>
@@ -138,7 +138,7 @@
             {{reservaPeriodo06.tipo_uso}}-{{reservaPeriodo06.numero_sala}}<br />
             {{reservaPeriodo06.nome_usuario}}
         </span>
-        <span class="disponivel" *ngIf="reservaPeriodo06.periodo == undefined">
+        <span class="disponivel" *ngIf="reservaPeriodo06.periodo == undefined" (click)="cadastrarReserva(6)">
           Disponível
         </span>
       </ion-col>

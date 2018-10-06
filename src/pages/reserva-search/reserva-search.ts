@@ -5,12 +5,13 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 import { ReservaView } from '../../model/ReservaView';
 import { Storage } from '@ionic/storage';
 import { Periodo } from '../../model/Periodo';
+import { Reserva } from '../../model/Reserva';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 import { Login } from '../../model/Login';
 import { Sala } from '../../model/Sala';
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
-
+import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create-search';
 
 
 @IonicPage()
@@ -21,6 +22,8 @@ import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "
 export class ReservaSearchPage {
 
 @ViewChild('sectionSelect') sectionSelect: Select;
+
+  reserva:Reserva;
 
   dataSelecionada:string;
   showDate:string;
@@ -46,6 +49,7 @@ export class ReservaSearchPage {
     this.reservas = new Array<ReservaView>();
     this.salas = new Array<Sala>();
     this.salaSelecionada = new Sala();
+    this.reserva = new Reserva();
 
     this.reservaPeriodo01 = new ReservaView();
     this.reservaPeriodo02 = new ReservaView();
@@ -65,8 +69,33 @@ export class ReservaSearchPage {
 
   }
 
-  openCalendar() {
 
+  //Abre a pagina de cadastro de uma reserva
+  cadastrarReserva(periodo:number){
+    if(this.salaSelecionada.id != undefined && this.dataSelecionada != undefined){
+
+      this.reserva.id_sala = this.salaSelecionada.id;
+      this.reserva.periodo = periodo;
+      this.reserva.data_reserva = this.dataSelecionada;
+      
+      if(this.login.privilegio == "Docente")
+        this.reserva.id_usuario = this.login.id;
+
+      this.navCtrl.push(ReservaCreateSearchPage, {
+        login: this.login,
+        item: this.reserva,
+        sala: this.salaSelecionada,
+      });
+
+    }else{
+      this.apresentarErro("Por favor, preenche todos os campos");
+    }
+
+  }
+
+
+  //Abre o modal com o calendário
+  openCalendar() {
     const options: CalendarModalOptions = {
       title: 'Data da reserva',
       defaultDate: new Date(),
