@@ -73,9 +73,7 @@ export class ReservaSearchPage {
       closeLabel: "CANCELAR",
       doneLabel: "SELECIONAR",
       monthFormat: "MMM YYYY",
-      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-      disableWeeks: [0, 6]
-
+      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
     };
     let myCalendar =  this.modalCtrl.create(CalendarModal, {
       options: options
@@ -179,17 +177,17 @@ export class ReservaSearchPage {
         let r05 = reservas.filter(item => item.periodo == Periodo.cinco);
         let r06 = reservas.filter(item => item.periodo == Periodo.seis);
 
-        if(r01[0] != null && r01[0] != undefined && r01[0].codigo_disciplina != undefined)
+        if(r01[0] != null && r01[0] != undefined && r01[0].periodo != undefined)
           this.reservaPeriodo01 =  r01[0];
-        if(r02[0] != null && r02[0] != undefined && r02[0].codigo_disciplina != undefined)
+        if(r02[0] != null && r02[0] != undefined && r02[0].periodo != undefined)
           this.reservaPeriodo02 =  r02[0];
-        if(r03[0] != null && r03[0] != undefined && r03[0].codigo_disciplina != undefined)
+        if(r03[0] != null && r03[0] != undefined && r03[0].periodo != undefined)
           this.reservaPeriodo03 =  r03[0];
-        if(r04[0] != null && r04[0] != undefined && r04[0].codigo_disciplina != undefined)
+        if(r04[0] != null && r04[0] != undefined && r04[0].periodo != undefined)
           this.reservaPeriodo04 =  r04[0];
-        if(r05[0] != null && r05[0] != undefined && r05[0].codigo_disciplina != undefined)
+        if(r05[0] != null && r05[0] != undefined && r05[0].periodo != undefined)
           this.reservaPeriodo05 =  r05[0];
-        if(r06[0] != null && r06[0] != undefined && r06[0].codigo_disciplina != undefined)
+        if(r06[0] != null && r06[0] != undefined && r06[0].periodo != undefined)
           this.reservaPeriodo06 =  r06[0];
 
         });

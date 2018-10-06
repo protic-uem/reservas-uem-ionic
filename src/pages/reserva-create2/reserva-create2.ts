@@ -150,6 +150,7 @@ export class ReservaCreate2Page {
             }else{
               loading.dismiss();
               this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+              this.carregarSalasPorDepartamento(this.departamentoDIN);
             }
 
             } )
@@ -177,7 +178,8 @@ export class ReservaCreate2Page {
               });
             }else{
               loading.dismiss();
-              this.apresentarErro("Nenhuma disciplina foi encontrada");
+              this.apresentarErro("Nenhuma disciplina foi encontrada para reste usuário");
+              this.carregarSalasPorDepartamento(this.departamentoDIN);
             }
 
             } )
