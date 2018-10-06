@@ -98,13 +98,21 @@ export class ReservaCreatePage {
   }
 
   avancarCreate(){
-      if(this.usuarioSelecionado.nome != undefined)
+      if(this.usuarioSelecionado.id != undefined)
         this.reserva.id_usuario = this.usuarioSelecionado.id;
 
-      this.navCtrl.push(ReservaCreate2Page, {
-        item: this.reserva,
-        login: this.login
-      }, {animate: true, animation:'ios-transition', direction: 'forward', duration:1000});
+      if(this.validarReserva()){
+        if(!this.validarData()){
+
+          this.navCtrl.push(ReservaCreate2Page, {
+            item: this.reserva,
+            login: this.login,
+            usuario: this.usuarioSelecionado
+          }, {animate: true, animation:'ios-transition', direction: 'forward', duration:1000});
+        }else{
+          this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
+        }
+      }
   }
 
 
@@ -139,7 +147,7 @@ export class ReservaCreatePage {
   validarReserva(){
     let{data, periodo} = this.reservaForm.controls;
     if(!this.reservaForm.valid){
-        this.apresentarErro('Por favor, preencha todos os campos');
+        this.apresentarErro('Por favor, preencha todos os campos para continuar');
       return false;
     }else{
       return true;

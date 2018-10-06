@@ -44,6 +44,7 @@ export class ReservaCreate2Page {
 
   disciplinaSelecionada:Disciplina;
   salaSelecionada:Sala;
+  usuarioSelecionado:Usuario;
 
   departamentoDIN:number = 1;
 
@@ -68,6 +69,7 @@ export class ReservaCreate2Page {
       this.hoje = format(new Date(), 'YYYY-MM-DD');
 
       this.reserva =  this.navParams.get('item');
+      this.usuarioSelecionado = this.navParams.get('usuario');
       //Criar o formulário de validação
       this.reservaForm = formBuilder.group({
         uso:['',Validators.required],
@@ -80,8 +82,15 @@ export class ReservaCreate2Page {
       this.login = this.navParams.get('login');
       if(this.login.nome == undefined)
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
-      else
-        this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+      else{
+        if(this.login.privilegio == "Secretário")
+          this.classe = "secretario";
+
+        if(this.usuarioSelecionado.id!= undefined)
+          this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+        else
+          this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+        }
 
 
   }
@@ -93,7 +102,11 @@ export class ReservaCreate2Page {
           this.login = login;
           if(this.login.privilegio == "Secretário")
             this.classe = "secretario";
-          this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+
+          if(this.usuarioSelecionado.id!= undefined)
+              this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+          else
+              this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
         } else {
           this.login = new Login();
         }
@@ -106,10 +119,15 @@ export class ReservaCreate2Page {
 
   //Carrega as disciplinas de acordo com o privilégio do usuário
   carregarDisciplinaPorPrivilegio(privilegio:string){
-    if(privilegio == "Docente")
-      this.carregarDisciplinasPorUsuario(this.login.id);
+    if(privilegio == "Docente"){
+      if(this.usuarioSelecionado.id!= undefined){
+        this.carregarDisciplinasPorUsuario(this.usuarioSelecionado.id);
+        }
+      else{
+        this.carregarDisciplinasPorUsuario(this.login.id);
+        }
+      }
     else if(privilegio == "Secretário"){
-      this.classe = "secretario";
       this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
     }
   }
@@ -131,7 +149,7 @@ export class ReservaCreate2Page {
               });
             }else{
               loading.dismiss();
-              this.apresentarErro("Nenhuma disciplina foi encontrada");
+              this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
             }
 
             } )
@@ -210,19 +228,27 @@ export class ReservaCreate2Page {
       }
       else{
         this.disciplinaDisabled = true;
+        this.disciplinaSelecionada = new Disciplina();
       }
     }
 
 
   //cria uma reserva
   reservaCreate(){
-    if(this.validarReserva()){
-      if(!this.validarData()){
 
+    if(this.validarReserva()){
+      
         this.reserva.id_departamento = this.departamentoDIN;
         this.reserva.id_sala = this.salaSelecionada.id;
-        this.reserva.id_disciplina = this.disciplinaSelecionada.id;
-        this.reserva.id_usuario = this.login.id;
+
+        if(this.reserva.tipo_uso == "Teórica" || this.reserva.tipo_uso == "Prática")
+          this.reserva.id_disciplina = this.disciplinaSelecionada.id;
+
+        if(this.usuarioSelecionado.id == undefined)
+          this.reserva.id_usuario = this.login.id;
+        else
+          this.reserva.id_usuario = this.usuarioSelecionado.id;
+
         this.reserva.data_solicitacao = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
         this.reserva.status = 1;
 
@@ -230,15 +256,13 @@ export class ReservaCreate2Page {
           this.reserva.tipo_reserva = "Eventual";
 
         this.reservaConfirm();
-      }else{
-        this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
       }
-    }
+
   }
 
   //validar se todos os campos foram preenchidos
   validarReserva(){
-    let{sala, disciplina, data, periodo, uso, tipoReserva} = this.reservaForm.controls;
+    let{sala, disciplina, uso, tipoReserva} = this.reservaForm.controls;
     if(!this.reservaForm.valid){
         this.apresentarErro('Por favor, preencha todos os campos');
       return false;
@@ -261,9 +285,9 @@ export class ReservaCreate2Page {
       message:
                 '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
                 '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo)+'<br/>'+
-                '<b>Data:</b> '+this.reserva.data_reserva+'<br/>'+
-                '<b>Período:</b> '+this.reserva.periodo+'<br/>'+
-                '<b>Uso:</b> '+this.reserva.tipo_uso+'<br/>'+
+                '<b>Data reservada:</b> '+this.reserva.data_reserva+'<br/>'+
+                '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+                '<b>Tipo de uso:</b> '+this.reserva.tipo_uso+'<br/>'+
                 '<b>Tipo:</b> '+this.reserva.tipo_reserva,
 
       buttons: [
