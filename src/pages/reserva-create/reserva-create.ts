@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
 import { Validators, FormBuilder } from '@angular/forms';
 import { parse, format, isSunday, isSaturday, addWeeks, addMonths } from 'date-fns';
@@ -21,6 +21,7 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
+import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
 
 
 
@@ -32,6 +33,9 @@ import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-
 export class ReservaCreatePage {
 
    reserva:Reserva;
+
+   dataSelecionada:string;
+   showDate:string;
 
    //variáveis para a validação de erros nos input's
    reservaForm:any;
@@ -52,7 +56,7 @@ export class ReservaCreatePage {
     private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
     private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider,
     private salaService:SalaServiceProvider, private reservaService:ReservaServiceProvider,
-    private usuarioService:UsuarioServiceProvider) {
+    private usuarioService:UsuarioServiceProvider, private modalCtrl:ModalController) {
 
       this.reserva = new Reserva;
       this.login = new Login();
@@ -63,10 +67,12 @@ export class ReservaCreatePage {
 
       //Criar o formulário de validação
       this.reservaForm = formBuilder.group({
-        data:['',Validators.required],
         periodo:['',Validators.required],
         usuario:['',Validators.nullValidator]
       });
+
+      this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
+      this.showDate = format(new Date(), 'DD/MM/YYYY');
 
       //pegando usuário
       this.login = this.navParams.get('login');
@@ -102,8 +108,8 @@ export class ReservaCreatePage {
         this.reserva.id_usuario = this.usuarioSelecionado.id;
 
       if(this.validarReserva()){
-        if(!this.validarData()){
-
+        if(!this.validarData() || this.login.privilegio == "Secretário"){
+          this.reserva.data_reserva = this.dataSelecionada;
           this.navCtrl.push(ReservaCreate2Page, {
             item: this.reserva,
             login: this.login,
@@ -113,6 +119,39 @@ export class ReservaCreatePage {
           this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
         }
       }
+  }
+
+  openCalendar() {
+
+    var diasNaoPermitidos = [];
+    if(this.login.privilegio == "Docente")
+      diasNaoPermitidos = [0, 6];
+
+    const options: CalendarModalOptions = {
+      from: new Date(),
+      to: parse(this.dataDocente),
+      title: 'Data da reserva',
+      defaultDate: new Date(),
+      closeLabel: "CANCELAR",
+      doneLabel: "SELECIONAR",
+      monthFormat: "MMM YYYY",
+      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      disableWeeks: diasNaoPermitidos
+
+    };
+    let myCalendar =  this.modalCtrl.create(CalendarModal, {
+      options: options
+    });
+
+    myCalendar.present();
+
+    myCalendar.onDidDismiss((date: CalendarResult, type: string) => {
+      if(date != null && date != undefined){
+        this.dataSelecionada = date.string;
+        this.showDate = format(date.string, 'DD/MM/YYYY');
+        //this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
+      }
+    })
   }
 
 
@@ -145,8 +184,8 @@ export class ReservaCreatePage {
 
   //validar se todos os campos foram preenchidos
   validarReserva(){
-    let{data, periodo} = this.reservaForm.controls;
-    if(!this.reservaForm.valid){
+    let{ periodo} = this.reservaForm.controls;
+    if(!this.reservaForm.valid || this.dataSelecionada == undefined){
         this.apresentarErro('Por favor, preencha todos os campos para continuar');
       return false;
     }else{
@@ -157,7 +196,7 @@ export class ReservaCreatePage {
 
   //validar se a data não é sábado ou domingo
   validarData(){
-    return (isSaturday(parse(this.reserva.data_reserva)) || isSunday(parse(this.reserva.data_reserva)));
+    return (isSaturday(parse(this.dataSelecionada)) || isSunday(parse(this.dataSelecionada)));
 
   }
 
@@ -167,7 +206,7 @@ export class ReservaCreatePage {
       message: 'Reserva cancelada',
       duration: 3000
     });
-    
+
     toast.present();
         this.navCtrl.pop();
 

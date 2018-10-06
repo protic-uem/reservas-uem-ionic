@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 //Páginas
@@ -12,7 +12,6 @@ import { Departamento } from '../../model/Departamento';
 import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
 import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
-import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
 
 
 @IonicPage()
@@ -32,37 +31,13 @@ export class ReservaVisitanteListPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
     private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
     private reservaVisitanteService:ReservaVisitanteServiceProvider,
-    private disciplinaService:DisciplinaServiceProvider, private modalCtrl:ModalController) {
+    private disciplinaService:DisciplinaServiceProvider) {
 
 
     this.menuCtrl.enable(false);
     this.reservas = new Array<ReservaView>();
     this.disciplinas = new Array<Disciplina>();
     this.carregarDisciplinasPorDepartamento(this.departamentoSelecionado);
-  }
-
-  openCalendar() {
-
-
-    const options: CalendarModalOptions = {
-      title: 'Data da reserva',
-      defaultDate: new Date(),
-      closeLabel: "CANCELAR",
-      doneLabel: "SELECIONAR",
-      monthFormat: "MMM YYYY",
-      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-      disableWeeks: [0, 6]
-
-    };
-    let myCalendar =  this.modalCtrl.create(CalendarModal, {
-      options: options
-    });
-
-    myCalendar.present();
-
-    myCalendar.onDidDismiss((date: CalendarResult, type: string) => {
-      console.log("date3:"+date.string);
-    })
   }
 
   //Carrega todas as dicipinas referente a um determinado departamento

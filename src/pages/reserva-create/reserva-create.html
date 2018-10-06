@@ -31,10 +31,11 @@
         </ion-select>
       </ion-item>
       <hr />
-      <ion-item>
+      <ion-item (click)="openCalendar()">
         <ion-icon item-start name="calendar" class="icones"></ion-icon>
         <ion-label>Data</ion-label>
-        <ion-datetime
+        <ion-label>{{showDate}}</ion-label>
+        <!--<ion-datetime
           [(ngModel)] = "reserva.data_reserva"
           displayFormat="DDD, DD/MM/YYYY"
           pickerFormat=" DD MMM YYYY"
@@ -46,7 +47,7 @@
           [min]="hoje"
           [max]="dataDocente"
           placeholder="selecione">
-        </ion-datetime>
+        </ion-datetime>-->
       </ion-item>
       <hr />
       <ion-item>
