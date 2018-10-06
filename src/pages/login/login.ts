@@ -4,6 +4,7 @@ import { ReservaMyPage } from '../reserva-my/reserva-my';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
 import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
+
 import { Login } from '../../model/Login';
 import { Validators, FormBuilder } from '@angular/forms';
 
@@ -27,6 +28,7 @@ export class LoginPage {
   private menuCtrl: MenuController, private storage:Storage, private loginService:LoginServiceProvider,
   private ev:Events, private loadingCtrl: LoadingController,
   private alertCtrl:AlertController, private formBuilder: FormBuilder) {
+
 
     this.storage.get("login")
         .then( (value) => {

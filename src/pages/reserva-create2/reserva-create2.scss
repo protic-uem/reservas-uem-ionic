@@ -1,5 +1,4 @@
-page-reserva-create {
-
+page-reserva-create2 {
 
   ion-content{
     height: 100%;
@@ -7,17 +6,20 @@ page-reserva-create {
   ion-list{
     height: 90%;
   }
-  .nome_usuario{
-    font-size: 20px;
-  }
 
   .icones{
     font-size: 40px;
   }
 
-  ion-item{
+  .docente{
     height: 30%;
   }
+
+  .secretario{
+    height: 21%;
+  }
+
+
   ion-card{
     border-radius: 10px!important;
     height: 75%;

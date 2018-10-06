@@ -8,7 +8,7 @@ import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
-
+import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 
 @Component({
   templateUrl: 'app.html'

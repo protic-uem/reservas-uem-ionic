@@ -13,7 +13,7 @@ import { LoginPage } from '../pages/login/login';
 import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserva-visitante-list';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
-
+import { ReservaCreate2Page } from '../pages/reserva-create2/reserva-create2';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -44,7 +44,8 @@ import { SalaServiceProvider } from '../providers/sala-service/sala-service';
     LoginPage,
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
-    ReservaSearchPage
+    ReservaSearchPage,
+    ReservaCreate2Page
   ],
   imports: [
     BrowserModule,
@@ -64,7 +65,8 @@ import { SalaServiceProvider } from '../providers/sala-service/sala-service';
     LoginPage,
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
-    ReservaSearchPage
+    ReservaSearchPage,
+    ReservaCreate2Page
   ],
   providers: [
     StatusBar,

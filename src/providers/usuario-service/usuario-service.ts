@@ -1,17 +1,56 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConexaoProvider } from '../conexao/conexao';
+import { Usuario } from '../../model/Usuario';
 
-/*
-  Generated class for the UsuarioServiceProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+
 @Injectable()
-export class UsuarioServiceProvider {
+export class UsuarioServiceProvider extends ConexaoProvider{
+
+
+  usuarios:Array<Usuario>;
 
   constructor(public http: HttpClient) {
-    console.log('Hello UsuarioServiceProvider Provider');
+    super();
+    this.usuarios = new Array<Usuario>();
+  }
+
+  //retorna todos usuários Docentes da base de dados
+  carregarTodosDocentesPorDepartamento(id_deprtamento: number){
+  //zera a lista sempre que fazer a busca para evitar valores duplicados
+  this.usuarios = new Array<Usuario>();
+        return new Promise((resolve, reject) => {
+          this.http.get(this.baseUri+'usuario/todosPorDepartamento/'+this.hash+'&id_departamento='+btoa(id_deprtamento+""))
+          .subscribe((result:any) => {
+            if(result.retorno == "false"){
+              resolve(new Usuario());
+            }
+            else{
+              if(result.dados.length>0){
+                let tamanho = result.dados.length;
+                for(var i = 0;i<tamanho;i++){
+                  this.usuarios.push(new Usuario(
+                                    result.dados[i].id,
+                                    result.dados[i].id_departamento,
+                                    result.dados[i].nome,
+                                    result.dados[i].email,
+                                    result.dados[i].telefone,
+                                    result.dados[i].privilegio
+                                    ));
+                                  }
+              }
+
+
+                    resolve(this.usuarios);
+              }
+            },
+            (error) => {
+              console.log("retornarTodosDocente error");
+              reject(error);
+
+            });
+        });
   }
 
 }
