@@ -167,6 +167,7 @@ export class ReservaCreatePage {
       message: 'Reserva cancelada',
       duration: 3000
     });
+    
     toast.present();
         this.navCtrl.pop();
 
@@ -183,6 +184,7 @@ export class ReservaCreatePage {
       }
     ]
   });
+  alertError.setMode("ios");
   alertError.present();
   }
 

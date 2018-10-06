@@ -11,6 +11,9 @@
   <ion-card>
       <ion-list>
         <ion-item>
+          <button ion-button (click)="openCalendar()" color="primary">Calendario</button>
+        </ion-item>
+        <ion-item>
           <ion-icon item-start name="book"></ion-icon>
           <ion-label>Disciplina</ion-label>
           <ion-select  okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)">

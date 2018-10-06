@@ -237,7 +237,7 @@ export class ReservaCreate2Page {
   reservaCreate(){
 
     if(this.validarReserva()){
-      
+
         this.reserva.id_departamento = this.departamentoDIN;
         this.reserva.id_sala = this.salaSelecionada.id;
 
@@ -308,6 +308,7 @@ export class ReservaCreate2Page {
       ]
     });
 
+    alert.setMode("ios");
     alert.present();
   }
 
@@ -367,6 +368,8 @@ export class ReservaCreate2Page {
       }
     ]
   });
+
+  alertError.setMode("ios");
   alertError.present();
   }
 

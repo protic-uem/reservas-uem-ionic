@@ -20,7 +20,9 @@
       <ion-item [ngClass]="classe">
         <ion-icon item-start name="pricetag" class="icones"></ion-icon>
         <ion-label>Tipo de uso</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
+        <ion-select [selectOptions] ="{
+          subTitle: 'Selecione um tipo de uso',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
           formControlName="uso" (ionChange)="changeUso($event)" >
           <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
           <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
@@ -35,7 +37,9 @@
       <ion-item [ngClass]="classe">
         <ion-icon item-start name="book" class="icones"></ion-icon>
         <ion-label>Disciplina</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
+        <ion-select  [selectOptions] ="{
+          subTitle: 'Selecione uma disciplina',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
           [disabled]="disciplinaDisabled">
           <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
         </ion-select>
@@ -44,7 +48,9 @@
       <ion-item [ngClass]="classe">
         <ion-icon item-start name="key" class="icones"></ion-icon>
         <ion-label>Sala</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "salaSelecionada">
+        <ion-select [selectOptions] ="{
+          subTitle: 'Selecione uma sala',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "salaSelecionada">
           <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
@@ -52,7 +58,9 @@
       <ion-item *ngIf="login.privilegio == 'Secretário'" [ngClass]="classe">
         <ion-icon item-start name="list-box" class="icones"></ion-icon>
         <ion-label>Tipo de reserva</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
+        <ion-select  [selectOptions] ="{
+          subTitle: 'Selecione um tipo de reserva',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
           formControlName="tipoReserva">
           <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
           <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>

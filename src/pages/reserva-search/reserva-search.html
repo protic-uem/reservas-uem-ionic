@@ -8,16 +8,27 @@
 </ion-header>
 <ion-content no-bounce>
   <ion-card>
-      <ion-row>
+    <ion-list>
+      <ion-item class="item-list-key">
+        <ion-icon item-start name="key" class="sala"></ion-icon>
+        <ion-label>Sala</ion-label>
+        <ion-select [selectOptions] ="{
+          subTitle: 'Selecione uma sala',
+           mode: 'ios'}" okText="Selecionar" [(ngModel)] = "salaSelecionada" (ionChange)="changeSala($event)">
+          <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-row class="item-list-key">
         <ion-col col-2>
           <ion-item (click)="anteriorDia()">
             <ion-icon name="md-arrow-back" item-left></ion-icon>
           </ion-item>
         </ion-col>
         <ion-col justify-content-center col-8>
-        <ion-item>
+        <ion-item (click)="openCalendar()">
           <ion-icon item-start name="calendar"></ion-icon>
-          <ion-datetime
+          <ion-label>{{showDate}}</ion-label>
+          <!--<ion-datetime
             [(ngModel)]="dataSelecionada"
             (ngModelChange)="changeData(dataSelecionada)"
             displayFormat="DD/MM/YYYY"
@@ -26,7 +37,7 @@
             doneText="Selecionar"
             cancelText="Cancelar"
             placeholder="Data">
-          </ion-datetime>
+          </ion-datetime> -->
         </ion-item>
         </ion-col>
         <ion-col col-2>
@@ -36,6 +47,7 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      </ion-list>
   </ion-card>
   <ion-grid >
     <ion-row class="periodo" style="background-color: #ADD8E6;">

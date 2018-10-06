@@ -33,6 +33,9 @@ import { DisciplinaServiceProvider } from '../providers/disciplina-service/disci
 import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
 import { SalaServiceProvider } from '../providers/sala-service/sala-service';
 
+import { CalendarModule } from "ion2-calendar";
+
+
 
 @NgModule({
   declarations: [
@@ -50,10 +53,16 @@ import { SalaServiceProvider } from '../providers/sala-service/sala-service';
   imports: [
     BrowserModule,
     AutoCompleteModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      iconMode: 'ios',
+      pageTransition: 'ios-transition',
+      toastEnter: 'toast-slide-in',
+      toastLeave: 'toast-slide-out'
+    }),
     IonicStorageModule.forRoot(),
     HttpClientModule,
-    ComponentsModule
+    ComponentsModule,
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

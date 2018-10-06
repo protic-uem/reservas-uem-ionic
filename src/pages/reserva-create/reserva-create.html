@@ -24,7 +24,9 @@
       <ion-item *ngIf="login.privilegio == 'Secretário'">
         <ion-icon item-start name="person" class="icones"></ion-icon>
         <ion-label>Solicitante</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" formControlName="usuario" [(ngModel)] = "usuarioSelecionado">
+        <ion-select  [selectOptions] ="{
+          subTitle: 'Selecione um solicitante',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="usuario" [(ngModel)] = "usuarioSelecionado">
           <ion-option *ngFor="let usuario of usuarios" [value]="usuario">{{usuario.nome}}</ion-option>
         </ion-select>
       </ion-item>
@@ -50,7 +52,9 @@
       <ion-item>
         <ion-icon item-start name="clock" class="icones"></ion-icon>
         <ion-label>Período</ion-label>
-        <ion-select  okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
+        <ion-select [selectOptions] ="{
+          subTitle: 'Selecione um periodo',
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
           formControlName="periodo" width="40%">
           <ion-option value="1">7:45-9:25</ion-option>
           <ion-option value="2">9:40-12:00</ion-option>

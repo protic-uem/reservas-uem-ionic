@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController} from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
 import { parse, format,addDays, subDays } from 'date-fns';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { ReservaView } from '../../model/ReservaView';
@@ -7,6 +7,10 @@ import { Storage } from '@ionic/storage';
 import { Periodo } from '../../model/Periodo';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 import { Login } from '../../model/Login';
+import { Sala } from '../../model/Sala';
+import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
+import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
+
 
 
 @IonicPage()
@@ -16,7 +20,14 @@ import { Login } from '../../model/Login';
 })
 export class ReservaSearchPage {
 
+@ViewChild('sectionSelect') sectionSelect: Select;
+
   dataSelecionada:string;
+  showDate:string;
+  salaSelecionada:Sala;
+  salas:Array<Sala>;
+
+
   reservas:Array<ReservaView>;
   reservaPeriodo01:ReservaView;
   reservaPeriodo02:ReservaView;
@@ -29,23 +40,95 @@ export class ReservaSearchPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
-    private loadingCtrl:LoadingController, private alertCtrl:AlertController) {
+    private loadingCtrl:LoadingController, private alertCtrl:AlertController,
+    private salaService:SalaServiceProvider, private modalCtrl:ModalController) {
 
     this.reservas = new Array<ReservaView>();
+    this.salas = new Array<Sala>();
+    this.salaSelecionada = new Sala();
+
+    this.reservaPeriodo01 = new ReservaView();
+    this.reservaPeriodo02 = new ReservaView();
+    this.reservaPeriodo03 = new ReservaView();
+    this.reservaPeriodo04 = new ReservaView();
+    this.reservaPeriodo05 = new ReservaView();
+    this.reservaPeriodo06 = new ReservaView();
 
     this.login = this.navParams.get('login');
 
-    this.dataSelecionada = new Date().toISOString();
-    this.carregarReservasPorData(format(new Date(), 'YYYY-MM-DD'), 1);
+    this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
+    this.showDate = format(new Date(), 'DD/MM/YYYY');
+    this.carregarSalasPorDepartamento(this.departamentoDIN);
+
+    if(this.salaSelecionada.id == undefined)
+      this.apresentarErro("Por favor, selecione uma sala");
+
   }
 
-  //quando o usuaŕio muda de data
-  changeData(valor){
-    if(valor != undefined)
-     this.carregarReservasPorData(format(valor, 'YYYY-MM-DD'), this.departamentoDIN);
+  openCalendar() {
+
+    const options: CalendarModalOptions = {
+      title: 'Data da reserva',
+      defaultDate: new Date(),
+      closeLabel: "CANCELAR",
+      doneLabel: "SELECIONAR",
+      monthFormat: "MMM YYYY",
+      weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      disableWeeks: [0, 6]
+
+    };
+    let myCalendar =  this.modalCtrl.create(CalendarModal, {
+      options: options
+    });
+
+    myCalendar.present();
+
+    myCalendar.onDidDismiss((date: CalendarResult, type: string) => {
+      if(date != null && date != undefined){
+        this.dataSelecionada = date.string;
+        this.showDate = format(date.string, 'DD/MM/YYYY');
+        this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
+      }
+    })
   }
 
-  carregarReservasPorData(data:string, id_departamento:number){
+  changeSala(valor){
+    if(valor != undefined && this.dataSelecionada != undefined)
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, valor.id);
+  }
+
+
+
+    //Carrega todas as salas referente a um determinado departamento
+    carregarSalasPorDepartamento(id_departamento:number){
+
+        let loading = this.loadingCtrl.create({
+          content: 'Carregando salas...'
+        });
+        loading.present();
+        this.salaService.carregarSalaPorDepartamento(id_departamento)
+          .then( (salas:Array<Sala>) => {
+            if(salas.length > 0){
+              this.salas = salas;
+              this.storage.set("salas", salas);
+              loading.dismiss().then(() => {
+              });
+            }else{
+              loading.dismiss();
+              this.apresentarErro("Nenhuma sala foi encontrada");
+            }
+
+            } )
+          .catch( (error) => {
+            loading.dismiss();
+            this.apresentarErro(error.message);
+          });
+
+
+    }
+
+ //carrega todas as reservas de uma determinada data
+  carregarReservasPorDataSala(data:string, id_departamento:number, id_sala:number){
 
     let loading = this.loadingCtrl.create({
       content: 'Carregando reservas...'
@@ -61,7 +144,7 @@ export class ReservaSearchPage {
 
 
     this.reservaService.
-    carregarReservaPorData(data, id_departamento)
+    carregarReservaPorDataSala(data, id_departamento, id_sala)
     .then((reservas:Array<ReservaView>) => {
       if(reservas.length > 0){
         this.reservas = reservas;
@@ -123,13 +206,14 @@ export class ReservaSearchPage {
 
   proximoDia(){
       this.dataSelecionada = format(addDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
-      this.carregarReservasPorData(this.dataSelecionada, this.departamentoDIN);
+      this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
   }
 
   anteriorDia(){
-    console.log("dia anterior");
     this.dataSelecionada = format(subDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
-    this.carregarReservasPorData(this.dataSelecionada, this.departamentoDIN);
+    this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
+    this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
   }
 
   //Caso ocorrar algum erro, apresente o erro ao usuário
@@ -147,6 +231,21 @@ export class ReservaSearchPage {
         ]
       });
       alert.present();
+    }
+
+    //apresenta o alerta sobre o erro
+    apresentarErro(msg:string){
+    const alertError = this.alertCtrl.create({
+      title:'Atenção!',
+      message: msg,
+      buttons: [
+        {
+          text: 'Okay',
+        }
+      ]
+    });
+    alertError.setMode("ios");
+    alertError.present();
     }
 
 }

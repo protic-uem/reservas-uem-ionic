@@ -105,6 +105,49 @@ export class ReservaServiceProvider extends ConexaoProvider{
   }
 
 
+  carregarReservaPorDataSala(data:string, id_dept: number, id_sala:number){
+  //zera a lista sempre que fazer a busca para evitar valores duplicados
+  this.reservas = new Array<ReservaView>();
+
+    return new Promise((resolve, reject) => {
+      this.http.get(this.baseUri+'reserva/buscaPorDepartamentoDataSala/'+this.hash+'&data='
+                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+"")).subscribe((result:any) => {
+        if(result.retorno == "false"){
+          resolve(new ReservaView());
+        }
+        else{
+          if(result.dados.length>0){
+            let tamanho = result.dados.length;
+            for(var i = 0;i<tamanho;i++){
+              this.reservas.push(new ReservaView(
+                                result.dados[i].nome_departamento,
+                                result.dados[i].nome_usuario,
+                                result.dados[i].nome_disciplina,
+                                result.dados[i].codigo_disciplina,
+                                result.dados[i].turma_disciplina,
+                                result.dados[i].numero_sala,
+                                result.dados[i].tipo_sala,
+                                result.dados[i].tipo_uso,
+                                result.dados[i].tipo_reserva,
+                                result.dados[i].data_reserva,
+                                result.dados[i].periodo,
+                                result.dados[i].status
+                                ));
+                              }
+          }
+
+                resolve(this.reservas);
+          }
+        },
+        (error) => {
+          console.log("carregarReservaPorData error");
+          reject(error);
+
+            });
+        });
+  }
+
+
   cadastrarReserva(reserva:Reserva){
 
       return new Promise((resolve, reject) => {

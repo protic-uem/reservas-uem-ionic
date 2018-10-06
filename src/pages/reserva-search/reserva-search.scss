@@ -7,11 +7,20 @@ page-reserva-search {
 
   ion-card{
     border-radius: 8px!important;
-    height: 10%;
+    height: 15%;
   }
 
+  .item-list-key{
+    margin-top: 0px;
+    margin-bottom: -19px;
+  }
+  .item-list-calendar{
+
+  }
+
+
   ion-grid{
-    height: 90%;
+    height: 80%;
     //height: 75vh;
   }
   .periodo{
@@ -29,7 +38,7 @@ page-reserva-search {
 
   }
   .verticalLine {
-    border-right: 2px solid #fff!important;
+    border-right: 2px solid black!important;
   }
 
   .disponivel{
@@ -43,5 +52,13 @@ page-reserva-search {
     align-content: center!important;
     text-align: justify;
   }
+
+  .sala{
+    font-size: 25px;
+  }
+
+  .select-sala{
+      visibility: hidden;
+    }
 
 }

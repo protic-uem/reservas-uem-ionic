@@ -141,6 +141,7 @@ export class ReservaListPage {
             }
           ]
         });
+        alert.setMode("ios");
         alert.present();
       }
 
