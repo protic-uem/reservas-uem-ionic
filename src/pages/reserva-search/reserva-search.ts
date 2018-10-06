@@ -221,7 +221,7 @@ export class ReservaSearchPage {
         message: msg,
         buttons: [
           {
-            text: 'Okay',
+            text: 'Entendi',
             handler: () => {
 
             }
@@ -238,7 +238,7 @@ export class ReservaSearchPage {
       message: msg,
       buttons: [
         {
-          text: 'Okay',
+          text: 'Entendi',
         }
       ]
     });

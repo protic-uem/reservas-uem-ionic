@@ -366,7 +366,7 @@ export class ReservaCreate2Page {
     message: msg,
     buttons: [
       {
-        text: 'Okay',
+        text: 'Entendi',
       }
     ]
   });

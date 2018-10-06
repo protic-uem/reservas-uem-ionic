@@ -134,7 +134,7 @@ export class ReservaListPage {
           message: msg,
           buttons: [
             {
-              text: 'Okay',
+              text: 'Entendi',
               handler: () => {
 
               }
