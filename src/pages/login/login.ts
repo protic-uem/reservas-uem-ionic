@@ -7,6 +7,8 @@ import { LoginServiceProvider } from './../../providers/login-service/login-serv
 
 import { Login } from '../../model/Login';
 import { Validators, FormBuilder } from '@angular/forms';
+import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
+
 
 
 @IonicPage()
@@ -107,6 +109,11 @@ export class LoginPage {
           this.errorEmail = false;
           this.errorSenha = false;
         }
+  }
+
+  //redireciona o usuário para a página de alteração de senha
+  irParaAlterarSenha(){
+    this.navCtrl.push(EsqueceuSenhaPage);
   }
 
 //Caso ocorrar algum erro, apresente o erro ao usuário
