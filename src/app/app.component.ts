@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, Events } from 'ionic-angular';
+import { Nav, Platform, MenuController, Events} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
+import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +19,7 @@ export class MyApp {
 
   //LoginPage
   rootPage: any = LoginPage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{icon: string, title: string, component: any}>;
   login: Login;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
@@ -32,8 +33,10 @@ export class MyApp {
     });
 
     this.pages = [
-      { title: 'Reservas', component: ReservaListPage },
-      { title: 'Ajuda Usuários', component: AjudaUsuarioPage }
+      { icon: 'filing', title: 'Minhas Reservas', component: ReservaMyPage },
+      { icon: 'search', title: 'Consultar Reservas', component: ReservaSearchPage },
+      { icon: 'add', title: 'Solicitar Reserva', component: ReservaCreatePage },
+      { icon: 'help-buoy', title: 'Ajuda Usuários', component: AjudaUsuarioPage }
 
     ];
 
@@ -54,7 +57,10 @@ export class MyApp {
   }
 
   openPage(page) {
-    this.nav.setRoot(page.component);
+
+      this.nav.setRoot(page.component,
+      {login: this.login});
+
   }
 
   logout() {

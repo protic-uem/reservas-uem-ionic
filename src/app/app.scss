@@ -4,3 +4,24 @@
 .msg_bemvindo{
   white-space: normal!important;
 }
+
+
+
+ion-toolbar{
+  height: 100%;
+  width: 100%;
+}
+
+.avatar{
+  position: relative;
+  width: 50%;
+  transform: translateX(50%);
+}
+
+.menuHeader{
+  height: 30%;
+}
+
+.menuConteudo{
+  position: relative;
+}

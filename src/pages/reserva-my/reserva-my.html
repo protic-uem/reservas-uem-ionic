@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-navbar color="primary">
+  <ion-toolbar color="primary" hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -9,10 +9,10 @@
         <ion-icon class="refresh" name="md-refresh" ></ion-icon>
       </button>
   </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content >
   <ion-card class="areaBusca">
       <ion-list>
         <ion-item>
@@ -37,9 +37,9 @@
                 Nenhuma reserva encontrada.
     </span>
     <ion-list>
-      <ion-item-sliding *ngFor="let reserva of reservas">
-        <ion-item>
-          <ioncard-reserva-my [reserva]="reserva" ></ioncard-reserva-my>
+      <ion-item-sliding *ngFor="let reserva of reservas" >
+        <ion-item >
+          <ioncard-reserva-my [reserva]="reserva"></ioncard-reserva-my>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

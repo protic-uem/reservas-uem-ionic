@@ -5,7 +5,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { parse, format, isSunday, isSaturday, addWeeks, addMonths } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { ReservaCreate2Page } from '../reserva-create2/reserva-create2';
-
+import { ReservaMyPage } from '../reserva-my/reserva-my';
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
 import { Departamento } from '../../model/Departamento';
@@ -208,7 +208,10 @@ export class ReservaCreatePage {
     });
 
     toast.present();
-        this.navCtrl.pop();
+    this.navCtrl.push(ReservaMyPage, {
+      login: this.login,
+    }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
+      
 
   }
 

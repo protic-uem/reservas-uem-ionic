@@ -1,25 +1,28 @@
 <ion-menu [content]="content" menuPrincipal >
-  <ion-header>
+  <ion-header class="menuHeader">
     <ion-toolbar color="primary">
-      <ion-item color="primary" no-lines>
-        <ion-avatar item-start>
-          <img src="assets/imgs/icon.png">
-        </ion-avatar>
-        <h1>Reserva de Sala</h1>
-        Seja Bem Vindo!<br />
-        <span class="msg_bemvindo" *ngIf="login != null && login.id != undefined">{{login.nome}}</span>
-      </ion-item>
+      <ion-row color="primary" no-lines>
+          <ion-avatar item-start class="avatar">
+            <img src="assets/imgs/icon.png">
+          </ion-avatar>
+      </ion-row>
+      <ion-row>
+        <span class="msg_bemvindo" *ngIf="login != null && login.id != undefined">
+          Seja Bem vindo, {{login.nome}}
+        </span>
+      </ion-row>
     </ion-toolbar>
   </ion-header>
-  <ion-content>
-    <ion-list>
+  <ion-content class="menuConteudo">
+    <ion-list no-lines>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon [name]="p.icon" item-left></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
     <ion-footer no-shadow>
     	<ion-toolbar position="bottom">
-    		<button ion-button full round menuClose  (click)="logout()">
+    		<button ion-button full round menuClose  (click)="logout()" color="danger">
           <ion-icon name="exit" style="margin-right: 4px;"></ion-icon>
             Sair
           </button>
