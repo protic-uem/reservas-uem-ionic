@@ -60,7 +60,7 @@ export class ReservaMyPage {
     });
 
     loading.present();
-    this.reservaService.carregarReservaPorUsuario(this.login.id)
+    this.reservaService.carregarMinhasReservas(this.login.id)
       .then( (reservas:Array<ReservaView>) => {
         if(reservas.length > 0){
           this.storage.set("reservas", reservas);

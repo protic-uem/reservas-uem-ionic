@@ -77,7 +77,7 @@ export class ReservaSearchPage {
       this.reserva.id_sala = this.salaSelecionada.id;
       this.reserva.periodo = periodo;
       this.reserva.data_reserva = this.dataSelecionada;
-      
+
       if(this.login.privilegio == "Docente")
         this.reserva.id_usuario = this.login.id;
 
@@ -171,7 +171,7 @@ export class ReservaSearchPage {
 
 
     this.reservaService.
-    carregarReservaPorDataSala(data, id_departamento, id_sala)
+    carregarReservasTelaSearch(data, id_departamento, id_sala)
     .then((reservas:Array<ReservaView>) => {
       if(reservas.length > 0){
         this.reservas = reservas;
