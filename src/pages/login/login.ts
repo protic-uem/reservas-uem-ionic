@@ -15,6 +15,9 @@ import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
+  host: {
+    '(document:keydown)': 'handleKeyboardEvents($event)'
+  }
 })
 export class LoginPage {
 
@@ -45,6 +48,12 @@ export class LoginPage {
           	])]
           });
 
+  }
+
+  handleKeyboardEvents(event: KeyboardEvent){
+    var key = event.which || event.keyCode;
+    if(key == 13)
+      this.login();
   }
 
   ionViewCanEnter(){

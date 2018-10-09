@@ -1,5 +1,10 @@
 page-login {
 
+
+  /*scroll-content {
+    padding-bottom:0!important;
+  }*/
+
     ion-content{
             width: 100%;
             height: 100%;
@@ -24,8 +29,7 @@ page-login {
 
 
     .redimensionar {
-        padding-top: 30%;
-        padding-bottom: 20%;
+        margin-top: 20%;
         width: 50%;
         transform: translateX(50%);
     }

@@ -3,13 +3,13 @@
     <div class="formulario" >
       <form [formGroup]="loginForm"  novalidate>
         <ion-list>
-          <ion-card class="cardPadding">
-            <ion-item>
+          <ion-card class="cardPadding" >
+            <ion-item style="position: initial!important;">
               <ion-icon item-start name="mail"></ion-icon>
               <ion-input type="text" placeholder="Digite seu e-mail" formControlName="email" [(ngModel)]="email"></ion-input>
             </ion-item>
               <h6  *ngIf="errorEmail" class="error">{{messageEmail}}</h6>
-            <ion-item>
+            <ion-item style="position: initial!important;">
               <ion-icon item-start name="lock"></ion-icon>
               <ion-input type="password" placeholder="Senha" formControlName="senha" [(ngModel)]="senha"></ion-input>
             </ion-item>
