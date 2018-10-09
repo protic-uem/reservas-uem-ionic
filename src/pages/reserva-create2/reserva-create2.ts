@@ -286,11 +286,10 @@ export class ReservaCreate2Page {
       title:'Tem certeza?',
       message:
                 '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
-                '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo)+'<br/>'+
-                '<b>Data reservada:</b> '+this.reserva.data_reserva+'<br/>'+
+                '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
+                '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
                 '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
-                '<b>Tipo de uso:</b> '+this.reserva.tipo_uso+'<br/>'+
-                '<b>Tipo:</b> '+this.reserva.tipo_reserva,
+                '<b>Tipo de uso:</b> '+this.reserva.tipo_uso,
 
       buttons: [
         {

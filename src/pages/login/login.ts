@@ -62,7 +62,7 @@ export class LoginPage {
       });
 
       loading.present();
-      this.loginService.confirmLogin(this.email.toLowerCase(), this.senha)
+      this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
         .then( (login:Login) => {
           if(login.id !== undefined){
             this.ev.publish("userloggedin", login);

@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-navbar color="primary">
+  <ion-navbar color="secondary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -23,9 +23,9 @@
       </ion-list>
   </ion-card>
   <hr />
-  <ion-row justify-content-center>
-    <span *ngIf="disciplinaSelecionada == undefined"> Por favor, preencha os campos de pesquisa</span>
-    <span *ngIf="reservasNaoEncontrada">
+  <ion-row  justify-content-center style="height:100%!important;" *ngIf="(disciplinaSelecionada == undefined) || reservasNaoEncontrada">
+    <span *ngIf="disciplinaSelecionada == undefined" class="centralizarVerticalmente"> Por favor, preencha os campos de pesquisa</span>
+    <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
                 Nenhuma reserva encontrada com esses parâmetros.
     </span>
   </ion-row>

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary" hideBackButton="true">
+  <ion-toolbar color="secondary" hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -29,7 +29,7 @@
         <ion-label>Solicitante</ion-label>
         <ion-select  [selectOptions] ="{
           subTitle: 'Selecione um solicitante',
-           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="usuario" [(ngModel)] = "usuarioSelecionado">
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="usuarioReserva" [(ngModel)] = "usuarioSelecionado">
           <ion-option *ngFor="let usuario of usuarios" [value]="usuario">{{usuario.nome}}</ion-option>
         </ion-select>
       </ion-item>

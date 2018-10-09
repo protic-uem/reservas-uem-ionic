@@ -19,6 +19,14 @@ page-reserva-visitante-list {
     right: 0;
   }
 
+  .centralizarVerticalmente{
+     display: flex!important;
+     align-content: center!important;
+     align-items: center!important;
+
+  }
+
+
   .resultReservas{
     width:100%;
     height: 85%;

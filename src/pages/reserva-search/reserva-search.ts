@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
-import { parse, format,addDays, subDays } from 'date-fns';
+import { parse, format,addDays, subDays, isBefore, isAfter, addWeeks, addMonths } from 'date-fns';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { ReservaView } from '../../model/ReservaView';
 import { Storage } from '@ionic/storage';
@@ -40,6 +40,7 @@ export class ReservaSearchPage {
   reservaPeriodo06:ReservaView;
   departamentoDIN:number = 1;
   login:Login;
+  dataDocente: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
@@ -60,6 +61,20 @@ export class ReservaSearchPage {
 
     this.login = this.navParams.get('login');
 
+    if(this.login.nome == undefined)
+      this.loadResources();//pegar o usuário logado e depois carregar as reservas
+
+      //Caso seja docente, só podera realizar reservas de 3 semanas a referente
+      //Caso seja secretário, poderá 1 mês a frente
+      if(this.login.nome != undefined){
+        if(this.login.privilegio == 'Docente')
+          this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
+        else
+          this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
+    }
+
+
+
     this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
     this.showDate = format(new Date(), 'DD/MM/YYYY');
     this.carregarSalasPorDepartamento(this.departamentoDIN);
@@ -67,6 +82,17 @@ export class ReservaSearchPage {
     if(this.salaSelecionada.id == undefined)
       this.apresentarErro("Por favor, selecione uma sala");
 
+  }
+
+  async loadResources() {
+    await this.storage.get("login")
+      .then((login) => {
+        if (login) {
+          this.login = login;
+        } else {
+          this.login = new Login();
+        }
+      });
   }
 
 
@@ -97,7 +123,9 @@ export class ReservaSearchPage {
   //Abre o modal com o calendário
   openCalendar() {
     const options: CalendarModalOptions = {
-      title: 'Data da reserva',
+      from: new Date(),
+      to: parse(this.dataDocente),
+      title: '',
       defaultDate: new Date(),
       closeLabel: "CANCELAR",
       doneLabel: "SELECIONAR",
@@ -232,13 +260,18 @@ export class ReservaSearchPage {
 
 
   proximoDia(){
+    if(!isAfter(this.dataSelecionada, this.dataDocente))
       this.dataSelecionada = format(addDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
+      
       this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
       this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
   }
 
   anteriorDia(){
-    this.dataSelecionada = format(subDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
+
+    if(!isBefore(this.dataSelecionada, new Date()))
+      this.dataSelecionada = format(subDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
+
     this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
     this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
   }

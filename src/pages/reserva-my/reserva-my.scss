@@ -22,4 +22,11 @@ page-reserva-my {
       overflow-y: scroll;;
     }
 
+    .centralizarVerticalmente{
+       display: flex!important;
+       align-content: center!important;
+       align-items: center!important;
+
+    }
+
 }

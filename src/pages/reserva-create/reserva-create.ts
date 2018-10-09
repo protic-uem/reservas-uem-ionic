@@ -65,11 +65,7 @@ export class ReservaCreatePage {
       this.hoje = format(new Date(), 'YYYY-MM-DD');
 
 
-      //Criar o formulário de validação
-      this.reservaForm = formBuilder.group({
-        periodo:['',Validators.required],
-        usuario:['',Validators.nullValidator]
-      });
+
 
       this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
       this.showDate = format(new Date(), 'DD/MM/YYYY');
@@ -82,14 +78,28 @@ export class ReservaCreatePage {
         //Caso seja docente, só podera realizar reservas de 3 semanas a referente
         //Caso seja secretário, poderá 1 mês a frente
         if(this.login.nome != undefined){
-          if(this.login.privilegio == 'Docente')
+          if(this.login.privilegio == 'Docente'){
             this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
+
+            this.reservaForm = formBuilder.group({
+              periodo:['',Validators.required]
+            });
+
+          }
           else {
+
+            this.reservaForm = formBuilder.group({
+              periodo:['',Validators.required],
+              usuarioReserva:['', Validators.compose([
+                Validators.required,
+                Validators.nullValidator
+              ])]
+            });
+
             this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
             this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
           }
       }
-
   }
 
   async loadResources() {
@@ -130,7 +140,7 @@ export class ReservaCreatePage {
     const options: CalendarModalOptions = {
       from: new Date(),
       to: parse(this.dataDocente),
-      title: 'Data da reserva',
+      title: '',
       defaultDate: new Date(),
       closeLabel: "CANCELAR",
       doneLabel: "SELECIONAR",
@@ -211,7 +221,7 @@ export class ReservaCreatePage {
     this.navCtrl.push(ReservaMyPage, {
       login: this.login,
     }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
-      
+
 
   }
 

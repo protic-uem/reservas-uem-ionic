@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-toolbar color="primary" hideBackButton="true">
+  <ion-toolbar color="secondary" hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -32,10 +32,13 @@
       </ion-list>
   </ion-card>
   <hr />
-  <ion-scroll #listaReservas  class="resultReservas" scrollY="true">
-    <span *ngIf="reservasNaoEncontrada">
+  <ion-row  justify-content-center style="height:100%!important;" *ngIf="reservasNaoEncontrada">
+    <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
                 Nenhuma reserva encontrada.
     </span>
+  </ion-row>
+
+  <ion-scroll #listaReservas  class="resultReservas" scrollY="true">
     <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas" >
         <ion-item >
