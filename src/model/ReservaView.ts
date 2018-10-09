@@ -1,10 +1,11 @@
 import { Periodo } from './Periodo';
 
 export class ReservaView {
-
+  id: number;
   //dados departamento
   nome_departamento: string;
   //dados usuário
+  id_usuario: number;
   nome_usuario: string;
   //dados disciplina
   nome_disciplina: string;
@@ -20,12 +21,14 @@ export class ReservaView {
   periodo: string;
   status: number;
 
-  constructor(nome_departamento?:string, nome_usuario?:string, nome_disciplina?:string,
+  constructor(id?:number, nome_departamento?:string,id_usuario?:number, nome_usuario?:string, nome_disciplina?:string,
     codigo_disciplina?:number, turma_disciplina?:number,
     numero_sala?:number, tipo_sala?:string,
     tipo_uso?: string, tipo_reserva?: string,
     data_reserva?: string, periodo?: number, status?: number) {
+        this.id = id;
         this.nome_departamento = nome_departamento;
+        this.id_usuario = id_usuario;
         this.nome_usuario = nome_usuario;
         this.nome_disciplina = nome_disciplina;
         this.codigo_disciplina = codigo_disciplina;

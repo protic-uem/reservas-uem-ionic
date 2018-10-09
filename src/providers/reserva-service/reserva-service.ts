@@ -33,7 +33,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
           let tamanho = result.dados.length;
           for(var i = 0;i<tamanho;i++){
             this.reservas.push(new ReservaView(
+                              result.dados[i].id,
                               result.dados[i].nome_departamento,
+                              result.dados[i].id_usuario,
                               result.dados[i].nome_usuario,
                               result.dados[i].nome_disciplina,
                               result.dados[i].codigo_disciplina,
@@ -78,7 +80,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
           let tamanho = result.dados.length;
           for(var i = 0;i<tamanho;i++){
             this.reservas.push(new ReservaView(
+                              result.dados[i].id,
                               result.dados[i].nome_departamento,
+                              result.dados[i].id_usuario,
                               result.dados[i].nome_usuario,
                               result.dados[i].nome_disciplina,
                               result.dados[i].codigo_disciplina,
@@ -124,7 +128,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
               this.reservas.push(new ReservaView(
+                                result.dados[i].id,
                                 result.dados[i].nome_departamento,
+                                result.dados[i].id_usuario,
                                 result.dados[i].nome_usuario,
                                 result.dados[i].nome_disciplina,
                                 result.dados[i].codigo_disciplina,
@@ -167,7 +173,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
               this.reservas.push(new ReservaView(
+                                result.dados[i].id,
                                 result.dados[i].nome_departamento,
+                                result.dados[i].id_usuario,
                                 result.dados[i].nome_usuario,
                                 result.dados[i].nome_disciplina,
                                 result.dados[i].codigo_disciplina,
@@ -211,7 +219,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
               this.reservas.push(new ReservaView(
+                                result.dados[i].id,
                                 result.dados[i].nome_departamento,
+                                result.dados[i].id_usuario,
                                 result.dados[i].nome_usuario,
                                 result.dados[i].nome_disciplina,
                                 result.dados[i].codigo_disciplina,
@@ -274,6 +284,26 @@ export class ReservaServiceProvider extends ConexaoProvider{
       });
   }
 
+
+  cancelarReserva(reserva:ReservaView){
+
+      return new Promise((resolve, reject) => {
+        var item = {
+          id: reserva.id
+        };
+        let headers = new HttpHeaders({'Content-Type':'application/json'});
+        this.http.put(this.baseUri+'reserva/cancelarReserva/'+this.hash, JSON.stringify(item),
+        { headers: headers})
+          .subscribe((result:any) => {
+            resolve(result);
+          },
+          (error) => {
+            console.log("cancelarReserva error");
+            reject(error);
+
+          });
+      });
+  }
 
   //atualiza uma determianda reserva
   atualizarReserva(encapsula){

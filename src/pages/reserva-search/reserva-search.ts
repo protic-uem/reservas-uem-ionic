@@ -84,6 +84,12 @@ export class ReservaSearchPage {
 
   }
 
+  ionViewDidEnter(){
+    if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN ,this.salaSelecionada.id);
+  }
+
+
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
@@ -114,7 +120,7 @@ export class ReservaSearchPage {
       });
 
     }else{
-      this.apresentarErro("Por favor, preenche todos os campos");
+      this.apresentarErro("Por favor, selecione uma sala");
     }
 
   }
@@ -262,7 +268,7 @@ export class ReservaSearchPage {
   proximoDia(){
     if(!isAfter(this.dataSelecionada, this.dataDocente))
       this.dataSelecionada = format(addDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
-      
+
       this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
       this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
   }

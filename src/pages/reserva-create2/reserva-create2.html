@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Efetuar Reservas</ion-title>
+    <ion-title>Salas:DIN Efetuar Reservas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -43,7 +43,7 @@
         <ion-select  [selectOptions] ="{
           subTitle: 'Selecione uma disciplina',
            mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
-          [disabled]="disciplinaDisabled">
+          [disabled]=" (disciplinas == undefined || disciplinas.length == 0)">
           <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
         </ion-select>
       </ion-item>

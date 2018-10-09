@@ -79,16 +79,17 @@ export class ReservaMyPage {
   }
 
   statusMudado(event){
+
     if(event == -1){
       this.reservas = this.reservasCarregadas;
     }
     else{
       this.reservas = this.reservasCarregadas.filter(item => item.status == event);
-      if(this.reservas.length > 0)
-          this.reservasNaoEncontrada = false;
-      else
-          this.reservasNaoEncontrada = true;
     }
+    if(this.reservas.length > 0)
+        this.reservasNaoEncontrada = false;
+    else
+        this.reservasNaoEncontrada = true;
   }
 
 }

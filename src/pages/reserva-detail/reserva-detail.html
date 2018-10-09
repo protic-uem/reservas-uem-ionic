@@ -1,10 +1,8 @@
 <ion-header>
   <ion-navbar color="secondary">
-    <ion-title>Detalhes da Reserva</ion-title>
+    <ion-title>Salas:DIN Detalhes da Reserva</ion-title>
   </ion-navbar>
 </ion-header>
-
-
 <ion-content>
   <ion-card>
     <ion-card-content>
@@ -79,6 +77,11 @@
                   Horário reservado:
               </span>
                   {{reserva.periodo}}
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="reserva.id_usuario == login.id">
+            <ion-col>
+              <button ion-button color="danger" (click)="cancelarReserva(reserva)">CANCELAR</button>
             </ion-col>
           </ion-row>
         </ion-grid>

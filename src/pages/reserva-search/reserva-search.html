@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Consultar Reserva</ion-title>
+    <ion-title>Salas:DIN Consultar Reservas</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content no-bounce>
@@ -46,7 +46,8 @@
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo01.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.codigo_disciplina}}-{{reservaPeriodo01.turma_disciplina}}-{{reservaPeriodo01.nome_disciplina}}<br />
-        {{reservaPeriodo01.nome_usuario}}</span>
+        {{reservaPeriodo01.nome_usuario}}
+      </span>
         <span class="reserva" *ngIf="reservaPeriodo01.codigo_disciplina == undefined && reservaPeriodo01.periodo != undefined"
           (click)="openReserva(reservaPeriodo01)">
             {{reservaPeriodo01.tipo_uso}}-{{reservaPeriodo01.numero_sala}}<br />

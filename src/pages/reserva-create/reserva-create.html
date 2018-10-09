@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Efetuar Reservas</ion-title>
+    <ion-title>Salas:DIN Efetuar Reservas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -57,6 +57,7 @@
         <ion-icon item-start name="clock" class="icones"></ion-icon>
         <ion-label>Período</ion-label>
         <ion-select [selectOptions] ="{
+          title: ' ',
           subTitle: 'Selecione um periodo',
            mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
           formControlName="periodo" width="40%">

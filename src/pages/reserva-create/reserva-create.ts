@@ -195,12 +195,18 @@ export class ReservaCreatePage {
   //validar se todos os campos foram preenchidos
   validarReserva(){
     let{ periodo} = this.reservaForm.controls;
-    if(!this.reservaForm.valid || this.dataSelecionada == undefined){
-        this.apresentarErro('Por favor, preencha todos os campos para continuar');
-      return false;
-    }else{
-      return true;
-    }
+    if(this.login.privilegio == "Docente")
+      if(!this.reservaForm.valid || this.dataSelecionada == undefined){
+          this.apresentarErro('Por favor, preencha todos os campos para continuar');
+        return false;
+      }else
+        return true;
+    else
+      if(!this.reservaForm.valid || this.dataSelecionada == undefined || this.usuarioSelecionado.id == undefined){
+          this.apresentarErro('Por favor, preencha todos os campos para continuar');
+        return false;
+      }else
+        return true;
 
   }
 
