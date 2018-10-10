@@ -238,18 +238,11 @@ reserva:Reserva;
 
         this.reserva.id_departamento = this.departamentoDIN;
 
-          console.log("reserva_departamento:"+this.reserva.id_departamento);
-
         if(this.reserva.tipo_uso == "Teórica" || this.reserva.tipo_uso == "Prática")
           this.reserva.id_disciplina = this.disciplinaSelecionada.id;
 
-            console.log("reserva_tipo_uso:"+this.reserva.tipo_uso);
-            console.log("reserva_disciplina:"+this.reserva.id_disciplina);
-
         if(this.usuarioSelecionado.id != undefined)
           this.reserva.id_usuario = this.usuarioSelecionado.id;
-
-        console.log("reserva_id_usuario:"+this.reserva.id_usuario);
 
         this.reserva.data_solicitacao = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
         this.reserva.status = 1;
@@ -257,7 +250,6 @@ reserva:Reserva;
         if(this.login.privilegio == "Docente")
           this.reserva.tipo_reserva = "Eventual";
 
-          console.log("reserva_tipo_reserva:"+this.reserva.tipo_reserva);
         this.reservaConfirm();
       }
 
@@ -330,7 +322,7 @@ reserva:Reserva;
           loading.dismiss().then(() => {
               this.navCtrl.setRoot(ReservaMyPage);
               let toast = this.toastCtrl.create({
-                message: 'Reserva solicitada com sucesso',
+                message: result,
                 duration: 3000
               });
               toast.present();

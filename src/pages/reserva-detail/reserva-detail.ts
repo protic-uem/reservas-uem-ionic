@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController, Events } from 'ionic-angular';
 import {ReservaView} from '../../model/ReservaView';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
@@ -20,7 +20,7 @@ export class ReservaDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private reservaService:ReservaServiceProvider, private loadingCtrl:LoadingController,
-    private toastCtrl:ToastController, private alertCtrl:AlertController) {
+    private toastCtrl:ToastController, private alertCtrl:AlertController, private ev:Events) {
     this.reserva = this.navParams.get('item');
     this.login = new Login();
     this.loadResources();
@@ -82,6 +82,7 @@ export class ReservaDetailPage {
                   });
                   toast.present();
               });
+              this.ev.publish("atualizarMinhasReservas", true);
               this.navCtrl.pop();
             }else{
               loading.dismiss();

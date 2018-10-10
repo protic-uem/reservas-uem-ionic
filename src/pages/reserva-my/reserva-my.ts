@@ -60,6 +60,7 @@ export class ReservaMyPage {
 
 
   atualizarMinhasReservas(){
+    console.log("Atualizando minhas reservas");
     let loading = this.loadingCtrl.create({
       content: 'Carregando reservas...'
     });

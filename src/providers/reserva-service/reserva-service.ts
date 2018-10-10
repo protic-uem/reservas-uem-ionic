@@ -273,7 +273,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
         { headers: headers})
           .subscribe((result:any) => {
 
-            resolve(result);
+            resolve(result.retorno);
 
           },
           (error) => {

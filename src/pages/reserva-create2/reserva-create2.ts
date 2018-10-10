@@ -329,7 +329,7 @@ export class ReservaCreate2Page {
           loading.dismiss().then(() => {
               this.navCtrl.setRoot(ReservaMyPage);
               let toast = this.toastCtrl.create({
-                message: 'Reserva solicitada com sucesso',
+                message: result,
                 duration: 3000
               });
               toast.present();
