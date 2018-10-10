@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events } from 'ionic-angular';
 
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
@@ -22,11 +22,12 @@ export class ReservaMyPage {
    login:Login;
    reservasNaoEncontrada:boolean = false;
 
-  statusSelecionado:string;
+   statusSelecionado:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
-    private menuCtrl:MenuController, private loadingCtrl:LoadingController) {
+    private menuCtrl:MenuController, private loadingCtrl:LoadingController,
+    private ev:Events) {
 
       this.reservas = new Array<ReservaView>();
       this.reservasCarregadas = new Array<ReservaView>();
@@ -38,8 +39,12 @@ export class ReservaMyPage {
           this.atualizarMinhasReservas();
 
         this.menuCtrl.enable(true);
+        this.ev.subscribe("atualizarMinhasReservas", (result:boolean) => {
+            this.atualizarMinhasReservas();
+        });
 
   }
+
 
   async loadResources() {
     await this.storage.get("login")

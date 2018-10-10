@@ -1,10 +1,13 @@
 <ion-header>
   <ion-navbar color="secondary">
-    <ion-title>Salas:DIN Detalhes da Reserva</ion-title>
+    <ion-title>Reservas Sala</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content>
   <ion-card>
+    <ion-card-header>
+      Detalhes da Reserva
+    </ion-card-header>
     <ion-card-content>
         <ion-grid>
           <ion-row>
@@ -20,15 +23,8 @@
               <span class="text-details">
                 Disciplina:
               </span>
-                {{reserva.codigo_disciplina}} - {{reserva.nome_disciplina}}
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col >
-              <span class="text-details">
-                Turma:
-              </span>
-                {{reserva.turma_disciplina}}
+                {{reserva.codigo_disciplina}} - {{reserva.turma_disciplina}} <br />
+                 {{reserva.nome_disciplina}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -79,9 +75,9 @@
                   {{reserva.periodo}}
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="reserva.id_usuario == login.id">
+          <ion-row *ngIf="reserva.id_usuario == login.id && reserva.status == 1">
             <ion-col>
-              <button ion-button color="danger" (click)="cancelarReserva(reserva)">CANCELAR</button>
+              <button ion-button color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
             </ion-col>
           </ion-row>
         </ion-grid>

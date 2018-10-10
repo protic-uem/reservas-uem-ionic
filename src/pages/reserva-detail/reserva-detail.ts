@@ -39,55 +39,78 @@ export class ReservaDetailPage {
       });
   }
 
+  confirmarCancelarReserva(reserva:ReservaView){
+
+    const alertConfirm = this.alertCtrl.create({
+      title:'Atenção!',
+      message: "Tem certeza disso?",
+      buttons: [
+        {
+          text: 'Sim',
+          handler: () => {
+                this.cancelarReserva(reserva);
+          }
+        },
+        {
+          text: 'Não'
+        }
+      ]
+    });
+
+    alertConfirm.setMode("ios");
+    alertConfirm.present();
+  }
+
 
   //cancela uma reserva na base de dados
   cancelarReserva(reserva:ReservaView){
-  console.log("reserva a cancelar:"+reserva.id);
 
-  let loading = this.loadingCtrl.create({
-    content: 'Cancelando reserva...'
-  });
-
-    loading.present();
-
-    this.reservaService.cancelarReserva(reserva)
-      .then((result:any) => {
-        if(result){
-          loading.dismiss().then(() => {
-              let toast = this.toastCtrl.create({
-                message: 'Reserva cancelada com sucesso',
-                duration: 3000
-              });
-              toast.present();
-          });
-          this.navCtrl.pop();
-        }else{
-          loading.dismiss();
-          this.apresentarErro("Houve um problema ao cancelar a reserva");
-        }
-
-        } )
-      .catch((error) => {
-        loading.dismiss();
-        this.apresentarErro(error.message);
+      let loading = this.loadingCtrl.create({
+        content: 'Cancelando reserva...'
       });
+
+
+        loading.present();
+
+        this.reservaService.cancelarReserva(reserva)
+          .then((result:any) => {
+            if(result){
+              loading.dismiss().then(() => {
+                  let toast = this.toastCtrl.create({
+                    message: 'Reserva cancelada com sucesso',
+                    duration: 3000
+                  });
+                  toast.present();
+              });
+              this.navCtrl.pop();
+            }else{
+              loading.dismiss();
+              this.apresentarErro("Houve um problema ao cancelar a reserva");
+            }
+
+            } )
+          .catch((error) => {
+            loading.dismiss();
+            this.apresentarErro(error.message);
+          });
+
   }
 
   //apresenta o alerta sobre o erro
   apresentarErro(msg:string){
-  const alertError = this.alertCtrl.create({
-    title:'Atenção!',
-    message: msg,
-    buttons: [
-      {
-        text: 'Entendi',
-      }
-    ]
-  });
+    const alertError = this.alertCtrl.create({
+      title:'Atenção!',
+      message: msg,
+      buttons: [
+        {
+          text: 'Entendi',
+        }
+      ]
+    });
 
-  alertError.setMode("ios");
-  alertError.present();
-  }
+    alertError.setMode("ios");
+    alertError.present();
+    }
 
 
 }

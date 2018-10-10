@@ -1,6 +1,6 @@
         <ion-card class="border-card"
 
-         (click)="openReserva($event, reserva)" >
+          >
                         <ion-grid>
                           <ion-row>
                             <ion-col col-9 text-left>
@@ -8,7 +8,10 @@
                                     <span>{{reserva.nome_disciplina}}</span>
                             </ion-col>
                             <ion-col col-3 text-right>
-                                    <span class="dept">{{reserva.dept}}</span>
+                                    <!--<span class="dept">{{reserva.dept}}</span> -->
+                                    <button ion-button color="danger" small (click)="confirmarCancelarReserva(reserva)">
+                                         <ion-icon name="close"></ion-icon>
+                                    </button>
                             </ion-col>
                           </ion-row>
                           <ion-row>
@@ -16,10 +19,13 @@
                                    {{reserva.data_reserva}} {{reserva.periodo}}
                             </ion-col>
                             <ion-col col-6 text-right>
-                                    <span *ngIf="reserva.status === 0">PENDENTE</span>
+                                    <button ion-button color="secondary" small (click)="openReserva($event, reserva)">
+                                         Detalhes
+                                    </button>
+                                    <!--<span *ngIf="reserva.status === 0">PENDENTE</span>
                                     <span *ngIf="reserva.status === 1">ACEITO</span>
                                     <span *ngIf="reserva.status === 2">REJEITADO</span>
-                                    <span *ngIf="reserva.status === 3">CANCELADO</span>
+                                    <span *ngIf="reserva.status === 3">CANCELADO</span>-->
                             </ion-col>
                           </ion-row>
                           <ion-row class="linha_status">

@@ -113,6 +113,11 @@ export class ReservaCreatePage {
       });
   }
 
+  ionViewDidEnter(){
+    if(this.reserva != undefined && this.reserva.periodo == undefined )
+      this.apresentarErro("Escolha uma data e periodo");
+  }
+
   avancarCreate(){
       if(this.usuarioSelecionado.id != undefined)
         this.reserva.id_usuario = this.usuarioSelecionado.id;
