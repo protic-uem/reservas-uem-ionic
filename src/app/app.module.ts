@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 import { ReservaDetailPage } from '../pages/reserva-detail/reserva-detail';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
@@ -43,7 +42,6 @@ import { CalendarModule } from "ion2-calendar";
 @NgModule({
   declarations: [
     MyApp,
-    ReservaListPage,
     ReservaCreatePage,
     ReservaDetailPage,
     ReservaMyPage,
@@ -75,7 +73,6 @@ import { CalendarModule } from "ion2-calendar";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ReservaListPage,
     ReservaCreatePage,
     ReservaDetailPage,
     ReservaMyPage,

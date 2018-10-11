@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, LoadingController, ToastController
 import {ReservaView} from '../../model/ReservaView';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
-import { ReservaUsuario } from '../../model/ReservaUsuario';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 
 

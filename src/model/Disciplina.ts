@@ -1,6 +1,3 @@
-import { Departamento } from './Departamento';
-import { Curso } from './Curso';
-
 export class Disciplina {
   id: number;
   id_departamento: number;
@@ -29,5 +26,5 @@ export class Disciplina {
 
   }
 
-  
+
 }

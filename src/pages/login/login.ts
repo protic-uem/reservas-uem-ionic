@@ -40,7 +40,7 @@ export class LoginPage {
           if (value) { this.senha = '' } });
 
           //Criar o formulário de validação
-          this.loginForm = formBuilder.group({
+          this.loginForm = this.formBuilder.group({
             senha:['',Validators.required],
             email:['', Validators.compose([
           		Validators.required,

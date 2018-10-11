@@ -225,9 +225,7 @@ export class CreateSegmentPage {
              if(usuarios.length > 0){
                this.usuarios = usuarios;
                this.storage.set("usuarios", usuarios);
-               loading.dismiss().then(() => {
-                   //this.navCtrl.setRoot(ReservaListPage);
-               });
+               loading.dismiss();
              }else{
                loading.dismiss();
                this.apresentarErro("Nenhum usuario docente foi encontrado");
@@ -390,9 +388,7 @@ export class CreateSegmentPage {
                if(salas.length > 0){
                  this.salas = salas;
                  this.storage.set("salas", salas);
-                 loading.dismiss().then(() => {
-                     //this.navCtrl.setRoot(ReservaListPage);
-                 });
+                 loading.dismiss();
                }else{
                  loading.dismiss();
                  this.apresentarErro("Nenhuma sala foi encontrada");

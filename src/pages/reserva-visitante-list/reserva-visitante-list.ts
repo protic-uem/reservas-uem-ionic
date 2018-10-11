@@ -6,11 +6,8 @@ import { Storage } from '@ionic/storage';
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaView } from '../../model/ReservaView';
 import { Disciplina } from '../../model/Disciplina';
-import { Departamento } from '../../model/Departamento';
-
 //Provedores
 import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
-import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 
 
@@ -52,9 +49,7 @@ export class ReservaVisitanteListPage {
           if(disciplinas.length > 0){
             this.disciplinas = disciplinas;
             this.storage.set("disciplinas", disciplinas);
-            loading.dismiss().then(() => {
-                //this.navCtrl.setRoot(ReservaListPage);
-            });
+            loading.dismiss();
           }else{
             loading.dismiss();
             this.presentConfirm("Nenhuma disciplina foi encontrada");
@@ -110,9 +105,7 @@ export class ReservaVisitanteListPage {
        this.reservas = reservas;
        this.storage.set("reservas", reservas);
        this.reservasNaoEncontrada = false;
-       loading.dismiss().then(() => {
-           //this.navCtrl.setRoot(ReservaListPage);
-       });
+       loading.dismiss();
      }else{
        this.reservas  = new Array<ReservaView>();
        loading.dismiss();

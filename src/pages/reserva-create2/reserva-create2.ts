@@ -249,9 +249,7 @@ export class ReservaCreate2Page {
             if(salas.length > 0){
               this.salas = salas;
               this.storage.set("salas", salas);
-              loading.dismiss().then(() => {
-                  //this.navCtrl.setRoot(ReservaListPage);
-              });
+              loading.dismiss();
             }else{
               loading.dismiss();
               this.apresentarErro("Nenhuma sala foi encontrada");

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Departamento } from '../../model/Departamento';
 
@@ -10,7 +9,7 @@ export class DepartamentoServiceProvider extends ConexaoProvider{
 
   private departamentos:Array<Departamento>;
 
-  constructor(public http: HttpClient, private storage:Storage) {
+  constructor(public http: HttpClient) {
     super();
     this.departamentos = new Array<Departamento>();
   }

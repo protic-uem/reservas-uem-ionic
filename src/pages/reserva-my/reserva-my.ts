@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events } from 'ionic-angular';
 
-import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';

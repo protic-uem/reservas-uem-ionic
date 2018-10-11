@@ -3,7 +3,6 @@ import { Nav, Platform, MenuController, Events} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { ReservaListPage } from '../pages/reserva-list/reserva-list';
 import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';

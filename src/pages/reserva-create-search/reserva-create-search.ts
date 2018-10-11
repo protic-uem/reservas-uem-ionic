@@ -144,9 +144,7 @@ reserva:Reserva;
         if(usuarios.length > 0){
           this.usuarios = usuarios;
           this.storage.set("usuarios", usuarios);
-          loading.dismiss().then(() => {
-              //this.navCtrl.setRoot(ReservaListPage);
-          });
+          loading.dismiss();
         }else{
           loading.dismiss();
           this.apresentarErro("Nenhum usuario docente foi encontrado");
