@@ -30,18 +30,20 @@ export class ReservaVisitanteServiceProvider extends ConexaoProvider{
           let tamanho = result.dados.length;
           for(var i = 0;i<tamanho;i++){
             this.reservas.push(new ReservaView(
-                              result.dados[i].nome_departamento,
-                              result.dados[i].nome_usuario,
-                              result.dados[i].nome_disciplina,
-                              result.dados[i].codigo_disciplina,
-                              result.dados[i].turma_disciplina,
-                              result.dados[i].numero_sala,
-                              result.dados[i].tipo_sala,
-                              result.dados[i].tipo_uso,
-                              result.dados[i].tipo_reserva,
-                              result.dados[i].data_reserva,
-                              result.dados[i].periodo,
-                              result.dados[i].status
+                                result.dados[i].id,
+                                result.dados[i].nome_departamento,
+                                result.dados[i].id_usuario,
+                                result.dados[i].nome_usuario,
+                                result.dados[i].nome_disciplina,
+                                result.dados[i].codigo_disciplina,
+                                result.dados[i].turma_disciplina,
+                                result.dados[i].numero_sala,
+                                result.dados[i].tipo_sala,
+                                result.dados[i].tipo_uso,
+                                result.dados[i].tipo_reserva,
+                                result.dados[i].data_reserva,
+                                result.dados[i].periodo,
+                                result.dados[i].status
                               ));
                             }
         }

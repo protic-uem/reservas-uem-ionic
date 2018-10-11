@@ -70,6 +70,8 @@ export class ReservaCreate2Page {
 
       this.reserva =  this.navParams.get('item');
       this.usuarioSelecionado = this.navParams.get('usuario');
+      this.disciplinaSelecionada = this.navParams.get('disciplinaSelecionada');
+    ;
       //Criar o formulário de validação
       this.reservaForm = formBuilder.group({
         uso:['',Validators.required],
@@ -77,6 +79,7 @@ export class ReservaCreate2Page {
         disciplina:['',],
         tipoReserva:['',]
       });
+
 
       //pegando usuário
       this.login = this.navParams.get('login');
@@ -86,14 +89,57 @@ export class ReservaCreate2Page {
         if(this.login.privilegio == "Secretário")
           this.classe = "secretario";
 
-        if(this.usuarioSelecionado.id!= undefined)
+        /*if(this.usuarioSelecionado.id!= undefined)
           this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
         else
-          this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+          this.carregarDisciplinaPorPrivilegio(this.login.privilegio);*/
         }
 
 
+        this.carregarDisciplinasESaalas();
+
   }
+
+  ionViewDidEnter(){
+    if(this.reserva.tipo_uso != undefined)
+      this.disciplinaDisabled = false;
+  }
+
+
+//carrega as disicplinas e salas da base de dados do celular
+  async carregarDisciplinasESaalas() {
+    //carregando as disicplinas da base de dados
+    await this.storage.get("disciplinas")
+      .then((disciplinas) => {
+        if (disciplinas) {
+          this.disciplinas = disciplinas;
+        } else {
+          this.disciplinas = new Array<Disciplina>();
+        }
+      });
+
+      //carregando as salas da base de dados
+      await this.storage.get("salas")
+        .then((salas) => {
+          if (salas) {
+            this.salas = salas;
+          } else {
+            this.salas = new Array<Sala>();
+          }
+        });
+
+        await this.storage.get("salaSelecionada")
+          .then((sala) => {
+            if (sala) {
+              this.salaSelecionada = sala;
+            } else {
+              this.salaSelecionada = new Sala();
+            }
+          });
+
+
+  }
+
 
   async loadResources() {
     await this.storage.get("login")
@@ -103,10 +149,10 @@ export class ReservaCreate2Page {
           if(this.login.privilegio == "Secretário")
             this.classe = "secretario";
 
-          if(this.usuarioSelecionado.id!= undefined)
+        /*if(this.usuarioSelecionado.id!= undefined)
               this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
           else
-              this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+              this.carregarDisciplinaPorPrivilegio(this.login.privilegio);*/
         } else {
           this.login = new Login();
         }
@@ -232,8 +278,19 @@ export class ReservaCreate2Page {
         this.disciplinaDisabled = true;
         this.disciplinaSelecionada = new Disciplina();
       }
+
+      if(this.usuarioSelecionado.id!= undefined)
+        this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+      else
+        this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
+
     }
 
+
+    changeSala(sala:Sala){
+      if(sala != undefined)
+        this.storage.set("salaSelecionada", sala);
+    }
 
   //cria uma reserva
   reservaCreate(){

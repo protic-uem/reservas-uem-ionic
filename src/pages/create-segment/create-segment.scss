@@ -1,0 +1,55 @@
+page-create-segment {
+
+  ion-content{
+    height: 100%;
+    background-color: #DCDCDC!important	;
+  }
+  ion-list{
+    height: 90%;
+  }
+  .nome_usuario{
+    font-size: 20px;
+  }
+
+  .icones{
+    font-size: 40px;
+  }
+
+  ion-item{
+    height: 30%;
+  }
+  ion-card{
+    border-radius: 10px!important;
+    height: 75%;
+
+  }
+
+  ion-card-content{
+    height: 100%;
+  }
+  form{
+    height: 100%;
+  }
+
+  .instrucao{
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .btnReserva {
+      width: 100%;
+      background-color: #28a745;
+  }
+
+  .btnCancelar{
+        width: 100%;
+  }
+
+  .botoes {
+    position: fixed;
+    left: 0;
+    bottom: 10px;
+    right: 0;
+}
+
+}

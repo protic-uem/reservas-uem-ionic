@@ -44,6 +44,7 @@ export class LoginServiceProvider extends ConexaoProvider{
             else{
               resolve(new Login(result.dados[0].id,
                                 result.dados[0].nome,
+                                result.dados[0].email,
                                 result.dados[0].telefone,
                                 result.dados[0].id_departamento,
                                 result.dados[0].privilegio,

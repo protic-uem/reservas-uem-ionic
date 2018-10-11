@@ -1,14 +1,14 @@
 <ion-menu [content]="content" menuPrincipal >
   <ion-header class="menuHeader">
-    <ion-toolbar color="primary">
-      <ion-row color="primary" no-lines>
+    <ion-toolbar color="secondary">
+      <ion-row color="secondary" no-lines>
           <ion-avatar item-start class="avatar">
             <img src="assets/imgs/icon.png">
           </ion-avatar>
       </ion-row>
       <ion-row>
         <span class="msg_bemvindo" *ngIf="login != null && login.id != undefined">
-          Seja Bem vindo, {{login.nome}}
+          {{login.nome}} <br /> {{login.email}}
         </span>
       </ion-row>
     </ion-toolbar>

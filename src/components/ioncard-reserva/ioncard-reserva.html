@@ -1,20 +1,25 @@
 
-        <ion-card class="border-card" (click)="openReserva($event, reserva)" >
-                        <ion-grid>
-                          <ion-row>
-                            <ion-col col-9 text-left>
-                                    <span class="titulo_sala">{{reserva.codigo_disciplina}}-{{reserva.turma_disciplina}}</span>
-                                    <br />
-                                    <span>{{reserva.nome_disciplina}}</span>
-                            </ion-col>
-                            <ion-col col-3 text-right>
-                                    <span class="dept">{{reserva.nome_departamento}}</span>
-                            </ion-col>
-                          </ion-row>
-                          <ion-row>
-                            <ion-col col-12 text-left>
-                                   {{reserva.data_reserva}}  {{reserva.periodo}}
-                            </ion-col>
-                          </ion-row>
-                        </ion-grid>
+        <ion-card class="border-card"  >
+          <ion-grid>
+            <ion-row>
+              <ion-col col-9 text-left>
+                      <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
+                      <span>{{reserva.nome_disciplina}}</span>
+              </ion-col>
+              <ion-col col-3 text-right>
+                      <span class="dept">{{reserva.dept}}</span> 
+
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-6 text-left>
+                     {{reserva.data_reserva}} {{reserva.periodo}}
+              </ion-col>
+              <ion-col col-6 text-right>
+                      <button ion-button color="secondary" small (click)="openReserva($event, reserva)">
+                           Detalhes
+                      </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
         </ion-card>

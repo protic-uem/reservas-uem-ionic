@@ -43,7 +43,8 @@
         <ion-select  [selectOptions] ="{
           subTitle: 'Selecione uma disciplina',
            mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
-          [disabled]=" (disciplinas == undefined || disciplinas.length == 0)">
+          [disabled]="reserva.tipo_uso == undefined"
+          >
           <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
         </ion-select>
       </ion-item>
@@ -53,7 +54,8 @@
         <ion-label>Sala</ion-label>
         <ion-select [selectOptions] ="{
           subTitle: 'Selecione uma sala',
-           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "salaSelecionada">
+           mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="sala" [(ngModel)] = "salaSelecionada"
+           (ionChange)="changeSala($event)">
           <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
