@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
 
 //Páginas
 import { ReservaView } from '../../model/ReservaView';

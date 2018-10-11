@@ -27,7 +27,6 @@
     <div *ngSwitchCase="'etp2'">
 
       <ion-card class="(login.privilegio == 'Docente')?'ionCardDocente':'ionCardSecretario'" >
-      <form [formGroup]="reservaForm"  novalidate>
         <ion-card-content>
         <ion-list>
           <ion-item *ngIf="login.privilegio == 'Secretário'">
@@ -35,7 +34,7 @@
             <ion-label>Solicitante</ion-label>
             <ion-select  [selectOptions] ="{
               subTitle: 'Selecione um solicitante',
-               mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="usuario" [(ngModel)] = "usuarioSelecionado"
+               mode: 'ios'}" okText="Selecionar" cancelText="Cancelar"  [(ngModel)] = "usuarioSelecionado"
                (ionChange)="changeUsuario($event)">
               <ion-option *ngFor="let usuario of usuarios" [value]="usuario">{{usuario.nome}}</ion-option>
             </ion-select>
@@ -47,7 +46,7 @@
             <ion-select [selectOptions] ="{
               subTitle: 'Selecione um tipo de uso',
                mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
-              formControlName="uso" (ionChange)="changeUso($event)" >
+              >
               <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
               <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
               <ion-option *ngIf="login.privilegio == 'Secretário'">Mestrado</ion-option>
@@ -63,8 +62,8 @@
             <ion-label>Disciplina</ion-label>
             <ion-select  [selectOptions] ="{
               subTitle: 'Selecione uma disciplina',
-               mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" formControlName="disciplina" [(ngModel)] = "disciplinaSelecionada"
-              [disabled]="disciplinaDisabled">
+               mode: 'ios'}" okText="Selecionar" cancelText="Cancelar"  [(ngModel)] = "disciplinaSelecionada"
+              [disabled]="reserva.tipo_uso == undefined">
               <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
             </ion-select>
           </ion-item>
@@ -75,14 +74,13 @@
               <ion-select  [selectOptions] ="{
                 subTitle: 'Selecione um tipo de reserva',
                  mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
-                formControlName="tipoReserva">
+                >
                 <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
                 <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>
               </ion-select>
             </ion-item>
         </ion-list>
       </ion-card-content>
-      </form>
       </ion-card>
       <ion-row class="botoes" justify-content-center>
         <ion-col col-3 justify-content-end>

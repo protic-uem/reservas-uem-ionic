@@ -217,18 +217,6 @@ reserva:Reserva;
 
   }
 
-  //Ativa o input de disciplina, depedendo do tipo de uso escolhido
-  changeUso(valor){
-    if(valor == 'Prática'){
-      this.disciplinaDisabled = false;
-    }else if(valor == 'Teórica'){
-      this.disciplinaDisabled = false;
-    }
-    else{
-      this.disciplinaDisabled = true;
-      this.disciplinaSelecionada = new Disciplina();
-    }
-  }
 
   //cria uma reserva
   reservaCreate(){
@@ -256,14 +244,20 @@ reserva:Reserva;
 
   //validar se todos os campos foram preenchidos
   validarReserva(){
-    let{sala, disciplina, uso, tipoReserva} = this.reservaForm.controls;
-    if(!this.reservaForm.valid){
-        this.apresentarErro('Por favor, preencha todos os campos');
-      return false;
-    }else{
-      return true;
-    }
-
+    if(this.login.privilegio == "Docente")
+      if(this.reserva.tipo_uso == undefined || this.disciplinaSelecionada.id == undefined){
+          this.apresentarErro('Por favor, preencha todos os campos');
+        return false;
+      }else{
+        return true;
+      }
+    else
+      if(this.reserva.tipo_uso == undefined || this.reserva.tipo_reserva == undefined || this.usuarioSelecionado.id == undefined){
+          this.apresentarErro('Por favor, preencha todos os campos');
+        return false;
+      }else{
+        return true;
+      }
   }
 
   //validar se a data não é sábado ou domingo

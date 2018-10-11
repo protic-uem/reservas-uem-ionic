@@ -23,7 +23,6 @@ import { ComponentsModule } from '../components/components.module';
 
 //compoentes baixados
 import { AutoCompleteModule } from 'ionic2-auto-complete';
-import { CompleteServiceProvider } from '../providers/complete-service/complete-service';
 import { ConexaoProvider } from '../providers/conexao/conexao';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
@@ -83,7 +82,6 @@ import { CalendarModule } from "ion2-calendar";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CompleteServiceProvider,
     ConexaoProvider,
     LoginServiceProvider,
     UsuarioServiceProvider,

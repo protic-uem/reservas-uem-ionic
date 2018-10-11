@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, Events} from 'ionic-angular';
+import { Nav, Platform, Events} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -23,7 +23,7 @@ export class MyApp {
   login: Login;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage:Storage, private menuCtrl:MenuController, private events:Events) {
+    private storage:Storage, private events:Events) {
     this.login = new Login();
     this.verificarUsuarioLogado();
     this.initializeApp();

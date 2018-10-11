@@ -19,7 +19,7 @@
           <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-row class="item-list-key">
+      <ion-row class="item-list-calendar">
         <ion-col col-2>
           <ion-item (click)="anteriorDia()">
             <ion-icon name="md-arrow-back" item-left></ion-icon>
@@ -51,7 +51,7 @@
       </span>
         <span class="reserva" *ngIf="reservaPeriodo01.codigo_disciplina == undefined && reservaPeriodo01.periodo != undefined"
           (click)="openReserva(reservaPeriodo01)">
-            {{reservaPeriodo01.tipo_uso}}-{{reservaPeriodo01.numero_sala}}<br />
+            {{reservaPeriodo01.tipo_uso}}<br />
             {{reservaPeriodo01.nome_usuario}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo01.periodo == undefined" >
@@ -69,7 +69,7 @@
           {{reservaPeriodo02.nome_usuario}}</span>
         <span class="reserva" *ngIf="reservaPeriodo02.codigo_disciplina == undefined && reservaPeriodo02.periodo != undefined"
           (click)="openReserva(reservaPeriodo02)">
-            {{reservaPeriodo02.tipo_uso}}-{{reservaPeriodo02.numero_sala}}<br />
+            {{reservaPeriodo02.tipo_uso}}<br />
             {{reservaPeriodo02.nome_usuario}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo02.periodo == undefined" >
@@ -86,7 +86,7 @@
         {{reservaPeriodo03.nome_usuario}}</span>
         <span class="reserva" *ngIf="reservaPeriodo03.codigo_disciplina == undefined && reservaPeriodo03.periodo != undefined"
           (click)="openReserva(reservaPeriodo03)">
-            {{reservaPeriodo03.tipo_uso}}-{{reservaPeriodo03.numero_sala}}<br />
+            {{reservaPeriodo03.tipo_uso}}<br />
             {{reservaPeriodo03.nome_usuario}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo03.periodo == undefined" >
@@ -103,7 +103,7 @@
         {{reservaPeriodo04.nome_usuario}}</span>
         <span class="reserva" *ngIf="reservaPeriodo04.codigo_disciplina == undefined && reservaPeriodo04.periodo != undefined"
           (click)="openReserva(reservaPeriodo04)">
-            {{reservaPeriodo04.tipo_uso}}-{{reservaPeriodo04.numero_sala}}<br />
+            {{reservaPeriodo04.tipo_uso}}<br />
             {{reservaPeriodo04.nome_usuario}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo04.periodo == undefined" >
@@ -120,7 +120,7 @@
           {{reservaPeriodo05.nome_usuario}}</span>
           <span class="reserva" *ngIf="reservaPeriodo05.codigo_disciplina == undefined && reservaPeriodo05.periodo != undefined"
             (click)="openReserva(reservaPeriodo05)">
-              {{reservaPeriodo05.tipo_uso}}-{{reservaPeriodo05.numero_sala}}<br />
+              {{reservaPeriodo05.tipo_uso}}<br />
               {{reservaPeriodo05.nome_usuario}}
           </span>
           <span class="disponivel" *ngIf="reservaPeriodo05.periodo == undefined" >
@@ -137,7 +137,7 @@
         {{reservaPeriodo06.nome_usuario}}</span>
         <span class="reserva" *ngIf="reservaPeriodo06.codigo_disciplina == undefined && reservaPeriodo06.periodo != undefined"
           (click)="openReserva(reservaPeriodo06)">
-            {{reservaPeriodo06.tipo_uso}}-{{reservaPeriodo06.numero_sala}}<br />
+            {{reservaPeriodo06.tipo_uso}}<br />
             {{reservaPeriodo06.nome_usuario}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo06.periodo == undefined" >
