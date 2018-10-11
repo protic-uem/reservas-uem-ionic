@@ -56,6 +56,7 @@ reserva:Reserva;
   classe:string = "docente";
   classeIonCard:string = "ionCardDocente";
 
+  etapas:string = "etp2";
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,

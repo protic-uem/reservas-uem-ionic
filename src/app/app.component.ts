@@ -7,7 +7,6 @@ import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
-import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
 
@@ -34,7 +33,7 @@ export class MyApp {
     });
 
     this.pages = [
-      { icon: 'add', title: 'Solicitar Reserva', component: ReservaCreatePage },
+      { icon: 'add', title: 'Solicitar Reserva', component: CreateSegmentPage },
       { icon: 'search', title: 'Consultar Reservas', component: ReservaSearchPage },
       { icon: 'filing', title: 'Minhas Reservas', component: ReservaMyPage },
       { icon: 'help-buoy', title: 'Ajuda Usuários', component: AjudaUsuarioPage }

@@ -1,7 +1,6 @@
 import { Component, Input} from '@angular/core';
 import { NavController, FabContainer } from 'ionic-angular';
 
-import { ReservaCreatePage } from '../../pages/reserva-create/reserva-create';
 import { Login } from '../../model/Login';
 import { ReservaSearchPage } from '../../pages/reserva-search/reserva-search';
 import { CreateSegmentPage } from '../../pages/create-segment/create-segment';
@@ -21,7 +20,7 @@ export class CustomFabComponent {
   }
 
   addReserva(fab: FabContainer){
-    fab.close();//ReservaCreatePage
+    fab.close();
     this.navCtrl.push(CreateSegmentPage, {login:this.login});
   }
 

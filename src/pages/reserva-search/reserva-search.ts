@@ -12,6 +12,7 @@ import { Sala } from '../../model/Sala';
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
 import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create-search';
+import { CreateSegmentPage } from '../create-segment/create-segment';
 
 
 @IonicPage()
@@ -112,7 +113,7 @@ export class ReservaSearchPage {
 
       if(this.login.privilegio == "Docente")
         this.reserva.id_usuario = this.login.id;
-
+        
       this.navCtrl.push(ReservaCreateSearchPage, {
         login: this.login,
         item: this.reserva,

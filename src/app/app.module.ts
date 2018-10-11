@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { ReservaCreatePage } from '../pages/reserva-create/reserva-create';
 import { ReservaDetailPage } from '../pages/reserva-detail/reserva-detail';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { LoginPage } from '../pages/login/login';
@@ -13,7 +12,6 @@ import { ReservaVisitanteListPage } from '../pages/reserva-visitante-list/reserv
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
-import { ReservaCreate2Page } from '../pages/reserva-create2/reserva-create2';
 import { ReservaCreateSearchPage } from '../pages/reserva-create-search/reserva-create-search';EsqueceuSenhaPage
 import { EsqueceuSenhaPage } from '../pages/esqueceu-senha/esqueceu-senha';
 
@@ -42,14 +40,12 @@ import { CalendarModule } from "ion2-calendar";
 @NgModule({
   declarations: [
     MyApp,
-    ReservaCreatePage,
     ReservaDetailPage,
     ReservaMyPage,
     LoginPage,
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
     ReservaSearchPage,
-    ReservaCreate2Page,
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
     CreateSegmentPage
@@ -73,14 +69,12 @@ import { CalendarModule } from "ion2-calendar";
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ReservaCreatePage,
     ReservaDetailPage,
     ReservaMyPage,
     LoginPage,
     ReservaVisitanteListPage,
     AjudaUsuarioPage,
     ReservaSearchPage,
-    ReservaCreate2Page,
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
     CreateSegmentPage
