@@ -67,7 +67,6 @@ export class CreateSegmentPage {
    private salaService:SalaServiceProvider, private reservaService:ReservaServiceProvider,
    private usuarioService:UsuarioServiceProvider, private modalCtrl:ModalController) {
 
-     console.log("Entrou construtor");
 
      this.etapas = "etp1";
      this.reserva = new Reserva;
@@ -90,6 +89,7 @@ export class CreateSegmentPage {
        //Caso seja secretário, poderá 1 mês a frente
        if(this.login.nome != undefined){
          if(this.login.privilegio == 'Docente'){
+           this.reserva.id_usuario = this.login.id;
            this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
 
            this.etp1Form = formBuilder.group({
@@ -159,14 +159,20 @@ export class CreateSegmentPage {
 
        if(this.validarReserva()){
          if(!this.validarData() || this.login.privilegio == "Secretário"){
-           this.reserva.data_reserva = this.dataSelecionada;
-           this.etapas = "etp2";
+           this.reservaService.validarReservaMesmoHorario(this.reserva.id_usuario, this.dataSelecionada, this.reserva.periodo)
+            .then((result:boolean) => {
+              if(result){
+                this.reserva.data_reserva = this.dataSelecionada;
+                this.etapas = "etp2";
+              }else{
+                this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
+                        " escolha outra data e/ou periodo.");
+              }
+            })
+            .catch( (error)=> {
+              this.apresentarErro(""+error);
+            });
 
-          /* this.navCtrl.push(ReservaCreate2Page, {
-             item: this.reserva,
-             login: this.login,
-             usuario: this.usuarioSelecionado
-           }, {animate: true, animation:'ios-transition', direction: 'forward', duration:1000});*/
          }else{
            this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
          }
@@ -261,32 +267,37 @@ export class CreateSegmentPage {
 
      //apresenta o Toast de reserva cancelada
      reservaCanceled(){
-       let toast = this.toastCtrl.create({
-         message: 'Reserva cancelada',
-         duration: 3000
-       });
+         let toast = this.toastCtrl.create({
+           message: 'Reserva cancelada',
+           duration: 3000
+         });
 
-       toast.present();
-       this.navCtrl.push(ReservaMyPage, {
-         login: this.login,
-       }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
+         toast.present();
+         this.navCtrl.push(ReservaMyPage, {
+           login: this.login,
+         }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
 
 
      }
 
      //apresenta o alerta sobre o erro
      apresentarErro(msg:string){
-     const alertError = this.alertCtrl.create({
-       title:'Atenção!',
-       message: msg,
-       buttons: [
-         {
-           text: 'Entendi',
-         }
-       ]
-     });
-     alertError.setMode("ios");
-     alertError.present();
+           const alertError = this.alertCtrl.create({
+             title:'Atenção!',
+             message: msg,
+             buttons: [
+               {
+                 text: 'Entendi',
+               }
+             ]
+           });
+           alertError.setMode("ios");
+           alertError.present();
+     }
+
+     usuarioChange(usuario:Usuario){
+       console.log("usuario Mudou"+usuario.id);
+       this.reserva.id_usuario = usuario.id;
      }
 
 

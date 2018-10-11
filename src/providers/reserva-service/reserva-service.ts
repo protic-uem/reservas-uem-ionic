@@ -248,6 +248,27 @@ export class ReservaServiceProvider extends ConexaoProvider{
         });
   }
 
+  //Valida se já existe uma reserva no mesma data e horário para aquela reserva
+  validarReservaMesmoHorario(id_usuario:number, data:string, periodo:number){
+
+    return new Promise((resolve, reject) => {
+      this.http.get(this.baseUri+'reserva/validarReservaMesmoHorario/'+this.hash+'&id_usuario='+btoa(id_usuario+"")+
+      '&data='+btoa(data+"")+'&periodo='+btoa(periodo+"")).subscribe((result:any) => {
+        if(result.retorno == false){
+            resolve(false);
+        }
+        else{
+            resolve(true);
+          }
+        },
+        (error) => {
+          console.log("validarReservaMesmoHorario error");
+          reject(error);
+
+            });
+        });
+  }
+
 
   cadastrarReserva(reserva:Reserva){
 
