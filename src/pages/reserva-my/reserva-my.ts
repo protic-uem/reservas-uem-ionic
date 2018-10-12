@@ -34,23 +34,24 @@ export class ReservaMyPage {
         this.login = this.navParams.get('login');
         if(this.login == undefined)
           this.loadResources();//pegar o usuário logado e depois carregar as reservas
-        else
-          this.atualizarMinhasReservas();
+
+
 
         this.menuCtrl.enable(true);
-        this.ev.subscribe("atualizarMinhasReservas", (result:boolean) => {
-            this.atualizarMinhasReservas();
-        });
 
   }
 
+
+    ionViewDidEnter(){
+      this.atualizarMinhasReservas();
+    }
 
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
         if (login) {
           this.login = login;
-          this.atualizarMinhasReservas();
+          //this.atualizarMinhasReservas();
         } else {
           this.login = new Login();
         }
@@ -59,6 +60,7 @@ export class ReservaMyPage {
 
 
   atualizarMinhasReservas(){
+
     console.log("Atualizando minhas reservas");
     let loading = this.loadingCtrl.create({
       content: 'Carregando reservas...'
@@ -68,7 +70,6 @@ export class ReservaMyPage {
     this.reservaService.carregarMinhasReservas(this.login.id)
       .then( (reservas:Array<ReservaView>) => {
         if(reservas.length > 0){
-          this.storage.set("reservas", reservas);
           this.reservas = reservas;
           this.reservasCarregadas = reservas;
           this.reservasNaoEncontrada = false;

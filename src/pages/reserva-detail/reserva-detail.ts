@@ -27,6 +27,9 @@ export class ReservaDetailPage {
   }
 
 
+
+
+
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
@@ -81,7 +84,6 @@ export class ReservaDetailPage {
                   });
                   toast.present();
               });
-              this.ev.publish("atualizarMinhasReservas", true);
               this.navCtrl.pop();
             }else{
               loading.dismiss();

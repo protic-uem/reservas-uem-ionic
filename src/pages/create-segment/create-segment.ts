@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
 import { Validators, FormBuilder } from '@angular/forms';
-import { parse, format, isSunday, isSaturday, addWeeks, addMonths } from 'date-fns';
+import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
 //Modelos
@@ -20,7 +20,7 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
-import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
+import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
 
 
 
@@ -54,7 +54,9 @@ export class CreateSegmentPage {
   dataDocente:string;
   hoje:string;
 
+
   periodo:Periodo;
+  periodoCorrente:number;
 
   etapas:string;
   classe:string = "docente";
@@ -78,6 +80,11 @@ export class CreateSegmentPage {
      this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
      this.showDate = format(new Date(), 'DD/MM/YYYY');
 
+     console.log("HoraCorrente:"+ getHours(new Date(2018, 10, 11, 7, 45)));
+     console.log("HoraCorrente:"+ getHours(new Date(2018, 10, 11, 9, 40)));
+     console.log("HoraCorrente:"+ getHours(new Date(2018, 10, 11, 9, 40)));
+     console.log("HoraCorrente:"+ getHours(new Date(2018, 10, 11, 12, 40)));
+     console.log("HoraCorrente:"+ getHours(new Date(2018, 10, 11, 13, 40)));
 
      //pegando usuário
      this.login = this.navParams.get('login');
@@ -118,7 +125,34 @@ export class CreateSegmentPage {
            tipoReserva:['',]
          });
 
+
      }
+ }
+
+
+  validarPeriodo(){
+    if(this.hoje == this.dataSelecionada){
+       var horaCorrente = getHours(new Date());
+       var minutoCorrente = getMinutes(new Date());
+       if(horaCorrente <= 7 && minutoCorrente < 45)
+        this.periodoCorrente = 0;
+       else if(horaCorrente <=9 && minutoCorrente < 40)
+        this.periodoCorrente = 1;
+       else if(horaCorrente <=13 && minutoCorrente < 30)
+         this.periodoCorrente = 2;
+       else if(horaCorrente <=15 && minutoCorrente < 30)
+          this.periodoCorrente = 3;
+        else if(horaCorrente <=19 && minutoCorrente < 30)
+           this.periodoCorrente = 4;
+        else if(horaCorrente <=21 && minutoCorrente < 20)
+              this.periodoCorrente = 5;
+
+              return this.reserva.periodo > this.periodoCorrente;
+        }
+        else {
+          return true;
+        }
+
  }
 
 //Busca o login do storage
@@ -157,23 +191,27 @@ export class CreateSegmentPage {
          this.reserva.id_usuario = this.usuarioSelecionado.id;
 
        if(this.validarReserva()){
-         if(!this.validarData() || this.login.privilegio == "Secretário"){
-           this.reservaService.validarReservaMesmoHorario(this.reserva.id_usuario, this.dataSelecionada, this.reserva.periodo)
-            .then((result:boolean) => {
-              if(result){
-                this.reserva.data_reserva = this.dataSelecionada;
-                this.etapas = "etp2";
-              }else{
-                this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
-                        " escolha outra data e/ou periodo.");
-              }
-            })
-            .catch( (error)=> {
-              this.apresentarErro(""+error);
-            });
+         if(this.validarPeriodo()){
+           if(!this.validarData() || this.login.privilegio == "Secretário"){
+             this.reservaService.validarReservaMesmoHorario(this.reserva.id_usuario, this.dataSelecionada, this.reserva.periodo)
+              .then((result:boolean) => {
+                if(result){
+                  this.reserva.data_reserva = this.dataSelecionada;
+                  this.etapas = "etp2";
+                }else{
+                  this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
+                          " escolha outra data e/ou periodo.");
+                }
+              })
+              .catch( (error)=> {
+                this.apresentarErro(""+error);
+              });
 
+           }else{
+             this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
+           }
          }else{
-           this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
+            this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
          }
        }
  }
@@ -239,14 +277,14 @@ export class CreateSegmentPage {
 
  //validar se todos os campos foram preenchidos
  validarReserva(){
-   if(this.login.privilegio == "Docente"){
+   if(this.login.privilegio == "Docente"){//se for docente, valide somente data e periodo
      if(this.dataSelecionada == undefined || this.reserva.periodo == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
        return false;
      }else
        return true;
      }
-   else{
+   else{//se for secretário, valide usuario, data e periodo
      if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
        return false;
@@ -292,9 +330,22 @@ export class CreateSegmentPage {
            alertError.present();
      }
 
+     //Executado toda vez que um usuário é selecionado
+     //Atualiza o id_usuario da reserva com o id do usuario selecionado
      usuarioChange(usuario:Usuario){
-       console.log("usuario Mudou"+usuario.id);
-       this.reserva.id_usuario = usuario.id;
+
+       if(usuario!= undefined && usuario.id != undefined)
+        this.reserva.id_usuario = usuario.id;
+
+     }
+
+     //Executado toda vez que um periodo é selecinado
+     periodoChange(valor){
+        if(this.validarPeriodo()){
+          //atualizar as salas de acordo com o período e a data Selecionada
+        }else{
+          this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
+        }
      }
 
 
@@ -303,7 +354,7 @@ export class CreateSegmentPage {
 
      //Carrega as disciplinas de acordo com o privilégio do usuário
      carregarDisciplinaPorPrivilegio(privilegio:string){
-       if(privilegio == "Docente"){
+       if(privilegio == "Docente"){//Se o usuário for docente, carregue apenas as disciplinas dele
          if(this.usuarioSelecionado.id!= undefined){
            this.carregarDisciplinasPorUsuario(this.usuarioSelecionado.id);
            }
@@ -311,7 +362,7 @@ export class CreateSegmentPage {
            this.carregarDisciplinasPorUsuario(this.login.id);
            }
          }
-       else if(privilegio == "Secretário"){
+       else if(privilegio == "Secretário"){//Se não, carregue todas as disciplinas do departamento
          this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
        }
      }

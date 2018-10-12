@@ -68,7 +68,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
   carregarMinhasReservas(id_usuario: number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.reservas = new Array<ReservaView>();
-
+    console.log("carregarMinhasReservas");
   return new Promise((resolve, reject) => {
     this.http.get(this.baseUri+'reserva/minhasReservas/'+this.hash+'&id_usuario='
               +btoa(id_usuario+"")).subscribe((result:any) => {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
 
 //Páginas
 import { ReservaView } from '../../model/ReservaView';
@@ -67,7 +67,7 @@ export class IoncardReservaMyComponent {
                     duration: 3000
                   });
                   toast.present();
-                  this.ev.publish("atualizarMinhasReservas", true);
+
               });
             }else{
               loading.dismiss();
