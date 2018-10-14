@@ -241,6 +241,13 @@ export class CreateSegmentPage {
            if(date != null && date != undefined){
              this.dataSelecionada = date.string;
              this.showDate = format(date.string, 'DD/MM/YYYY');
+
+             if(this.dataSelecionada != undefined && this.validarPeriodo()){
+               this.carregarSalasDisponiveisPorDepartamentoDataPeriodo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo);
+             }else{
+               this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
+             }
+
              //this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
            }
          })
