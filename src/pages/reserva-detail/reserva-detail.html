@@ -77,7 +77,7 @@
           </ion-row>
           <ion-row *ngIf="reserva.id_usuario == login.id && reserva.status == 1">
             <ion-col>
-              <button ion-button color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
+              <button ion-button block small color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
             </ion-col>
           </ion-row>
         </ion-grid>

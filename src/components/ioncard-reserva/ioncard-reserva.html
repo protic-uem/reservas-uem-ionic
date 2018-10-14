@@ -7,16 +7,18 @@
                       <span>{{reserva.nome_disciplina}}</span>
               </ion-col>
               <ion-col col-3 text-right>
-                      <span class="dept">{{reserva.dept}}</span> 
+                      <span class="dept">{{reserva.dept}}</span>
 
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col col-6 text-left>
+              <ion-col text-left>
                      {{reserva.data_reserva}} {{reserva.periodo}}
               </ion-col>
-              <ion-col col-6 text-right>
-                      <button ion-button color="secondary" small (click)="openReserva($event, reserva)">
+            </ion-row>
+            <ion-row>
+              <ion-col text-center>
+                      <button ion-button block color="secondary" small (click)="openReserva($event, reserva)">
                            Detalhes
                       </button>
               </ion-col>

@@ -18,10 +18,24 @@ ion-toolbar{
   transform: translateX(60%);
 }
 
+
 .menuHeader{
-  height: 30%;
+  position: relative;
+    height: 30%;
 }
 
 .menuConteudo{
   position: relative;
+    //background-image:  url("http://www.planwallpaper.com/static/images/colorful-triangles-background_yB0qTG6.jpg");
+    //background-image:  url('../assets/imgs/verde2.jpg');
+    //background-repeat: repeat;
+    //-webkit-background-size: cover;
+    //-moz-background-size: cover;
+    //background-size: cover;
+    height: 100%;
+}
+
+.transp{
+    background-color: transparent !important;
+    color: #fff;
 }

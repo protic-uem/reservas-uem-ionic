@@ -32,8 +32,7 @@ export class ReservaMyPage {
       this.reservasCarregadas = new Array<ReservaView>();
 
         this.login = this.navParams.get('login');
-        if(this.login == undefined)
-          this.loadResources();//pegar o usuário logado e depois carregar as reservas
+
 
 
 
@@ -43,7 +42,10 @@ export class ReservaMyPage {
 
 
     ionViewDidEnter(){
-      this.atualizarMinhasReservas();
+      if(this.login != undefined && this.login.id != undefined)
+        this.atualizarMinhasReservas();
+      else
+          this.loadResources();//pegar o usuário logado e depois carregar as reservas
     }
 
   async loadResources() {
@@ -51,7 +53,7 @@ export class ReservaMyPage {
       .then((login) => {
         if (login) {
           this.login = login;
-          //this.atualizarMinhasReservas();
+          this.atualizarMinhasReservas();
         } else {
           this.login = new Login();
         }

@@ -58,7 +58,7 @@ export class LoginPage {
 
   ionViewCanEnter(){
     this.senha = '';
-    this.menuCtrl.enable(false);
+    this.menuCtrl.enable(true);
   }
 
   //Realiza o login
