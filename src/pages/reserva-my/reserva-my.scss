@@ -1,6 +1,11 @@
 page-reserva-my {
 
 
+  .scroll-content {
+    overflow: hidden;
+  }
+
+
   ion-card{
     border-radius: 10px!important;
   }
@@ -19,7 +24,7 @@ page-reserva-my {
     .resultReservas{
       width:100%;
       height: 85%;
-      overflow-y: scroll;;
+      overflow-y: scroll;
     }
 
     .centralizarVerticalmente{

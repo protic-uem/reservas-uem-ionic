@@ -21,6 +21,7 @@ import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 })
 export class LoginPage {
 
+
   email: string;
   senha: string;
   loginForm:any;
@@ -28,6 +29,9 @@ export class LoginPage {
   errorSenha = false;
   messageEmail = "";
   messageSenha = "";
+
+  senhaType:string = 'password';
+  senhaShow:boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private menuCtrl: MenuController, private storage:Storage, private loginService:LoginServiceProvider,
@@ -47,6 +51,17 @@ export class LoginPage {
           		Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-. ]+$')
           	])]
           });
+
+  }
+
+  public toggleSenha(){
+    if(this.senhaShow){
+      this.senhaShow = false;
+      this.senhaType = 'password';
+    } else{
+      this.senhaShow = true;
+      this.senhaType = 'text';
+    }
 
   }
 

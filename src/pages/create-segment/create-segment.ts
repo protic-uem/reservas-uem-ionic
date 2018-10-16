@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
 import { Validators, FormBuilder } from '@angular/forms';
-import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, getTime } from 'date-fns';
+import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, getTime, addDays } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
 //Modelos
@@ -77,8 +77,8 @@ export class CreateSegmentPage {
      this.usuarioSelecionado = new Usuario();
 
      this.hoje = format(new Date(), 'YYYY-MM-DD');
-     this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
-     this.showDate = format(new Date(), 'DD/MM/YYYY');
+     this.dataSelecionada = format(addDays(new Date(), 1), 'YYYY-MM-DD');
+     this.showDate = format(addDays(new Date(), 1), 'DD/MM/YYYY');
 
      //pegando usuário
      this.login = this.navParams.get('login');
@@ -223,7 +223,7 @@ export class CreateSegmentPage {
            from: new Date(),
            to: parse(this.dataDocente),
            title: '',
-           defaultDate: new Date(),
+           defaultDate: addDays(new Date(), 1),
            closeLabel: "CANCELAR",
            doneLabel: "SELECIONAR",
            monthFormat: "MMM YYYY",

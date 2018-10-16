@@ -9,9 +9,12 @@
               <ion-input type="text" placeholder="Digite seu e-mail" formControlName="email" [(ngModel)]="email"></ion-input>
             </ion-item>
               <h6  *ngIf="errorEmail" class="error">{{messageEmail}}</h6>
-            <ion-item style="position: initial!important;">
+            <ion-item >
               <ion-icon item-start name="lock"></ion-icon>
-              <ion-input type="password" placeholder="Senha" formControlName="senha" [(ngModel)]="senha"></ion-input>
+              <ion-input [type]="senhaType" placeholder="Senha" formControlName="senha" [(ngModel)]="senha"></ion-input>
+              <button ion-button  (click)="toggleSenha()"  icon-only clear item-end>
+                <ion-icon name="eye" [color]="senhaShow == true ? 'secondary': 'dark'" ></ion-icon>
+              </button>
             </ion-item>
             <h6  *ngIf="errorSenha" class="error">{{messageSenha}}</h6>
           </ion-card>

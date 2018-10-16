@@ -3,9 +3,12 @@
           >
                         <ion-grid>
                           <ion-row>
-                            <ion-col  text-left>
-                                    <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
-                                    <span>{{reserva.nome_disciplina}}</span>
+                            <ion-col text-left>
+                              <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
+                              <span>{{reserva.nome_disciplina}}</span>
+                            </ion-col>
+                            <ion-col  text-right>
+                                      <span *ngIf="reserva.tipo_reserva == 'Fixo'" class="titulo_sala">{{reserva.tipo_reserva}}</span>
                             </ion-col>
                           </ion-row>
                           <ion-row>
