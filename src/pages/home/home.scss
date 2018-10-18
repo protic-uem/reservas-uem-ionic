@@ -1,0 +1,34 @@
+page-home {
+
+
+  .scroll-content {
+    overflow: hidden;
+  }
+
+
+  ion-card{
+    border-radius: 10px!important;
+  }
+
+  chip-reserva-home{
+    width: 100%!important;
+  }
+
+  ion-item{
+    height: 20%!important;
+  }
+
+    .resultReservas{
+      width:100%;
+      height: 85%;
+      overflow-y: scroll;
+    }
+
+    .centralizarVerticalmente{
+       display: flex!important;
+       align-content: center!important;
+       align-items: center!important;
+
+    }
+
+}

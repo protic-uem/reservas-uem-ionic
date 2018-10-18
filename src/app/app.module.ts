@@ -13,6 +13,7 @@ import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
 import { ReservaCreateSearchPage } from '../pages/reserva-create-search/reserva-create-search';EsqueceuSenhaPage
+import { HomePage } from '../pages/home/home';
 import { EsqueceuSenhaPage } from '../pages/esqueceu-senha/esqueceu-senha';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -31,6 +32,8 @@ import { ReservaVisitanteServiceProvider } from '../providers/reserva-visitante-
 import { DisciplinaServiceProvider } from '../providers/disciplina-service/disciplina-service';
 import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
 import { SalaServiceProvider } from '../providers/sala-service/sala-service';
+import { ChipReservaHomeComponent } from '../components/chip-reserva-home/chip-reserva-home';
+
 
 import { CalendarModule } from "ion2-calendar";
 
@@ -47,7 +50,8 @@ import { CalendarModule } from "ion2-calendar";
     ReservaSearchPage,
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
-    CreateSegmentPage
+    CreateSegmentPage,
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,8 @@ import { CalendarModule } from "ion2-calendar";
     ReservaSearchPage,
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
-    CreateSegmentPage
+    CreateSegmentPage,
+    HomePage
   ],
   providers: [
     StatusBar,

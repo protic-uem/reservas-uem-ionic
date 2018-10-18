@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="secondary" hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <h5>SALAS: Em uso</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content >
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+            Atual: {{periodo}}
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+  </ion-card>
+  <hr />
+  <ion-row  justify-content-center style="height:100%!important;" *ngIf="reservasNaoEncontrada">
+    <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
+                Nenhuma reserva encontrada.
+    </span>
+  </ion-row>
+      <ion-scroll #listaReservas class="resultReservas"  scrollY="true">
+        <ion-list>
+          <ion-item-sliding *ngFor="let reserva of reservas" >
+            <ion-item>
+              <chip-reserva-home [reserva]="reserva" width="100%"></chip-reserva-home>
+            </ion-item>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-scroll>
+</ion-content>

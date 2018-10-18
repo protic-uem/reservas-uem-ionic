@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events, AlertController } from 'ionic-angular';
-import { ReservaMyPage } from '../reserva-my/reserva-my';
+import { HomePage } from '../home/home';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
 import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
@@ -134,7 +134,7 @@ export class LoginPage {
           this.storage.set("email", this.email);
           this.storage.set("clicouSair", false);
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(ReservaMyPage, {
+              this.navCtrl.setRoot(HomePage, {
                 login: login
               });
           });
@@ -157,7 +157,7 @@ export class LoginPage {
 
     if(!this.errorEmail && !this.errorSenha){
       let loading = this.loadingCtrl.create({
-        content: 'Por favor, aguarde...'
+        content: 'Acessando a sua conta...'
       });
 
       loading.present();
@@ -171,7 +171,7 @@ export class LoginPage {
             this.storage.set("email", this.email);
             this.storage.set("clicouSair", false);
             loading.dismiss().then(() => {
-                this.navCtrl.setRoot(ReservaMyPage, {
+                this.navCtrl.setRoot(HomePage, {
                   login: login
                 });
             });

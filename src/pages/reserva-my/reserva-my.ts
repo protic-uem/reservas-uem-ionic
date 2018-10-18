@@ -32,10 +32,6 @@ export class ReservaMyPage {
       this.reservasCarregadas = new Array<ReservaView>();
 
         this.login = this.navParams.get('login');
-
-
-
-
         this.menuCtrl.enable(true);
 
   }
