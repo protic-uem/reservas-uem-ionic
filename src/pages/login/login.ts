@@ -32,6 +32,7 @@ export class LoginPage {
 
   senhaType:string = 'password';
   senhaShow:boolean = false;
+  keepConnected:boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private menuCtrl: MenuController, private storage:Storage, private loginService:LoginServiceProvider,
@@ -41,7 +42,42 @@ export class LoginPage {
 
     this.storage.get("login")
         .then( (value) => {
-          if (value) { this.senha = '' } });
+          if (value.id != undefined) {
+            this.senha = ''
+          } });
+
+
+    this.storage.get("keepConnected").then( (value) =>{
+      this.keepConnected = value;
+      if(value == true){
+        this.storage.get("clicouSair").then((clicouSair) => {
+          //Apenas preenche os campos de login e senha da tela de Login
+          if(clicouSair == true){
+            this.storage.get("email").then((res) => {
+              this.email = res;
+            });
+            this.storage.get("senha").then((res) => {
+              this.senha = res;
+            });
+          }
+          else{
+            //Faça o login automático
+            this.storage.get("email").then((res) => {
+              this.email = res;
+              if(this.email != '' && this.senha != ''){
+                this.loginAutomatico();
+              }
+            });
+            this.storage.get("senha").then((res) => {
+              this.senha = res;
+              if(this.email != '' && this.senha != ''){
+                this.loginAutomatico();
+              }
+            });
+          }
+        });
+      }
+    });
 
           //Criar o formulário de validação
           this.loginForm = this.formBuilder.group({
@@ -52,6 +88,11 @@ export class LoginPage {
           	])]
           });
 
+
+  }
+
+  saveConnected(event) {
+    this.keepConnected = event.checked;
   }
 
   public toggleSenha(){
@@ -76,6 +117,40 @@ export class LoginPage {
     this.menuCtrl.enable(true);
   }
 
+  //Realiza o login automatico
+  loginAutomatico(){
+    let loading = this.loadingCtrl.create({
+      content: 'Por favor, aguarde...'
+    });
+
+    loading.present();
+    this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
+      .then( (login:Login) => {
+        if(login.id !== undefined){
+          this.ev.publish("userloggedin", login);
+          this.storage.set("login", login);
+          this.storage.set("keepConnected", this.keepConnected);
+          this.storage.set("senha", this.senha);
+          this.storage.set("email", this.email);
+          this.storage.set("clicouSair", false);
+          loading.dismiss().then(() => {
+              this.navCtrl.setRoot(ReservaMyPage, {
+                login: login
+              });
+          });
+        }else{
+          loading.dismiss();
+          this.presentConfirm("usuário e/ou senha incorreto");
+        }
+
+        } )
+      .catch( (error) => {
+        loading.dismiss();
+        this.presentConfirm(error.message);
+      });
+  }
+
+
   //Realiza o login
   login(){
     this.validarLogin();
@@ -91,6 +166,10 @@ export class LoginPage {
           if(login.id !== undefined){
             this.ev.publish("userloggedin", login);
             this.storage.set("login", login);
+            this.storage.set("keepConnected", this.keepConnected);
+            this.storage.set("senha", this.senha);
+            this.storage.set("email", this.email);
+            this.storage.set("clicouSair", false);
             loading.dismiss().then(() => {
                 this.navCtrl.setRoot(ReservaMyPage, {
                   login: login

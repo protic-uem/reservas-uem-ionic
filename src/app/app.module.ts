@@ -55,7 +55,7 @@ import { CalendarModule } from "ion2-calendar";
     IonicModule.forRoot(MyApp, {
       scrollAssist: true,
       autoFocusAssist: true,
-      iconMode: 'ios',
+      iconmode: 'md',
       pageTransition: 'ios-transition',
       toastEnter: 'toast-slide-in',
       toastLeave: 'toast-slide-out'

@@ -15,7 +15,7 @@
         <ion-label>Sala</ion-label>
         <ion-select [selectOptions] ="{
           subTitle: 'Selecione uma sala',
-           mode: 'ios'}" okText="Selecionar" [(ngModel)] = "salaSelecionada" (ionChange)="changeSala($event)">
+           mode: 'md'}" okText="Selecionar" [(ngModel)] = "salaSelecionada" (ionChange)="changeSala($event)">
           <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>

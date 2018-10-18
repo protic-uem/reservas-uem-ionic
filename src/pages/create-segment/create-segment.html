@@ -35,7 +35,7 @@
           <ion-label>Solicitante</ion-label>
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione um solicitante',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "usuarioSelecionado"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "usuarioSelecionado"
              (ionChange)="usuarioChange(usuarioSelecionado)">
             <ion-option *ngFor="let usuario of usuarios" [value]="usuario">{{usuario.nome}}</ion-option>
           </ion-select>
@@ -53,7 +53,7 @@
           <ion-select [selectOptions] ="{
             title: ' ',
             subTitle: 'Selecione um periodo',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
              width="40%" (ionChange)="periodoChange($event)">
             <ion-option value="1">7:45-9:25</ion-option>
             <ion-option value="2">9:40-12:00</ion-option>
@@ -68,7 +68,7 @@
           <ion-label>Sala</ion-label>
           <ion-select [selectOptions] ="{
             subTitle: 'Selecione uma sala',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "salaSelecionada"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "salaSelecionada"
              (ionChange)="changeSala($event)" [disabled]="(hoje == dataSelecionada && reserva.periodo <= periodoCorrente) || reserva.periodo == undefined">
             <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
           </ion-select>
@@ -100,7 +100,7 @@
           <ion-label>Tipo de uso</ion-label>
           <ion-select [selectOptions] ="{
             subTitle: 'Selecione um tipo de uso',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
              (ionChange)="changeUso($event)" >
             <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
             <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
@@ -117,7 +117,7 @@
           <ion-label>Disciplina</ion-label>
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione uma disciplina',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "disciplinaSelecionada"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "disciplinaSelecionada"
             [disabled]="reserva.tipo_uso == undefined || (reserva.tipo_uso != 'Prática' && reserva.tipo_uso != 'Teórica')"
             >
             <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
@@ -129,7 +129,7 @@
           <ion-label>Tipo de reserva</ion-label>
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione um tipo de reserva',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
             >
             <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
             <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>

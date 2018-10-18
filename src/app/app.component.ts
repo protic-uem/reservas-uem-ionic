@@ -66,6 +66,7 @@ export class MyApp {
 
   logout() {
     this.storage.set("login", new Login());
+    this.storage.set("clicouSair", true);
     this.nav.setRoot(LoginPage);
     this.events.publish("userloggedin", new Login());
   }

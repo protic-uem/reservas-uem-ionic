@@ -22,7 +22,7 @@
           <ion-label>Status</ion-label>
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione um status',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)]="statusSelecionado"
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)]="statusSelecionado"
           (ionChange)="statusMudado($event)">
             <ion-option value=0>PENDENTE</ion-option>
             <ion-option value=1>ACEITO</ion-option>

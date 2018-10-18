@@ -15,7 +15,7 @@
           <ion-label>Disciplina</ion-label>
           <ion-select [selectOptions] ="{
             subTitle: 'Selecione uma disciplina',
-             mode: 'ios'}" okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)">
+             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)">
             <ion-option value="undefined">SELECIONE</ion-option>
             <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.nome}}</ion-option>
           </ion-select>
