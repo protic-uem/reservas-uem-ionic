@@ -143,7 +143,6 @@ export class CreateSegmentPage {
         else if(minutoCorrente < 1280)//21:20
               this.periodoCorrente = 5;
 
-          console.log("periodoCorrente:"+this.periodoCorrente);
           return this.reserva.periodo > this.periodoCorrente;
         }
         else {

@@ -48,35 +48,40 @@ export class HomePage {
        var minutoCorrente = getMinutes(new Date());
        minutoCorrente += horaCorrente*60;
 
-       if(minutoCorrente < 465)
+       if(minutoCorrente > 465 && minutoCorrente <= 565)
        {
         this.periodoCorrente = 1;
         this.periodo = "7:45-9:25";
       }
-       else if(minutoCorrente < 580)
+       else if(minutoCorrente > 565 && minutoCorrente <= 720)
        {
         this.periodoCorrente = 2;
         this.periodo = "9:40-12:00";
       }
-       else if(minutoCorrente < 810)
+       else if(minutoCorrente > 720  && minutoCorrente <= 910)
        {
          this.periodoCorrente = 3;
          this.periodo = "13:30-15:10";
        }
-       else if(minutoCorrente < 930)
+       else if(minutoCorrente > 910  && minutoCorrente <= 1080)
        {
          this.periodoCorrente = 4;
           this.periodo = "15:30-18:00";
         }
-        else if(minutoCorrente < 1170)
+        else if(minutoCorrente > 1080  && minutoCorrente <= 1270)
         {
           this.periodoCorrente = 5;
            this.periodo = "19:30-21:10";
          }
-        else if(minutoCorrente < 1280)
+        else if(minutoCorrente > 1270 && minutoCorrente <= 1380)
         {
           this.periodoCorrente = 6;
           this.periodo = "21:20-23:00";
+        }
+        else
+        {
+            this.periodoCorrente = 0;
+            this.periodo = "Fora do intervalo";
         }
 
 

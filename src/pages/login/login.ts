@@ -151,9 +151,9 @@ export class LoginPage {
   }
 
 
-  //Realiza o login
+  //Realiza o login debugger; 
   login(){
-    this.validarLogin();
+   this.validarLogin();
 
     if(!this.errorEmail && !this.errorSenha){
       let loading = this.loadingCtrl.create({
