@@ -12,10 +12,10 @@
 <ion-content >
   <div padding>
     <ion-segment [(ngModel)]="etapas" color="secondary" (ionChange)="segmentChanged(etapas)">
-      <ion-segment-button value="etp1" disabled="true">
+      <ion-segment-button value="etp1" disabled="true" hidden>
         Etapa 1
       </ion-segment-button>
-      <ion-segment-button value="etp2" disabled="true">
+      <ion-segment-button value="etp2" disabled="true" hidden>
         Etapa 2
       </ion-segment-button>
     </ion-segment>

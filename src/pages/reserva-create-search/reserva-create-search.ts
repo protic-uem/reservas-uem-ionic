@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
-import { Validators, FormBuilder } from '@angular/forms';
-import { parse, format, isSunday, isSaturday, addWeeks, addMonths } from 'date-fns';
+import { parse, format, isSunday, isSaturday } from 'date-fns';
 import { Storage } from '@ionic/storage';
-import { ReservaMyPage } from '../reserva-my/reserva-my';
+import { HomePage } from '../home/home';
 
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
-import { Departamento } from '../../model/Departamento';
 import { Login } from '../../model/Login';
 import { Sala } from '../../model/Sala';
 import { Periodo } from '../../model/Periodo';
@@ -16,10 +14,7 @@ import { Reserva} from '../../model/Reserva';
 
 
 //Provedores
-import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
-import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
-import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
 
@@ -34,8 +29,6 @@ export class ReservaCreateSearchPage {
 
 reserva:Reserva;
 
- //variáveis para a validação de erros nos input's
- reservaForm:any;
  //caso verdadeiro, desativa o input de disciplina
  disciplinaDisabled = true;
 
@@ -61,9 +54,7 @@ reserva:Reserva;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
     private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
-    private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider,
-    private salaService:SalaServiceProvider, private reservaService:ReservaServiceProvider,
-    private usuarioService:UsuarioServiceProvider) {
+    private reservaService:ReservaServiceProvider, private usuarioService:UsuarioServiceProvider) {
 
 
       this.reserva = new Reserva;
@@ -77,13 +68,7 @@ reserva:Reserva;
 
       this.reserva =  this.navParams.get('item');
       this.salaSelecionada = this.navParams.get('sala');
-      //Criar o formulário de validação
-      this.reservaForm = formBuilder.group({
-        uso:['',Validators.required],
-        disciplina:['',],
-        tipoReserva:['',],
-        usuario:['',]
-      });
+
 
       //pegando usuário
       this.login = this.navParams.get('login');
@@ -313,10 +298,10 @@ reserva:Reserva;
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(ReservaMyPage);
+              this.navCtrl.setRoot(HomePage);
               let toast = this.toastCtrl.create({
                 message: result,
-                duration: 3000
+                duration: 5000
               });
               toast.present();
           });
@@ -334,13 +319,7 @@ reserva:Reserva;
 
   //apresenta o Toast de reserva cancelada
   reservaCanceled(){
-    let toast = this.toastCtrl.create({
-      message: 'Reserva cancelada',
-      duration: 3000
-    });
-    toast.present();
         this.navCtrl.pop();
-
   }
 
 

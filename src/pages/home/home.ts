@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { parse, format, getHours, getMinutes } from 'date-fns';
+import { format, getHours, getMinutes } from 'date-fns';
 
 //Páginas
-import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 import { ReservaView } from '../../model/ReservaView';
-import { Periodo } from '../../model/Periodo';
+import { Login } from '../../model/Login';
 
 
 //Provedores
@@ -25,20 +24,38 @@ export class HomePage {
   periodo:string;
   periodoCorrente:number;
   reservasNaoEncontrada:boolean = false;
+  login:Login;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
     private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
     private reservaService:ReservaServiceProvider) {
 
       this.reservas = new Array<ReservaView>();
       this.hoje = format(new Date(), 'YYYY-MM-DD');
       this.calcularPeriodoCorrente();
+      this.login = this.navParams.get('login');
 
   }
 
-  ionViewDidLoad() {
+
+  ionViewDidEnter(){
+    if(this.login != undefined && this.login.id != undefined)
       this.carregarReservasHome();
+    else
+        this.loadResources();//pegar o usuário logado e depois carregar as reservas
+  }
+
+  async loadResources() {
+    await this.storage.get("login")
+      .then((login) => {
+        if (login) {
+          this.login = login;
+          this.carregarReservasHome();
+        } else {
+          this.login = new Login();
+        }
+      });
   }
 
   //Calcula o período corrente

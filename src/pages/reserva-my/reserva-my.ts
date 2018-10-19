@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
 
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { Login } from '../../model/Login';
@@ -25,8 +25,7 @@ export class ReservaMyPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
-    private menuCtrl:MenuController, private loadingCtrl:LoadingController,
-    private ev:Events) {
+    private menuCtrl:MenuController, private loadingCtrl:LoadingController) {
 
       this.reservas = new Array<ReservaView>();
       this.reservasCarregadas = new Array<ReservaView>();

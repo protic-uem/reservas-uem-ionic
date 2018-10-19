@@ -32,7 +32,6 @@ import { ReservaVisitanteServiceProvider } from '../providers/reserva-visitante-
 import { DisciplinaServiceProvider } from '../providers/disciplina-service/disciplina-service';
 import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
 import { SalaServiceProvider } from '../providers/sala-service/sala-service';
-import { ChipReservaHomeComponent } from '../components/chip-reserva-home/chip-reserva-home';
 
 
 import { CalendarModule } from "ion2-calendar";

@@ -1,21 +1,17 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
-import { Validators, FormBuilder } from '@angular/forms';
-import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, getTime, addDays } from 'date-fns';
+import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
 import { Storage } from '@ionic/storage';
-import { ReservaMyPage } from '../reserva-my/reserva-my';
+import { HomePage } from '../home/home';
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
-import { Departamento } from '../../model/Departamento';
 import { Login } from '../../model/Login';
 import { Sala } from '../../model/Sala';
 import { Periodo } from '../../model/Periodo';
 import { Usuario } from '../../model/Usuario';
 
 //Provedores
-import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
-import { DepartamentoServiceProvider } from '../../providers/departamento-service/departamento-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
@@ -36,9 +32,6 @@ export class CreateSegmentPage {
   dataSelecionada:string;
   showDate:string;
 
-  //variáveis para a validação de erros nos input's
-  etp1Form:any;
-  etp2Form:any;
 
   usuarios:Array<Usuario>;
   disciplinas:Array<Disciplina>;
@@ -64,7 +57,6 @@ export class CreateSegmentPage {
  constructor(public navCtrl: NavController, public navParams: NavParams,
    private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
    private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
-   private formBuilder:FormBuilder, private departamentoService:DepartamentoServiceProvider,
    private salaService:SalaServiceProvider, private reservaService:ReservaServiceProvider,
    private usuarioService:UsuarioServiceProvider, private modalCtrl:ModalController) {
 
@@ -92,33 +84,13 @@ export class CreateSegmentPage {
            this.reserva.id_usuario = this.login.id;
            this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
 
-           this.etp1Form = formBuilder.group({
-             periodo:['',Validators.required]
-           });
-
          }
          else {
            this.classe = "secretario";
-           this.etp1Form = formBuilder.group({
-             periodo:['',Validators.required],
-             usuarioReserva:['', Validators.compose([
-               Validators.required,
-               Validators.nullValidator
-             ])]
-           });
 
            this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
            this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
          }
-
-         //Criar o formulário de validação
-         this.etp2Form = formBuilder.group({
-           uso:['',Validators.required],
-           sala:['',Validators.required],
-           disciplina:['',],
-           tipoReserva:['',]
-         });
-
 
      }
  }
@@ -299,13 +271,8 @@ export class CreateSegmentPage {
 
      //apresenta o Toast de reserva cancelada
      reservaCanceled(){
-         let toast = this.toastCtrl.create({
-           message: 'Reserva cancelada',
-           duration: 3000
-         });
 
-         toast.present();
-         this.navCtrl.push(ReservaMyPage, {
+         this.navCtrl.push(HomePage, {
            login: this.login,
          }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
 
@@ -610,10 +577,10 @@ export class CreateSegmentPage {
          .then((result:any) => {
            if(result){
              loading.dismiss().then(() => {
-                 this.navCtrl.setRoot(ReservaMyPage);
+                 this.navCtrl.setRoot(HomePage);
                  let toast = this.toastCtrl.create({
                    message: result,
-                   duration: 3000
+                   duration: 5000
                  });
                  toast.present();
              });

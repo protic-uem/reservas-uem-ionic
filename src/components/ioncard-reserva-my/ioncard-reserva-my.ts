@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavController, AlertController, LoadingController, ToastController, Events } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 //Páginas
 import { ReservaView } from '../../model/ReservaView';
@@ -15,7 +15,7 @@ export class IoncardReservaMyComponent {
 
  @Input() reserva:ReservaView;
   constructor(private navCtrl:NavController, private alertCtrl:AlertController, private loadingCtrl:LoadingController,
-    private reservaService:ReservaServiceProvider, private toastCtrl:ToastController, private ev:Events) {
+    private reservaService:ReservaServiceProvider, private toastCtrl:ToastController) {
   }
 
 
