@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { parse, format, isSunday, isSaturday } from 'date-fns';
 import { Storage } from '@ionic/storage';
-import { HomePage } from '../home/home';
+import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
@@ -298,7 +298,7 @@ reserva:Reserva;
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(HomePage);
+              this.navCtrl.setRoot(ReservaMyPage);
               let toast = this.toastCtrl.create({
                 message: result,
                 duration: 5000

@@ -14,16 +14,23 @@ page-create-segment {
 
   ion-item{
     height: 30%;
+    width: 100%!important;
   }
   ion-card{
     border-radius: 10px!important;
     height: 75%;
+  }
 
+  ion-select{
+    width: 100%!important;
+    max-width: 100%!important;
+    text-align: right;
   }
 
   ion-card-content{
     height: 100%;
   }
+
   form{
     height: 100%;
   }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
-import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
+import { parse, format, isSunday, isSaturday, isFriday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
+import { ReservaMyPage } from '../reserva-my/reserva-my';
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
 import { Login } from '../../model/Login';
@@ -46,6 +47,7 @@ export class CreateSegmentPage {
   login:Login;
   dataDocente:string;
   hoje:string;
+  dataDefault:string;
 
 
   periodo:Periodo;
@@ -58,41 +60,51 @@ export class CreateSegmentPage {
    private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
    private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
    private salaService:SalaServiceProvider, private reservaService:ReservaServiceProvider,
-   private usuarioService:UsuarioServiceProvider, private modalCtrl:ModalController) {
+   private usuarioService:UsuarioServiceProvider, private modalCtrl:ModalController, private zone: NgZone) {
 
 
-     this.etapas = "etp1";
-     this.reserva = new Reserva;
-     this.login = new Login();
-     this.disciplinaSelecionada = new Disciplina();
-     this.salaSelecionada = new Sala();
-     this.usuarioSelecionado = new Usuario();
+         this.etapas = "etp1";
+         this.reserva = new Reserva;
+         this.login = new Login();
+         this.disciplinaSelecionada = new Disciplina();
+         this.salaSelecionada = new Sala();
+         this.usuarioSelecionado = new Usuario();
 
-     this.hoje = format(new Date(), 'YYYY-MM-DD');
-     this.dataSelecionada = format(addDays(new Date(), 1), 'YYYY-MM-DD');
-     this.showDate = format(addDays(new Date(), 1), 'DD/MM/YYYY');
+         this.hoje = format(new Date(), 'YYYY-MM-DD');
+         this.dataSelecionada = format(addDays(new Date(), 1), 'YYYY-MM-DD');
+         this.showDate = format(addDays(new Date(), 1), 'DD/MM/YY');
 
-     //pegando usuário
-     this.login = this.navParams.get('login');
-     if(this.login.nome == undefined)
-       this.loadResources();//pegar o usuário logado e depois carregar as reservas
+         //pegando usuário
+         this.login = this.navParams.get('login');
+         if(this.login.nome == undefined)
+           this.loadResources();//pegar o usuário logado e depois carregar as reservas
 
-       //Caso seja docente, só podera realizar reservas de 3 semanas a referente
-       //Caso seja secretário, poderá 1 mês a frente
-       if(this.login.nome != undefined){
-         if(this.login.privilegio == 'Docente'){
-           this.reserva.id_usuario = this.login.id;
-           this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
+           //Caso seja docente, só podera realizar reservas de 3 semanas a referente
+           //Caso seja secretário, poderá 1 mês a frente
+           if(this.login.nome != undefined){
+             if(this.login.privilegio == 'Docente'){
+               this.reserva.id_usuario = this.login.id;
+               this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
+               this.calcularDiaDefaultCalendar();
+
+             }
+             else {
+               this.classe = "secretario";
+               this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
+               this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
+               this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
+             }
 
          }
-         else {
-           this.classe = "secretario";
+ }
 
-           this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
-           this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
-         }
-
-     }
+ calcularDiaDefaultCalendar(){
+   if(isFriday(this.hoje))
+      this.dataDefault = format(addDays(new Date(), 3), 'YYYY-MM-DD');
+   if(isSaturday(this.hoje))
+      this.dataDefault = format(addDays(new Date(), 2), 'YYYY-MM-DD');
+   else
+      this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
  }
 
 
@@ -165,7 +177,11 @@ export class CreateSegmentPage {
               .then((result:boolean) => {
                 if(result){
                   this.reserva.data_reserva = this.dataSelecionada;
-                  this.etapas = "etp2";
+
+                  this.zone.run(() => {
+                    this.etapas = "etp2";
+                  });
+
                 }else{
                   this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
                           " escolha outra data e/ou periodo.");
@@ -194,7 +210,7 @@ export class CreateSegmentPage {
            from: new Date(),
            to: parse(this.dataDocente),
            title: '',
-           defaultDate: addDays(new Date(), 1),
+           defaultDate: this.dataDefault,
            closeLabel: "CANCELAR",
            doneLabel: "SELECIONAR",
            monthFormat: "MMM YYYY",
@@ -208,10 +224,10 @@ export class CreateSegmentPage {
 
          myCalendar.present();
 
-         myCalendar.onDidDismiss((date: CalendarResult, type: string) => {
+         myCalendar.onDidDismiss((date: CalendarResult) => {
            if(date != null && date != undefined){
              this.dataSelecionada = date.string;
-             this.showDate = format(date.string, 'DD/MM/YYYY');
+             this.showDate = format(date.string, 'DD/MM/YY');
 
              //this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
            }
@@ -254,7 +270,8 @@ export class CreateSegmentPage {
        return true;
      }
    else{//se for secretário, valide usuario, data e periodo
-     if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined){
+     if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined
+      || this.salaSelecionada.id == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
        return false;
      }else
@@ -530,7 +547,7 @@ export class CreateSegmentPage {
        '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
     else
       msg =  '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
-       '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
+       ''+(this.disciplinaSelecionada.codigo == undefined?'':'<b>Disciplina:</b> '+this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma+'<br/>')+''+
        '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
        '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
        '<b>Tipo de uso:</b> '+this.reserva.tipo_uso+'<br/>'+
@@ -577,7 +594,7 @@ export class CreateSegmentPage {
          .then((result:any) => {
            if(result){
              loading.dismiss().then(() => {
-                 this.navCtrl.setRoot(HomePage);
+                 this.navCtrl.setRoot(ReservaMyPage);
                  let toast = this.toastCtrl.create({
                    message: result,
                    duration: 5000

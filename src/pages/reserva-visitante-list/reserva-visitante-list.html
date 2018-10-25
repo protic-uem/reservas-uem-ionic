@@ -1,5 +1,5 @@
 <ion-header >
-  <ion-navbar color="secondary">
+  <ion-navbar color="secondary" justify-content-center>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -17,7 +17,7 @@
             subTitle: 'Selecione uma disciplina',
              mode: 'md'}" okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)">
             <ion-option value="undefined">SELECIONE</ion-option>
-            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.nome}}</ion-option>
+            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
