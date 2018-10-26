@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, LoadingController, Events, AlertController } from 'ionic-angular';
+import { NavController, NavParams, MenuController, LoadingController, Events, AlertController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
 import { Storage } from '@ionic/storage';
@@ -11,7 +11,6 @@ import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 
 
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -151,7 +150,7 @@ export class LoginPage {
   }
 
 
-  //Realiza o login debugger; 
+  //Realiza o login debugger;
   login(){
    this.validarLogin();
 

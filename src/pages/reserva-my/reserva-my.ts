@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
 
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { Login } from '../../model/Login';
@@ -9,7 +9,6 @@ import { ReservaView } from '../../model/ReservaView';
 
 
 
-@IonicPage()
 @Component({
   selector: 'page-reserva-my',
   templateUrl: 'reserva-my.html',

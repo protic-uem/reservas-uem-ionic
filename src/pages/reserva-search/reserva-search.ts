@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
+import { NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
 import { parse, format,addDays, subDays, isBefore, isAfter, addWeeks, addMonths } from 'date-fns';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { ReservaView } from '../../model/ReservaView';
@@ -14,7 +14,6 @@ import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calend
 import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create-search';
 
 
-@IonicPage()
 @Component({
   selector: 'page-reserva-search',
   templateUrl: 'reserva-search.html',

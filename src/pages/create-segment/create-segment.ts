@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 import { Reserva} from '../../model/Reserva';
 import { parse, format, isSunday, isSaturday, isFriday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
 import { Storage } from '@ionic/storage';
@@ -21,7 +21,6 @@ import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calend
 
 
 
-@IonicPage()
 @Component({
   selector: 'page-create-segment',
   templateUrl: 'create-segment.html',

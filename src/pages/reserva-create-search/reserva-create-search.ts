@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { parse, format, isSunday, isSaturday } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
@@ -20,7 +20,6 @@ import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-
 
 
 
-@IonicPage()
 @Component({
   selector: 'page-reserva-create-search',
   templateUrl: 'reserva-create-search.html',

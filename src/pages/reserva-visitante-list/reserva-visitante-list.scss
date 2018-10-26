@@ -22,6 +22,12 @@ page-reserva-visitante-list {
     right: 0;
   }
 
+  .disciplina{
+    width: 100%!important;
+    text-align: right!important;
+    justify-content: flex-end!important;
+  }
+
   .centralizarVerticalmente{
      display: flex!important;
      align-content: center!important;

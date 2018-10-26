@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, MenuController, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 //Páginas
@@ -11,7 +11,6 @@ import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitan
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 
 
-@IonicPage()
 @Component({
   selector: 'page-reserva-visitante-list',
   templateUrl: 'reserva-visitante-list.html',

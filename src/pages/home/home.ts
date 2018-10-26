@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format, getHours, getMinutes } from 'date-fns';
 
@@ -11,7 +11,6 @@ import { Login } from '../../model/Login';
 //Provedores
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 
-@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',

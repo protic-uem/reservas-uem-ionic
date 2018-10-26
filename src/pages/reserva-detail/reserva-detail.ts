@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
 import {ReservaView} from '../../model/ReservaView';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 
 
-@IonicPage()
 @Component({
   selector: 'page-reserva-detail',
   templateUrl: 'reserva-detail.html',
