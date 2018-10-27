@@ -5,7 +5,25 @@
   white-space: normal!important;
 }
 
-.scroll-content {padding-bottom: 0! important;}
+.scroll-content {
+    padding-bottom: 0! important;
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.3);
+    box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+
+.alertSolicitante{
+  color: red!important;
+  overflow-y: scroll!important;
+}
 
 ion-toolbar{
   height: 100%;

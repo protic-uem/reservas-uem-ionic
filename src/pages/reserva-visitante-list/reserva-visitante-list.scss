@@ -8,6 +8,11 @@ page-reserva-visitante-list {
     overflow: hidden;
   }
 
+  ion-select{
+    width: 100%!important;
+    max-width: 100%!important;
+    text-align: right;
+  }
 
   .center{
     margin-left: auto;

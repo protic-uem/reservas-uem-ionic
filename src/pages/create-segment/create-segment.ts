@@ -27,6 +27,8 @@ import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calend
 })
 export class CreateSegmentPage {
 
+
+
   reserva:Reserva;
 
   dataSelecionada:string;
@@ -70,8 +72,8 @@ export class CreateSegmentPage {
          this.usuarioSelecionado = new Usuario();
 
          this.hoje = format(new Date(), 'YYYY-MM-DD');
-         this.dataSelecionada = format(addDays(new Date(), 1), 'YYYY-MM-DD');
-         this.showDate = format(addDays(new Date(), 1), 'DD/MM/YY');
+         //this.dataSelecionada = format(addDays(new Date(), 1), 'YYYY-MM-DD');
+         //this.showDate = format(addDays(new Date(), 1), 'DD/MM/YY');
 
          //pegando usuário
          this.login = this.navParams.get('login');
@@ -85,6 +87,8 @@ export class CreateSegmentPage {
                this.reserva.id_usuario = this.login.id;
                this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
                this.calcularDiaDefaultCalendar();
+               this.dataSelecionada = this.dataDefault;
+               this.showDate = format(this.dataDefault, 'DD/MM/YY');
 
              }
              else {
@@ -92,6 +96,8 @@ export class CreateSegmentPage {
                this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
                this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
                this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
+               this.showDate = format(this.dataDefault, 'DD/MM/YY');
+               this.dataSelecionada =  this.dataDefault;
              }
 
          }
@@ -100,12 +106,11 @@ export class CreateSegmentPage {
  calcularDiaDefaultCalendar(){
    if(isFriday(this.hoje))
       this.dataDefault = format(addDays(new Date(), 3), 'YYYY-MM-DD');
-   if(isSaturday(this.hoje))
+   else if(isSaturday(this.hoje))
       this.dataDefault = format(addDays(new Date(), 2), 'YYYY-MM-DD');
    else
       this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
  }
-
 
   validarPeriodo(){
     if(this.hoje == this.dataSelecionada){
@@ -211,7 +216,7 @@ export class CreateSegmentPage {
            title: '',
            defaultDate: this.dataDefault,
            closeLabel: "CANCELAR",
-           doneLabel: "SELECIONAR",
+           doneLabel: "",
            monthFormat: "MMM YYYY",
            weekdays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
            disableWeeks: diasNaoPermitidos
@@ -222,6 +227,7 @@ export class CreateSegmentPage {
          });
 
          myCalendar.present();
+
 
          myCalendar.onDidDismiss((date: CalendarResult) => {
            if(date != null && date != undefined){
@@ -320,7 +326,8 @@ export class CreateSegmentPage {
      }
 
      //Executado toda vez que um periodo é selecinado
-     periodoChange(valor){
+     periodoChange(comp, valor){
+        comp.dismiss();
         this.salaSelecionada = new Sala();
         if(this.validarPeriodo()){
           this.carregarSalasDisponiveisPorDepartamentoDataPeriodo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo);
