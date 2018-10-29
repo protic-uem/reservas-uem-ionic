@@ -11,22 +11,25 @@
 
 <ion-content >
   <ion-card>
-    <ion-card-header>
-      Docente
-    </ion-card-header>
-    <ion-card-content>
-      O Docente tem permissão de solicitação de reservas,
-      consulta de reservas e cancelamento de reservas. O mesmo não pode fazer
-      solicitações no sábado ou domingo.
-    </ion-card-content>
-    <hr />
-    <ion-card-header>
-      Secretário
-    </ion-card-header>
-    <ion-card-content>
-      O Docente tem permissão de solicitação de reservas,
-      consulta de reservas e cancelamento de reservas. O mesmo pode fazer
-      solicitações no sábado ou domingo.
-    </ion-card-content>
+    <div *ngIf="login.privilegio == 'Docente'">
+      <ion-card-header >
+        Docente
+      </ion-card-header>
+      <ion-card-content>
+        O Docente tem permissão de solicitação de reservas,
+        consulta de reservas e cancelamento de reservas. O mesmo não pode fazer
+        solicitações no sábado ou domingo.
+      </ion-card-content>
+  </div>
+    <div *ngIf="login.privilegio == 'Secretário'">
+      <ion-card-header>
+        Secretário
+      </ion-card-header>
+      <ion-card-content>
+        O Docente tem permissão de solicitação de reservas,
+        consulta de reservas e cancelamento de reservas. O mesmo pode fazer
+        solicitações no sábado ou domingo.
+      </ion-card-content>
+    </div>
   </ion-card>
 </ion-content>

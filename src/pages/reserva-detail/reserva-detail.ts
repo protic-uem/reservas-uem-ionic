@@ -97,6 +97,12 @@ export class ReservaDetailPage {
 
   }
 
+
+  voltarTela(){
+    this.navCtrl.pop();
+  }
+
+
   //apresenta o alerta sobre o erro
   apresentarErro(msg:string){
     const alertError = this.alertCtrl.create({

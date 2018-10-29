@@ -326,8 +326,7 @@ export class CreateSegmentPage {
      }
 
      //Executado toda vez que um periodo é selecinado
-     periodoChange(comp, valor){
-        comp.dismiss();
+     periodoChange(valor){
         this.salaSelecionada = new Sala();
         if(this.validarPeriodo()){
           this.carregarSalasDisponiveisPorDepartamentoDataPeriodo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo);
@@ -544,24 +543,26 @@ export class CreateSegmentPage {
      reservaConfirm(){
 
      let msg: string;
+     var ptLocale = require('date-fns/locale/pt')
+
 
      if(this.login.privilegio == "Docente")
       msg =  '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
        '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
-       '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
-       '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+       '<b>Data:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY, ddd', {locale: ptLocale })+'<br/>'+
+       '<b>Horário:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
        '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
     else
       msg =  '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
        ''+(this.disciplinaSelecionada.codigo == undefined?'':'<b>Disciplina:</b> '+this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma+'<br/>')+''+
-       '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
-       '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+       '<b>Data:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY, ddd',{locale: ptLocale })+'<br/>'+
+       '<b>Horário:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
        '<b>Tipo de uso:</b> '+this.reserva.tipo_uso+'<br/>'+
        '<b>Tipo de reserva:</b> '+this.reserva.tipo_reserva;
 
 
        const alert = this.alertCtrl.create({
-         title:'Tem certeza?',
+         title:'Confirmar Reserva?',
          message:msg ,
 
          buttons: [

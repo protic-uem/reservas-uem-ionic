@@ -128,7 +128,9 @@
              mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "disciplinaSelecionada"
             [disabled]="reserva.tipo_uso == undefined || (reserva.tipo_uso != 'Prática' && reserva.tipo_uso != 'Teórica')"
             placeholder="Disciplina">
-            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
+            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">
+              {{disciplina.codigo}}-{{disciplina.turma}}
+            </ion-option>
           </ion-select>
         </ion-item>
           <hr  *ngIf="login.privilegio == 'Secretário'"/>

@@ -40,7 +40,7 @@
       </ion-row>
       </ion-list>
   </ion-card>
-  <ion-grid >
+  <ion-grid  *ngIf="salaSelecionada != undefined && salaSelecionada.id != undefined" >
     <ion-row class="periodo" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
         07:45<br />09:25

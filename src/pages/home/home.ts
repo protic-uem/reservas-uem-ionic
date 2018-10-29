@@ -123,7 +123,6 @@ export class HomePage {
         this.reservas  = new Array<ReservaView>();
         loading.dismiss();
         this.reservasNaoEncontrada = true;
-        this.apresentarErro("Nenhuma reserva ativa foi encontrada");
       }
 
       } )
