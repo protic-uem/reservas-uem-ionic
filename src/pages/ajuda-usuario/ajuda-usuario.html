@@ -16,9 +16,9 @@
         Docente
       </ion-card-header>
       <ion-card-content>
-        O Docente tem permissão de solicitação de reservas,
-        consulta de reservas e cancelamento de reservas. O mesmo não pode fazer
-        solicitações no sábado ou domingo.
+        Neste App você poderá solicitar reservas, consultar reservas, ver suas reservas e cancelar reservas.
+        <br />
+        Aqui você não poderá realizar reservas para os sábados ou domingos, apenas a secretaria pode realizar reservas para os finais de semana.
       </ion-card-content>
   </div>
     <div *ngIf="login.privilegio == 'Secretário'">
@@ -26,9 +26,9 @@
         Secretário
       </ion-card-header>
       <ion-card-content>
-        O Docente tem permissão de solicitação de reservas,
-        consulta de reservas e cancelamento de reservas. O mesmo pode fazer
-        solicitações no sábado ou domingo.
+        Neste App você poderá solicitar reservas, consultar reservas, ver suas reservas e cancelar reservas.
+        <br />
+        Aqui você poderá realizar reservas para os sábados ou domingos.
       </ion-card-content>
     </div>
   </ion-card>

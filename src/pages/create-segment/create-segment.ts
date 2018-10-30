@@ -20,7 +20,6 @@ import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-
 import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
 
 
-
 @Component({
   selector: 'page-create-segment',
   templateUrl: 'create-segment.html',
@@ -101,6 +100,7 @@ export class CreateSegmentPage {
              }
 
          }
+
  }
 
  calcularDiaDefaultCalendar(){
@@ -184,6 +184,8 @@ export class CreateSegmentPage {
 
                   this.zone.run(() => {
                     this.etapas = "etp2";
+                    if(this.disciplinas == undefined || this.disciplinas.length == 0)
+                      this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
                   });
 
                 }else{
@@ -320,8 +322,10 @@ export class CreateSegmentPage {
      //Atualiza o id_usuario da reserva com o id do usuario selecionado
      usuarioChange(usuario:Usuario){
 
-       if(usuario!= undefined && usuario.id != undefined)
+       if(usuario!= undefined && usuario.id != undefined){
         this.reserva.id_usuario = usuario.id;
+          this.carregarDisciplinasPorUsuario(usuario.id);
+      }
 
      }
 
@@ -395,10 +399,14 @@ export class CreateSegmentPage {
                if(disciplinas.length > 0){
                  this.disciplinas = disciplinas;
                  this.storage.set("disciplinas", disciplinas);
-                 loading.dismiss();
+                 loading.dismiss().then(() => {
+                   this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
+                 });
                }else{
-                 loading.dismiss();
-                 this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+                 loading.dismiss().then(() => {
+                   this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
+                 });;
+                 //this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
                }
 
                } )
@@ -421,10 +429,14 @@ export class CreateSegmentPage {
                if(disciplinas.length > 0){
                  this.disciplinas = disciplinas;
                  this.storage.set("disciplinas", disciplinas);
-                 loading.dismiss();
+                 loading.dismiss().then(() => {
+                   this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
+                 });
                }else{
-                 loading.dismiss();
-                 this.apresentarErro("Nenhuma disciplina foi encontrada para reste usuário");
+                 loading.dismiss().then(() => {
+                   this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
+                 });;
+                 //this.apresentarErro("Nenhuma disciplina foi encontrada para reste usuário");
                }
 
                } )
@@ -475,7 +487,6 @@ export class CreateSegmentPage {
           if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
            this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
 
-        this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
         }
 
 

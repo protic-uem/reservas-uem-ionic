@@ -69,7 +69,7 @@
           <ion-select [selectOptions] ="{
             subTitle: 'Selecione um tipo de uso',
              mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
-             (ionChange)="changeUso($event)" placeholder="Tipo de uso" 
+             (ionChange)="changeUso($event)" placeholder="Tipo de uso"
              [disabled]="(reserva.periodo == dataSelecionada && reserva.periodo <= periodoCorrente) || reserva.periodo == undefined">
             <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
             <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
@@ -127,10 +127,11 @@
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione uma disciplina',
              mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "disciplinaSelecionada"
-            [disabled]="reserva.tipo_uso == undefined || (reserva.tipo_uso != 'Prática' && reserva.tipo_uso != 'Teórica')"
+            [disabled]="disciplinas == undefined || disciplinas.length == 0"
             placeholder="Disciplina">
             <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">
               {{disciplina.codigo}}-{{disciplina.turma}}
+              {{disciplina.nome}}
             </ion-option>
           </ion-select>
         </ion-item>
