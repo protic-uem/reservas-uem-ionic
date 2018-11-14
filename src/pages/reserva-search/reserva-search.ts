@@ -20,7 +20,7 @@ import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create
 })
 export class ReservaSearchPage {
 
-@ViewChild('sectionSelect') sectionSelect: Select;
+@ViewChild('selectionSala') selectRef:Select;
 
   reserva:Reserva;
 
@@ -78,12 +78,16 @@ export class ReservaSearchPage {
     this.showDate = format(new Date(), 'DD/MM/YYYY');
     this.carregarSalasPorDepartamento(this.departamentoDIN);
 
-    if(this.salaSelecionada.id == undefined)
-      this.apresentarErro("Por favor, selecione uma sala");
+
+      //this.apresentarErro("Por favor, selecione uma sala");
 
   }
 
   ionViewDidEnter(){
+    if(this.salaSelecionada.id == undefined)
+      this.selectRef.open();
+
+
     if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
       this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN ,this.salaSelecionada.id);
   }

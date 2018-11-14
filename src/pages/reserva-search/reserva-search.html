@@ -4,22 +4,24 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <h5>SALAS: Reservas </h5></ion-title>
+      <h5>SALAS: Reservas </h5>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content no-bounce>
   <ion-card>
     <ion-list>
-      <ion-item class="item-list-key">
-        <ion-icon item-start name="key" class="sala"></ion-icon>
+      <ion-item>
+        <ion-icon item-start name="key" ></ion-icon>
         <ion-label>Sala</ion-label>
-        <ion-select [selectOptions] ="{
+        <ion-select #selectionSala
+          [selectOptions] ="{
           subTitle: 'Selecione uma sala',
            mode: 'md'}" okText="Selecionar" [(ngModel)] = "salaSelecionada" (ionChange)="changeSala($event)">
           <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-row class="item-list-calendar">
+      <ion-row >
         <ion-col col-2>
           <ion-item (click)="anteriorDia()">
             <ion-icon name="md-arrow-back" item-left></ion-icon>
@@ -40,9 +42,9 @@
       </ion-row>
       </ion-list>
   </ion-card>
-  <ion-grid  *ngIf="salaSelecionada != undefined && salaSelecionada.id != undefined" >
+  <ion-grid  *ngIf="salaSelecionada != undefined && salaSelecionada.id != undefined">
     <ion-row class="periodo" style="background-color: #ADD8E6;">
-      <ion-col class="texto verticalLine"  col-2>
+      <ion-col class="texto verticalLine"  col-2 >
         07:45<br />09:25
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>

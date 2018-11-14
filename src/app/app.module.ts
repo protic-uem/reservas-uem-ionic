@@ -23,7 +23,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ComponentsModule } from '../components/components.module';
 
 //compoentes baixados
-import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { ConexaoProvider } from '../providers/conexao/conexao';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { UsuarioServiceProvider } from '../providers/usuario-service/usuario-service';
@@ -32,7 +31,7 @@ import { ReservaVisitanteServiceProvider } from '../providers/reserva-visitante-
 import { DisciplinaServiceProvider } from '../providers/disciplina-service/disciplina-service';
 import { DepartamentoServiceProvider } from '../providers/departamento-service/departamento-service';
 import { SalaServiceProvider } from '../providers/sala-service/sala-service';
-
+import { TimeoutPromise } from '../util/timeout-promise';
 
 import { CalendarModule } from "ion2-calendar";
 
@@ -54,7 +53,6 @@ import { CalendarModule } from "ion2-calendar";
   ],
   imports: [
     BrowserModule,
-    AutoCompleteModule,
     IonicModule.forRoot(MyApp, {
       scrollAssist: true,
       autoFocusAssist: true,
@@ -93,7 +91,8 @@ import { CalendarModule } from "ion2-calendar";
     ReservaVisitanteServiceProvider,
     DisciplinaServiceProvider,
     DepartamentoServiceProvider,
-    SalaServiceProvider
+    SalaServiceProvider,
+    TimeoutPromise
   ]
 })
 export class AppModule {}

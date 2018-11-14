@@ -74,9 +74,12 @@ reserva:Reserva;
       if(this.login.nome == undefined)
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
       else{
-        if(this.login.privilegio == "Secretário")
+        if(this.login.privilegio == "Secretário"){
           this.classe = "secretario";
           this.classeIonCard = "ionCardSecretario";
+        }else{
+          this.usuarioSelecionado.id = this.login.id;
+        }
           this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
         }
 

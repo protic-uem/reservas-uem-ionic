@@ -122,6 +122,7 @@ export class LoginPage {
       content: 'Por favor, aguarde...'
     });
 
+
     loading.present();
     this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
       .then( (login:Login) => {
@@ -145,7 +146,7 @@ export class LoginPage {
         } )
       .catch( (error) => {
         loading.dismiss();
-        this.presentConfirm(error.message);
+        this.presentConfirm(error);
       });
   }
 
@@ -182,7 +183,7 @@ export class LoginPage {
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.presentConfirm(error.message);
+          this.presentConfirm(error);
         });
     }
 

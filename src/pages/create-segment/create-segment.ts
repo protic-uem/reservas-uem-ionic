@@ -151,23 +151,10 @@ export class CreateSegmentPage {
      });
  }
 
- ionViewDidEnter(){
-    this.mensagensEtapa1();
- }
-
- //apresenta mensagens com instruções ao usuário
- mensagensEtapa1(){
-   if(this.login.privilegio == "Docente" && this.reserva != undefined && this.reserva.periodo == undefined )
-     this.apresentarErro("Escolha: Data, Periodo e Tipo de uso");
-   else if(this.login.privilegio == "Secretário" && this.reserva != undefined && this.reserva.periodo == undefined
-            && this.usuarioSelecionado.id == undefined)
-    this.apresentarErro("Escolha: Solicitante, Data, Periodo e Tipo de uso");
- }
 
  //É executado sempre que o usuário muda de segmento
  segmentChanged(segmento){
-  if(segmento == 'etp1')
-    this.mensagensEtapa1();
+  
  }
 
  avancarCreate(){
