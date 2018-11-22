@@ -154,7 +154,7 @@ export class CreateSegmentPage {
 
  //É executado sempre que o usuário muda de segmento
  segmentChanged(segmento){
-  
+
  }
 
  avancarCreate(){
@@ -263,7 +263,7 @@ export class CreateSegmentPage {
      }else
        return true;
      }
-   else{//se for secretário, valide usuario, data e periodo
+   else{//se for secretário, valide usuario, data, periodo e tipo de uso
      if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined
       || this.reserva.tipo_uso == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
@@ -281,14 +281,11 @@ export class CreateSegmentPage {
  }
 
      //apresenta o Toast de reserva cancelada
-     reservaCanceled(){
-
-         this.navCtrl.push(HomePage, {
-           login: this.login,
-         }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
-
-
-     }
+   reservaCanceled(){
+       this.navCtrl.push(HomePage, {
+         login: this.login,
+       }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
+    }
 
      //apresenta o alerta sobre o erro
      apresentarErro(msg:string){
@@ -308,7 +305,6 @@ export class CreateSegmentPage {
      //Executado toda vez que um usuário é selecionado
      //Atualiza o id_usuario da reserva com o id do usuario selecionado
      usuarioChange(usuario:Usuario){
-
        if(usuario!= undefined && usuario.id != undefined){
         this.reserva.id_usuario = usuario.id;
           this.carregarDisciplinasPorUsuario(usuario.id);
@@ -317,6 +313,7 @@ export class CreateSegmentPage {
      }
 
      //Executado toda vez que um periodo é selecinado
+     //Carrega todas as salas disponiveis por departamento, periodo e tipo de uso
      periodoChange(valor){
         this.salaSelecionada = new Sala();
         if(this.validarPeriodo()){

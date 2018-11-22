@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
 import { parse, format,addDays, subDays, isBefore, isAfter, addWeeks, addMonths } from 'date-fns';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
@@ -44,10 +44,9 @@ export class ReservaSearchPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private loadingCtrl:LoadingController, private alertCtrl:AlertController,
-    private salaService:SalaServiceProvider, private modalCtrl:ModalController) {
+    private salaService:SalaServiceProvider, private modalCtrl:ModalController, private cdr:ChangeDetectorRef) {
 
     this.reservas = new Array<ReservaView>();
-    this.salas = new Array<Sala>();
     this.salaSelecionada = new Sala();
     this.reserva = new Reserva();
 
@@ -72,22 +71,17 @@ export class ReservaSearchPage {
           this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
     }
 
-
-
     this.dataSelecionada = format(new Date(), 'YYYY-MM-DD');
     this.showDate = format(new Date(), 'DD/MM/YYYY');
-    this.carregarSalasPorDepartamento(this.departamentoDIN);
 
-
-      //this.apresentarErro("Por favor, selecione uma sala");
+    //atualiza o select da sala, caso o usuário ainda não tenha selecionado nenhuma sala
+    if(this.salaSelecionada.id == undefined)
+      this.carregarSalasPorDepartamento(this.departamentoDIN);
 
   }
 
+ //Executa toda vez que a tela é aberta
   ionViewDidEnter(){
-    if(this.salaSelecionada.id == undefined)
-      this.selectRef.open();
-
-
     if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
       this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN ,this.salaSelecionada.id);
   }
@@ -156,39 +150,32 @@ export class ReservaSearchPage {
     })
   }
 
+  //Carrega as reservas por data e sala
   changeSala(valor){
     if(valor != undefined && this.dataSelecionada != undefined)
       this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, valor.id);
   }
 
-
-
     //Carrega todas as salas referente a um determinado departamento
     carregarSalasPorDepartamento(id_departamento:number){
-
         let loading = this.loadingCtrl.create({
           content: 'Carregando salas...'
         });
         loading.present();
-        this.salaService.carregarSalaPorDepartamento(id_departamento)
-          .then( (salas:Array<Sala>) => {
+           this.storage.get("salasDepartamento").then((salas:Array<Sala>) => {
             if(salas.length > 0){
-              this.salas = salas;
-              this.storage.set("salas", salas);
-              loading.dismiss().then(() => {
-              });
-            }else{
-              loading.dismiss();
-              this.apresentarErro("Nenhuma sala foi encontrada");
-            }
-
-            } )
-          .catch( (error) => {
+                this.salas = salas;
+                this.cdr.detectChanges();
+                this.selectRef.open();
+              }
+            else
+              this.salas = new Array<Sala>();
             loading.dismiss();
+          }).catch( (error) => {
+            loading.dismiss();
+            this.salas = new Array<Sala>();
             this.apresentarErro(error.message);
           });
-
-
     }
 
  //carrega todas as reservas de uma determinada data
@@ -222,7 +209,6 @@ export class ReservaSearchPage {
       }else{
         this.reservas  = new Array<ReservaView>();
         loading.dismiss();
-        //this.presentConfirm("Nenhuma reserva ativa foi encontrada");
       }
 
       } )
@@ -261,6 +247,7 @@ export class ReservaSearchPage {
 
   }
 
+  //Vai para a página de reservar
   openReserva(reserva:ReservaView){
     this.navCtrl.push(ReservaDetailPage, {
       item: reserva
@@ -268,6 +255,7 @@ export class ReservaSearchPage {
   }
 
 
+  //Atualiza o dia e carrega as reservas de arcordo com a data e a sala
   proximoDia(){
     if(!isAfter(this.dataSelecionada, this.dataDocente))
       this.dataSelecionada = format(addDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');

@@ -34,6 +34,7 @@ export class ReservaVisitanteListPage {
     this.reservas = new Array<ReservaView>();
     this.disciplinas = new Array<Disciplina>();
     this.carregarDisciplinasPorDepartamento(this.departamentoSelecionado);
+
   }
 
   //Carrega todas as dicipinas referente a um determinado departamento
@@ -43,19 +44,32 @@ export class ReservaVisitanteListPage {
         content: 'Carregando disciplinas...'
       });
 
-      this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
-        .then( (disciplinas:Array<Disciplina>) => {
-          if(disciplinas.length > 0){
-            this.disciplinas = disciplinas;
-            this.storage.set("disciplinas", disciplinas);
-            loading.dismiss();
-          }else{
-            loading.dismiss();
-            this.presentConfirm("Nenhuma disciplina foi encontrada");
-          }
+      this.storage.get("disciplinasDIN").then( (disciplinasDIN:Array<Disciplina>) => {
 
-          } )
-        .catch( (error) => {
+        if(disciplinasDIN.length > 0){
+          this.disciplinas = disciplinasDIN;
+          loading.dismiss();
+        }else{
+          console.log("Carregando disciplinas");
+            this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
+              .then( (disciplinas:Array<Disciplina>) => {
+                if(disciplinas.length > 0){
+                  this.disciplinas = disciplinas;
+                  this.storage.set("disciplinasDIN", disciplinas);
+                  loading.dismiss();
+                }else{
+                  loading.dismiss();
+                  this.presentConfirm("Nenhuma disciplina foi encontrada");
+                }
+
+                } )
+              .catch( (error) => {
+                loading.dismiss();
+                this.presentConfirm(error.message);
+              });
+        }
+
+        }).catch( (error) => {
           loading.dismiss();
           this.presentConfirm(error.message);
         });

@@ -4,8 +4,15 @@ import { HomePage } from '../home/home';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
 import { Storage } from '@ionic/storage';
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
+import { SalaServiceProvider } from './../../providers/sala-service/sala-service';
+import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 
+
+import { Sala } from '../../model/Sala';
+import { ReservaView } from '../../model/ReservaView';
 import { Login } from '../../model/Login';
+
+
 import { Validators, FormBuilder } from '@angular/forms';
 import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 
@@ -32,12 +39,22 @@ export class LoginPage {
   senhaType:string = 'password';
   senhaShow:boolean = false;
   keepConnected:boolean;
+  departamentoDIN:number = 1;
+
+
+  salas:Array<Sala>;
+  minhasReservas:Array<ReservaView>;
+  usuario:Login;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private menuCtrl: MenuController, private storage:Storage, private loginService:LoginServiceProvider,
-  private ev:Events, private loadingCtrl: LoadingController,
-  private alertCtrl:AlertController, private formBuilder: FormBuilder) {
+  private ev:Events, private loadingCtrl: LoadingController, private salaService:SalaServiceProvider,
+  private reservaService:ReservaServiceProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder) {
 
+
+    this.salas = new Array<Sala>();
+    this.minhasReservas = new Array<ReservaView>();
+    this.usuario = new Login();
 
     this.storage.get("login")
         .then( (value) => {
@@ -45,7 +62,7 @@ export class LoginPage {
             this.senha = ''
           } });
 
-
+    //verifica se a opção manterConectado está marcada
     this.storage.get("keepConnected").then( (value) =>{
       this.keepConnected = value;
       if(value == true){
@@ -95,14 +112,13 @@ export class LoginPage {
   }
 
   public toggleSenha(){
-    if(this.senhaShow){
-      this.senhaShow = false;
-      this.senhaType = 'password';
-    } else{
-      this.senhaShow = true;
-      this.senhaType = 'text';
-    }
-
+      if(this.senhaShow){
+        this.senhaShow = false;
+        this.senhaType = 'password';
+      } else{
+        this.senhaShow = true;
+        this.senhaType = 'text';
+      }
   }
 
   handleKeyboardEvents(event: KeyboardEvent){
@@ -119,9 +135,8 @@ export class LoginPage {
   //Realiza o login automatico
   loginAutomatico(){
     let loading = this.loadingCtrl.create({
-      content: 'Por favor, aguarde...'
+      content: 'Acessando sua conta...'
     });
-
 
     loading.present();
     this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
@@ -129,15 +144,12 @@ export class LoginPage {
         if(login.id !== undefined){
           this.ev.publish("userloggedin", login);
           this.storage.set("login", login);
+          this.usuario = login;
           this.storage.set("keepConnected", this.keepConnected);
           this.storage.set("senha", this.senha);
           this.storage.set("email", this.email);
           this.storage.set("clicouSair", false);
-          loading.dismiss().then(() => {
-              this.navCtrl.setRoot(HomePage, {
-                login: login
-              });
-          });
+            this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
         }else{
           loading.dismiss();
           this.presentConfirm("usuário e/ou senha incorreto");
@@ -149,7 +161,6 @@ export class LoginPage {
         this.presentConfirm(error);
       });
   }
-
 
   //Realiza o login debugger;
   login(){
@@ -166,15 +177,12 @@ export class LoginPage {
           if(login.id !== undefined){
             this.ev.publish("userloggedin", login);
             this.storage.set("login", login);
+            this.usuario = login;
             this.storage.set("keepConnected", this.keepConnected);
             this.storage.set("senha", this.senha);
             this.storage.set("email", this.email);
             this.storage.set("clicouSair", false);
-            loading.dismiss().then(() => {
-                this.navCtrl.setRoot(HomePage, {
-                  login: login
-                });
-            });
+              this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
           }else{
             loading.dismiss();
             this.presentConfirm("usuário e/ou senha incorreto");
@@ -187,6 +195,48 @@ export class LoginPage {
         });
     }
 
+  }
+
+  //Carrega todas as salas referente a um determinado departamento
+  carregarSalasPorDepartamento(id_departamento:number, loading:any){
+
+      loading.setContent("Sincronizando com o banco...");
+      this.salaService.carregarSalaPorDepartamento(id_departamento)
+        .then( (salas:Array<Sala>) => {
+          if(salas.length > 0){
+            this.salas = salas;
+            this.storage.set("salasDepartamento", salas);
+              this.atualizarMinhasReservas(loading);
+          }else{
+            loading.dismiss();
+          }
+
+          } )
+        .catch( (error) => {
+          loading.dismiss();
+          this.presentConfirm(error.message);
+        });
+  }
+
+  atualizarMinhasReservas(loading:any){
+    this.reservaService.carregarMinhasReservas(this.usuario.id)
+      .then( (reservas:Array<ReservaView>) => {
+        if(reservas.length > 0){
+          this.storage.set("minhasReservas", reservas);
+          loading.dismiss().then(() => {
+            this.navCtrl.setRoot(HomePage, {
+              login: this.storage.get("login")
+            });
+          });
+        }else{
+          loading.dismiss().then(() => {
+            this.navCtrl.setRoot(HomePage, {
+              login: this.storage.get("login")
+            });
+          });
+        }
+      } )
+      .catch( () => "Erro na requisição de minhas reservas" );
   }
 
   //Validar se o email e senha foram digitados corretamente

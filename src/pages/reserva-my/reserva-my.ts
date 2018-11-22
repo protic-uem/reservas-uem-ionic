@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController, LoadingController } from 'ionic-angular';
-
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
 import { ReservaView } from '../../model/ReservaView';
-
-
 
 
 @Component({
@@ -55,9 +52,9 @@ export class ReservaMyPage {
   }
 
 
-  atualizarMinhasReservas(){
 
-    console.log("Atualizando minhas reservas");
+
+  atualizarMinhasReservas(){
     let loading = this.loadingCtrl.create({
       content: 'Carregando reservas...'
     });
@@ -69,6 +66,7 @@ export class ReservaMyPage {
           this.reservas = reservas;
           this.reservasCarregadas = reservas;
           this.reservasNaoEncontrada = false;
+          this.storage.set("minhasReservas", reservas);
           loading.dismiss();
         }else{
           this.reservas  = new Array<ReservaView>();
@@ -77,11 +75,9 @@ export class ReservaMyPage {
         }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );
-
   }
 
   statusMudado(event){
-
     if(event == -1){
       this.reservas = this.reservasCarregadas;
     }
