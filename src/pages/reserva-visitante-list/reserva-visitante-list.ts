@@ -46,11 +46,10 @@ export class ReservaVisitanteListPage {
 
       this.storage.get("disciplinasDIN").then( (disciplinasDIN:Array<Disciplina>) => {
 
-        if(disciplinasDIN.length > 0){
+        if(disciplinasDIN != null && disciplinasDIN.length > 0){
           this.disciplinas = disciplinasDIN;
           loading.dismiss();
         }else{
-          console.log("Carregando disciplinas");
             this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
               .then( (disciplinas:Array<Disciplina>) => {
                 if(disciplinas.length > 0){
@@ -114,7 +113,7 @@ export class ReservaVisitanteListPage {
    this.reservaVisitanteService.
    carregarReservaVisitante(this.departamentoSelecionado, this.disciplinaSelecionada)
    .then((reservas:Array<ReservaView>) => {
-     if(reservas.length > 0){
+     if(reservas != null && reservas.length > 0){
        this.reservas = reservas;
        this.storage.set("reservas", reservas);
        this.reservasNaoEncontrada = false;
