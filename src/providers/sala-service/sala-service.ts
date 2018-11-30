@@ -60,7 +60,6 @@ export class SalaServiceProvider extends ConexaoProvider{
   carregarDisponiveisPorDepartamentoDiaPeriodoTipo(id_departamento: number, data_reserva: string, periodo: number, tipo_uso:string){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.salas = new Array<Sala>();
-    console.log("tipo_uso:"+tipo_uso);
         return new Promise((resolve, reject) => {
           this.http.get(this.baseUri+'sala/bucaDisponiveisPorDepartamentoDiaPeriodoTipo/'+this.hash+'&id_departamento='
                     +btoa(id_departamento+"")+'&data='+btoa(data_reserva+"")+'&periodo='+btoa(periodo+"")+

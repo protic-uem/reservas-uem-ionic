@@ -181,11 +181,7 @@ export class ReservaSearchPage {
  //carrega todas as reservas de uma determinada data
   carregarReservasPorDataSala(data:string, id_departamento:number, id_sala:number){
 
-    let loading = this.loadingCtrl.create({
-      content: 'Carregando reservas...'
-    });
 
-    loading.present();
     this.reservaPeriodo01 = new ReservaView();
     this.reservaPeriodo02 = new ReservaView();
     this.reservaPeriodo03 = new ReservaView();
@@ -200,7 +196,6 @@ export class ReservaSearchPage {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
-          loading.dismiss();
           this.filtragemReservas(reservas).then( () =>
             {
             }
@@ -208,13 +203,11 @@ export class ReservaSearchPage {
 
       }else{
         this.reservas  = new Array<ReservaView>();
-        loading.dismiss();
       }
 
       } )
     .catch((error) => {
       this.reservas  = new Array<ReservaView>();
-      loading.dismiss();
       this.presentConfirm(error.message);
     });
 

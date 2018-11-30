@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class TimeoutPromise {
 
   promiseTimeout(ms, promise){
-      console.log("Entrou promiseTimeout");
+
       let timeout = new Promise((resolve, reject) => {
          let id = setTimeout(() => {
            clearTimeout(id);

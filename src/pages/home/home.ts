@@ -106,11 +106,6 @@ export class HomePage {
 
   carregarReservasHome(){
 
-    let loading = this.loadingCtrl.create({
-      content: 'Carregando reservas...'
-    });
-    loading.present();
-
     this.reservaService.
     carregarReservasTelaHome(this.departamentoDIN, this.hoje, this.periodoCorrente)
     .then((reservas:Array<ReservaView>) => {
@@ -118,17 +113,14 @@ export class HomePage {
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
         this.reservasNaoEncontrada = false;
-        loading.dismiss();
       }else{
         this.reservas  = new Array<ReservaView>();
-        loading.dismiss();
         this.reservasNaoEncontrada = true;
       }
 
       } )
     .catch((error) => {
       this.reservas  = new Array<ReservaView>();
-      loading.dismiss();
       this.apresentarErro(error.message);
     });
 

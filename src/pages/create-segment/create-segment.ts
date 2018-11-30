@@ -58,6 +58,7 @@ export class CreateSegmentPage {
 
   mudouPeriodo:boolean = false;
   mudouTipo:boolean = false;
+  mudouUsuario:boolean = false;
 
  constructor(public navCtrl: NavController, public navParams: NavParams,
    private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
@@ -171,17 +172,27 @@ export class CreateSegmentPage {
               .then((result:boolean) => {
                 if(result){
                   this.reserva.data_reserva = this.dataSelecionada;
+                  if(this.mudouUsuario == true){
 
+                    if(this.usuarioSelecionado.id!= undefined){//se o usuário selecionado não for undefined
+                      //só carrega as disciplinas, caso o tipo de uso for prática ou teórica
+                      if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
+                       this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+                    }
+                    else
+                     if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
+                      this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
 
+                  }
 
-                  if(this.mudouPeriodo == true && this.mudouTipo == false){
+                  else if(this.mudouPeriodo == true && this.mudouTipo == false){
 
                     let loading = this.loadingCtrl.create({
                       content: 'Carregando dados...'
                     });
                     loading.present();
 
-                    this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                     this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
 
                   }
                   else if(this.mudouPeriodo == false && this.mudouTipo == true){
@@ -197,23 +208,23 @@ export class CreateSegmentPage {
 
                   }else if(this.mudouTipo == true && this.mudouPeriodo == true){
 
-                    let loading = this.loadingCtrl.create({
-                      content: 'Carregando dados...'
-                    });
-                    loading.present();
-
-                    this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
-
+                    if(this.usuarioSelecionado.id!= undefined){//se o usuário selecionado não for undefined
+                      //só carrega as disciplinas, caso o tipo de uso for prática ou teórica
+                      if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
+                       this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+                    }
+                    else
+                     if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
+                      this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
                   }
+                  else if(this.mudouTipo == false && this.mudouPeriodo == false){
+                    this.avancarEtapa2();
+                  }
+
 
                   this.mudouTipo = false;
                   this.mudouPeriodo = false;
-
-                  this.zone.run(() => {
-                    this.etapas = "etp2";
-                    if(this.disciplinas == undefined || this.disciplinas.length == 0)
-                      this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
-                  });
+                  this.mudouUsuario = false;
 
                 }else{
                   this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
@@ -231,6 +242,14 @@ export class CreateSegmentPage {
             this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
          }
        }
+ }
+
+ avancarEtapa2(){
+       this.zone.run(() => {
+         this.etapas = "etp2";
+         if(this.disciplinas == undefined || this.disciplinas.length == 0)
+           this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+       });
  }
 
  openCalendar() {
@@ -263,7 +282,6 @@ export class CreateSegmentPage {
              this.dataSelecionada = date.string;
              this.showDate = format(date.string, 'DD/MM/YY');
 
-             //this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
            }
          })
  }
@@ -296,14 +314,16 @@ export class CreateSegmentPage {
 
  //validar se todos os campos foram preenchidos
  validarReserva(){
-   if(this.login.privilegio == "Docente"){//se for docente, valide somente data e periodo
+   if(this.login.privilegio == "Docente"){
+     //se for docente, valide somente data, periodo e tipo de uso
      if(this.dataSelecionada == undefined || this.reserva.periodo == undefined || this.reserva.tipo_uso == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
        return false;
      }else
        return true;
      }
-   else{//se for secretário, valide usuario, data, periodo e tipo de uso
+   else{
+     //se for secretário, valide usuario, data, periodo e tipo de uso
      if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined
       || this.reserva.tipo_uso == undefined){
          this.apresentarErro('Por favor, preencha todos os campos para continuar');
@@ -320,7 +340,7 @@ export class CreateSegmentPage {
 
  }
 
-     //apresenta o Toast de reserva cancelada
+  //apresenta o Toast de reserva cancelada
    reservaCanceled(){
        this.navCtrl.push(HomePage, {
          login: this.login,
@@ -345,24 +365,19 @@ export class CreateSegmentPage {
      //Executado toda vez que um usuário é selecionado
      //Atualiza o id_usuario da reserva com o id do usuario selecionado
      usuarioChange(usuario:Usuario){
+       this.mudouUsuario = true;
        if(usuario!= undefined && usuario.id != undefined){
         this.reserva.id_usuario = usuario.id;
-          this.carregarDisciplinasPorUsuario(usuario.id);
-      }
-
+        }
      }
 
      //Executado toda vez que um periodo é selecinado
-     //Carrega todas as salas disponiveis por departamento, periodo e tipo de uso
+     //Valida se o período selecionado é valido, ou seja, se não é inferior ao período atual
      periodoChange(valor){
         this.mudouPeriodo = true;
         this.salaSelecionada = new Sala();
-        if(this.validarPeriodo()){
-        //  if(this.reserva.tipo_uso != undefined)
-        //    this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso);
-        }else{
+        if(!this.validarPeriodo())
           this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
-        }
      }
 
 
@@ -374,9 +389,13 @@ export class CreateSegmentPage {
            if(salas.length > 0){
              this.salas = salas;
              this.storage.set("salas", salas);
-             loading.dismiss();
+             loading.dismiss().then(() => {
+                 this.avancarEtapa2();
+             });
            }else{
-             loading.dismiss();
+             loading.dismiss().then(() => {
+                 this.avancarEtapa2();
+             });
              this.apresentarErro("Nenhuma sala disponivel foi encontrada para essa data e periodo");
            }
 
@@ -394,17 +413,12 @@ export class CreateSegmentPage {
 
      //Carrega as disciplinas de acordo com o privilégio do usuário
      carregarDisciplinaPorPrivilegio(privilegio:string){
-       if(privilegio == "Docente"){//Se o usuário for docente, carregue apenas as disciplinas dele
          if(this.usuarioSelecionado.id!= undefined){
            this.carregarDisciplinasPorUsuario(this.usuarioSelecionado.id);
            }
          else{
            this.carregarDisciplinasPorUsuario(this.login.id);
            }
-         }
-       else if(privilegio == "Secretário"){//Se não, carregue todas as disciplinas do departamento
-         this.carregarDisciplinasPorDepartamento(this.departamentoDIN);
-       }
      }
 
        //Carrega todas as dicipinas referente a um determinado usuario
@@ -447,7 +461,6 @@ export class CreateSegmentPage {
                    this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
                }else{
                    this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
-                 //this.apresentarErro("Nenhuma disciplina foi encontrada para reste usuário");
                }
 
                } )
@@ -487,24 +500,12 @@ export class CreateSegmentPage {
        }
 
 
-       //Ativa o input de disciplina, depedendo do tipo de uso escolhido
-       //Carrega todas as disicplinas de acordo com o privilégios
-       //Se for Secretário, carrega todas as disciplinaService
-       //Se for Docente, somente as disciplinas daquele determinado docente
+       //Executa toda vez que o usuário muda o tipo de uso
        changeUso(valor){
-        this.mudouTipo = true;
-         /*if(this.usuarioSelecionado.id!= undefined){//se o usuário selecionado não for undefined
-           //só carrega as disciplinas, caso o tipo de uso for prática ou teórica
-           if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
-            this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
-         }
-         else
-          if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
-           this.carregarDisciplinaPorPrivilegio(this.login.privilegio);*/
-
+         this.mudouTipo = true;
         }
 
-
+       //Executa toda vez que o usuário muda de sala
        changeSala(sala:Sala){
          if(sala != undefined)
            this.storage.set("salaSelecionada", sala);
@@ -564,6 +565,7 @@ export class CreateSegmentPage {
 
      }
 
+     //Volta para a etapa 1
      prevCreate(){
        this.etapas = "etp1";
      }
