@@ -1,5 +1,38 @@
 
 
+// Material Design Sidemenu
+#menuPrincipal {
+  .menu-header {
+    padding: 5px 15px;
+    //background-image: url('../assets/imgs/material-design-background.jpg');
+    background-color: #32db64;
+    background-size: cover;
+    color: white;
+    .name {
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .e-mail {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+  }
+  .user-avatar {
+    max-width: 125px;height: 125px;
+    padding: .5em;
+    height: 12vh;
+  }
+  h3,
+  .label,
+  {
+    color: black;
+    font-weight: 400;
+  }
+  ion-icon {
+    color: black;
+  }
+}
+
 .msg_bemvindo{
   white-space: normal!important;
 }

@@ -1,5 +1,5 @@
-<ion-menu [content]="content" menuPrincipal >
-  <ion-header class="menuHeader">
+<ion-menu [content]="content" id="menuPrincipal" menuPrincipal>
+  <!--<ion-header class="menuHeader">
     <ion-toolbar color="secondary">
       <ion-row color="secondary" no-lines>
           <ion-avatar item-start class="avatar">
@@ -12,22 +12,36 @@
         </span>
       </ion-row>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
+<ion-header >
+  <div class="menu-header">
+      <!--material-design-background-->
+      <img class="user-avatar round" style="height:90px;max-width:90px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/profile2.png'"
+      />
+      <p *ngIf="login != null && login.id != undefined" class="name">{{login.nome}}</p>
+      <p *ngIf="login != null && login.id != undefined" class="e-mail">{{login.email}}</p>
+    </div>
+</ion-header>
   <ion-content class="menuConteudo">
+
     <ion-list no-lines>
       <button  menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon" item-left></ion-icon>
         {{p.title}}
       </button>
+      <button  menuClose ion-item  (click)="logout()">
+        <ion-icon name="exit" item-left></ion-icon>
+          Sair
+      </button>
     </ion-list>
-    <ion-footer no-shadow>
+    <!--<ion-footer no-shadow>
     	<ion-toolbar position="bottom">
     		<button ion-button full round menuClose  (click)="logout()" color="danger">
           <ion-icon name="exit" style="margin-right: 4px;"></ion-icon>
             Sair
           </button>
     	</ion-toolbar>
-    </ion-footer>
+    </ion-footer> -->
   </ion-content>
 
 </ion-menu>

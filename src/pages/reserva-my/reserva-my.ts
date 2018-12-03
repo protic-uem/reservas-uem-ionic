@@ -59,7 +59,7 @@ export class ReservaMyPage {
       content: 'Carregando reservas...'
     });
 
-    loading.present();
+    //loading.present();
     this.reservaService.carregarMinhasReservas(this.login.id)
       .then( (reservas:Array<ReservaView>) => {
         if(reservas.length > 0){
@@ -67,11 +67,11 @@ export class ReservaMyPage {
           this.reservasCarregadas = reservas;
           this.reservasNaoEncontrada = false;
           this.storage.set("minhasReservas", reservas);
-          loading.dismiss();
+          //loading.dismiss();
         }else{
           this.reservas  = new Array<ReservaView>();
           this.reservasNaoEncontrada = true;
-          loading.dismiss();
+          //loading.dismiss();
         }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );
