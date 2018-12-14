@@ -16,7 +16,7 @@
 <ion-header >
   <div class="menu-header">
       <!--material-design-background-->
-      <img class="user-avatar round" style="height:90px;max-width:90px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/profile2.png'"
+      <img class="user-avatar round" style="height:90px;max-width:100px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/profile2.png'"
       />
       <p *ngIf="login != null && login.id != undefined" class="name">{{login.nome}}</p>
       <p *ngIf="login != null && login.id != undefined" class="e-mail">{{login.email}}</p>
@@ -24,12 +24,12 @@
 </ion-header>
   <ion-content class="menuConteudo">
 
-    <ion-list no-lines>
-      <button  menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+    <ion-list  no-lines>
+      <button class="transp" menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         <ion-icon [name]="p.icon" item-left></ion-icon>
         {{p.title}}
       </button>
-      <button  menuClose ion-item  (click)="logout()">
+      <button class="transp" menuClose ion-item  (click)="logout()">
         <ion-icon name="exit" item-left></ion-icon>
           Sair
       </button>

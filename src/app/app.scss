@@ -88,6 +88,7 @@ ion-toolbar{
 
 .menuConteudo{
   position: relative;
+  background-image: linear-gradient(35deg, #32db64, white);
     //background-image:  url("http://www.planwallpaper.com/static/images/colorful-triangles-background_yB0qTG6.jpg");
     //background-image:  url('../assets/imgs/verde2.jpg');
     //background-repeat: repeat;
@@ -99,5 +100,5 @@ ion-toolbar{
 
 .transp{
     background-color: transparent !important;
-    color: #fff;
+    //color: #fff;
 }
