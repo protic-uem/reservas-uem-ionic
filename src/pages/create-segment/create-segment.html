@@ -25,10 +25,10 @@
 
 <div id="div_main"  [ngSwitch]="etapas">
   <div id="div_etp1" *ngSwitchCase="'etp1'" >
-    <ion-card>
-      <ion-card-content>
-      <ion-list>
-        <ion-item *ngIf="login.privilegio == 'Secretário'">
+    <ion-card >
+      <ion-card-content >
+      <ion-list >
+        <ion-item *ngIf="login.privilegio == 'Secretário'" >
           <ion-icon item-start name="person" class="icones"></ion-icon>
           <ion-select  [selectOptions] ="{
             subTitle: 'Selecione um solicitante',

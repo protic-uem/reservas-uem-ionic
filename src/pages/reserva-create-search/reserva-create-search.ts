@@ -248,15 +248,25 @@ reserva:Reserva;
 
   //apresenta o alerta para a confirmação dos dados da reserva
   reservaConfirm(){
+
+  let msg: string;
+
+  if(this.disciplinaSelecionada != undefined && this.disciplinaSelecionada.id != undefined)
+    msg = '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
+    '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
+    '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
+    '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+    '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
+  else
+    msg = '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
+    '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
+    '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+    '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
+
+
     const alert = this.alertCtrl.create({
       title:'Tem certeza?',
-      message:
-                '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
-                '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
-                '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
-                '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
-                '<b>Tipo de uso:</b> '+this.reserva.tipo_uso,
-
+      message: msg,
       buttons: [
         {
           text: 'Cancelar',
