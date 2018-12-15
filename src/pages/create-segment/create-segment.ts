@@ -5,6 +5,8 @@ import { parse, format, isSunday, isSaturday, isFriday, addWeeks, addMonths, get
 import { Storage } from '@ionic/storage';
 import { HomePage } from '../home/home';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
+
+
 //Modelos
 import { Disciplina } from '../../model/Disciplina';
 import { Login } from '../../model/Login';
@@ -25,8 +27,6 @@ import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calend
   templateUrl: 'create-segment.html',
 })
 export class CreateSegmentPage {
-
-
 
   reserva:Reserva;
 
@@ -178,11 +178,24 @@ export class CreateSegmentPage {
                       //só carrega as disciplinas, caso o tipo de uso for prática ou teórica
                       if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
                        this.carregarDisciplinaPorPrivilegio(this.usuarioSelecionado.privilegio);
+                      else{
+                        let loading = this.loadingCtrl.create({
+                          content: 'Carregando dados...'
+                        });
+                        loading.present();
+                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                      }
                     }
                     else
                      if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
                       this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
-
+                     else{
+                       let loading = this.loadingCtrl.create({
+                         content: 'Carregando dados...'
+                       });
+                       loading.present();
+                     this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                   }
                   }
 
                   else if(this.mudouPeriodo == true && this.mudouTipo == false){

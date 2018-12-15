@@ -36,9 +36,9 @@
   </ion-row>
 
   <ion-scroll #listaReservas  class="resultReservas" scrollY="true">
-    <ion-list>
-      <ion-item-sliding *ngFor="let reserva of reservas" >
-        <ion-item >
+    <ion-list >
+      <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
+        <ion-item class="transp">
           <ioncard-reserva-my [reserva]="reserva"></ioncard-reserva-my>
         </ion-item>
       </ion-item-sliding>

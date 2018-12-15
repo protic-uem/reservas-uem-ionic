@@ -48,8 +48,6 @@ reserva:Reserva;
   classe:string = "docente";
   classeIonCard:string = "ionCardDocente";
 
-  etapas:string = "etp2";
-
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastCtrl:ToastController, private alertCtrl:AlertController, private storage:Storage,
     private loadingCtrl:LoadingController, private disciplinaService:DisciplinaServiceProvider,
@@ -82,9 +80,6 @@ reserva:Reserva;
         }
           this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
         }
-
-
-
 
 
   }
@@ -201,7 +196,6 @@ reserva:Reserva;
   changeUsuario(usuario){
     if(usuario != undefined)
       this.carregarDisciplinasPorUsuario(usuario.id);
-
   }
 
 
@@ -209,7 +203,6 @@ reserva:Reserva;
   reservaCreate(){
 
     if(this.validarReserva()){
-
         this.reserva.id_departamento = this.departamentoDIN;
 
         if(this.reserva.tipo_uso == "Teórica" || this.reserva.tipo_uso == "Prática")

@@ -1,5 +1,9 @@
 page-reserva-detail {
 
+  ion-content{
+    background-image: $fundo;
+  }
+
   ion-badge{
     white-space: normal!important;
   }

@@ -9,23 +9,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <div padding>
-    <ion-segment [(ngModel)]="etapas" color="secondary" (ionChange)="segmentChanged(etapas)">
-      <ion-segment-button value="etp1" disabled="true" hidden>
-        Etapa 1
-      </ion-segment-button>
-      <ion-segment-button value="etp2" disabled="true" hidden>
-        Etapa 2
-      </ion-segment-button>
-    </ion-segment>
-  </div>
-
-  <div [ngSwitch]="etapas">
-    <div *ngSwitchCase="'etp1'">
-    </div>
-    <div *ngSwitchCase="'etp2'">
-
+<ion-content class="vertical-align-content">
+  <div id="div_main" >
       <ion-card class="(login.privilegio == 'Docente')?'ionCardDocente':'ionCardSecretario'" >
         <ion-card-content>
         <ion-list>
@@ -91,9 +76,5 @@
           <button ion-button block class="btnReserva" (click)="reservaCreate()" >Reservar</button>
         </ion-col>
       </ion-row>
-
-    </div>
   </div>
-
-
 </ion-content>
