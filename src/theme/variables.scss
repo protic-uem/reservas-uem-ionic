@@ -40,8 +40,10 @@ $colors: (
   light:      #f4f4f4,
   dark:       #222,
   uem: #cbe6d3,
-);
-
+  fundo: #DCDCDC,
+  );
+//A9A9A9
+$fundo: linear-gradient(90deg, #A9A9A9, white);
 
 // App iOS Variables
 // --------------------------------------------------

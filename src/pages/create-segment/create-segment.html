@@ -9,20 +9,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div padding>
-  <ion-segment [(ngModel)]="etapas" color="secondary" (ionChange)="segmentChanged(etapas)">
-    <ion-segment-button value="etp1" disabled="true" hidden>
-      Etapa 1
-    </ion-segment-button>
-    <ion-segment-button value="etp2" disabled="true" hidden>
-      Etapa 2
-    </ion-segment-button>
-  </ion-segment>
-</div>
+<ion-content class="vertical-align-content">
 
-<div [ngSwitch]="etapas">
-  <div *ngSwitchCase="'etp1'">
+<!--  <div padding>
+    <ion-segment [(ngModel)]="etapas" color="secondary" (ionChange)="segmentChanged(etapas)">
+      <ion-segment-button value="etp1" disabled="true" hidden>
+        Etapa 1
+      </ion-segment-button>
+      <ion-segment-button value="etp2" disabled="true" hidden>
+        Etapa 2
+      </ion-segment-button>
+    </ion-segment>
+  </div-->
+
+
+<div id="div_main"  [ngSwitch]="etapas">
+  <div id="div_etp1" *ngSwitchCase="'etp1'" >
     <ion-card>
       <ion-card-content>
       <ion-list>
@@ -151,4 +153,5 @@
     </ion-row>
   </div>
 </div>
+
 </ion-content>

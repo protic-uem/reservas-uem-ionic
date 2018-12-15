@@ -3,7 +3,7 @@
     <name>reservasUEM</name>
     <description>Um app que visa facilitar o processo de reservas de salas na Universidade Estadual de Maringá.</description>
     <author email="alanlopes4@gmail.com" href="http://ionicframework.com/">ReservasUEM Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.100.15:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -84,5 +84,6 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <allow-navigation href="http://192.168.100.15:8100" sessionid="4e3fee53" />
     <engine name="android" spec="7.1.1" />
 </widget>

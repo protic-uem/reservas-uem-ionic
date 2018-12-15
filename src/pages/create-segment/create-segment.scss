@@ -1,34 +1,46 @@
 page-create-segment {
 
   ion-content{
-    height: 100%;
-    background-color: #DCDCDC!important	;
+    background-image: $fundo;
   }
-  ion-list{
+
+  /*ion-list{
     height: 90%;
-  }
+  }*/
 
   .icones{
     font-size: 40px;
   }
 
   ion-item{
-    height: 30%;
+    //height: 30%;
     width: 100%!important;
+    background-color: transparent !important;
   }
+
+
   ion-card{
     border-radius: 10px!important;
-    height: 75%;
+    //height: 75%;
+    opacity: 0.9;
   }
 
+  .vertical-align-content > *
+{
+     display: flex!important;
+     align-content: center!important;
+     align-items: center!important;
+}
 
+#div_main{
+  width: 100%!important;
+}
 
   ion-select{
     width: 100%!important;
     max-width: 100%!important;
     text-align: right;
   }
-
   ion-card-content{
     height: 100%;
   }
@@ -37,11 +49,8 @@ page-create-segment {
     height: 100%;
   }
 
-  .instrucao{
-    text-align: center;
-    font-weight: bold;
-  }
 
+  //BOTÕES
   .btnReserva {
       width: 100%;
       background-color: #28a745;
