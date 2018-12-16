@@ -9,7 +9,6 @@ import { Reserva } from '../../model/Reserva';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 import { Login } from '../../model/Login';
 import { Sala } from '../../model/Sala';
-import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
 import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create-search';
 
@@ -44,7 +43,7 @@ export class ReservaSearchPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private loadingCtrl:LoadingController, private alertCtrl:AlertController,
-    private salaService:SalaServiceProvider, private modalCtrl:ModalController, private cdr:ChangeDetectorRef) {
+    private modalCtrl:ModalController, private cdr:ChangeDetectorRef) {
 
     this.reservas = new Array<ReservaView>();
     this.salaSelecionada = new Sala();

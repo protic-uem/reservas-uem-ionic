@@ -47,13 +47,14 @@ export class ReservaDetailPage {
       message: "Tem certeza disso?",
       buttons: [
         {
+          text: 'Não'
+
+        },
+        {
           text: 'Sim',
           handler: () => {
                 this.cancelarReserva(reserva);
           }
-        },
-        {
-          text: 'Não'
         }
       ]
     });

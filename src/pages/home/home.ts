@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format, getHours, getMinutes } from 'date-fns';
 
@@ -27,7 +27,7 @@ export class HomePage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
+    private alertCtrl:AlertController, private storage:Storage,
     private reservaService:ReservaServiceProvider) {
 
       this.reservas = new Array<ReservaView>();

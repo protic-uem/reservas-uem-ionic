@@ -28,8 +28,8 @@
   </ion-row>
       <ion-scroll #listaReservas class="resultReservas"  scrollY="true">
         <ion-list>
-          <ion-item-sliding *ngFor="let reserva of reservas" >
-            <ion-item>
+          <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
+            <ion-item class="transp">
               <chip-reserva-home [reserva]="reserva" width="100%"></chip-reserva-home>
             </ion-item>
           </ion-item-sliding>
