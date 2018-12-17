@@ -16,7 +16,10 @@
             subTitle: 'Selecione uma disciplina',
              mode: 'md'}" okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)"
              placeholder="Disciplina">
-            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">{{disciplina.codigo}}-{{disciplina.turma}}</ion-option>
+            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
+              {{disciplina.codigo}}-{{disciplina.turma}}
+              {{disciplina.nome}}
+            </ion-option>
           </ion-select>
         </ion-item>
       </ion-list>

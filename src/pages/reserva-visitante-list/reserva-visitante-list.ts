@@ -121,7 +121,7 @@ export class ReservaVisitanteListPage {
      }else{
        this.reservas  = new Array<ReservaView>();
        loading.dismiss();
-       this.presentConfirm("Nenhuma reserva ativa foi encontrada");
+       //this.presentConfirm("Nenhuma reserva ativa foi encontrada");
        this.reservasNaoEncontrada = true;
      }
 
