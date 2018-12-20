@@ -23,8 +23,11 @@ export class ReservaServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaView>();
 
   return new Promise((resolve, reject) => {
-    this.http.get(this.baseUri+'reserva/buscaPorUsuario/'+this.hash+'&id_usuario='
-              +btoa(id_usuario+"")).subscribe((result:any) => {
+
+    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+    this.http.get(this.baseUri+'reserva/buscaPorUsuario/?id_usuario='
+              +btoa(id_usuario+""), {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new ReservaView());
       }
@@ -68,10 +71,13 @@ export class ReservaServiceProvider extends ConexaoProvider{
   carregarMinhasReservas(id_usuario: number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.reservas = new Array<ReservaView>();
-    console.log("carregarMinhasReservas");
+
   return new Promise((resolve, reject) => {
-    this.http.get(this.baseUri+'reserva/minhasReservas/'+this.hash+'&id_usuario='
-              +btoa(id_usuario+"")).subscribe((result:any) => {
+
+      let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+    this.http.get(this.baseUri+'reserva/minhasReservas/?id_usuario='
+              +btoa(id_usuario+""), {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new ReservaView());
       }
@@ -115,8 +121,11 @@ export class ReservaServiceProvider extends ConexaoProvider{
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.reservas = new Array<ReservaView>();
   return new Promise((resolve, reject) => {
-    this.http.get(this.baseUri+'reserva/carregarReservasTelaHome/'+this.hash+'&id_departamento='
-              +btoa(id_departamento+"")+'&data='+btoa(data)+'&periodo='+btoa(periodo+"")).subscribe((result:any) => {
+
+    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+    this.http.get(this.baseUri+'reserva/carregarReservasTelaHome/?id_departamento='
+              +btoa(id_departamento+"")+'&data='+btoa(data)+'&periodo='+btoa(periodo+""), {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new ReservaView());
       }
@@ -163,8 +172,11 @@ export class ReservaServiceProvider extends ConexaoProvider{
   this.reservas = new Array<ReservaView>();
 
     return new Promise((resolve, reject) => {
+
+        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
       this.http.get(this.baseUri+'reserva/buscaPorDepartamentoData/'+this.hash+'&data='
-                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")).subscribe((result:any) => {
+                +btoa(data+"")+'&id_departamento='+btoa(id_dept+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == "false"){
           resolve(new ReservaView());
         }
@@ -208,8 +220,11 @@ export class ReservaServiceProvider extends ConexaoProvider{
   this.reservas = new Array<ReservaView>();
 
     return new Promise((resolve, reject) => {
-      this.http.get(this.baseUri+'reserva/buscaPorDepartamentoDataSala/'+this.hash+'&data='
-                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+"")).subscribe((result:any) => {
+
+      let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+      this.http.get(this.baseUri+'reserva/buscaPorDepartamentoDataSala/?data='
+                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == "false"){
           resolve(new ReservaView());
         }
@@ -254,8 +269,10 @@ export class ReservaServiceProvider extends ConexaoProvider{
   this.reservas = new Array<ReservaView>();
 
     return new Promise((resolve, reject) => {
-      this.http.get(this.baseUri+'reserva/carregarReservasTelaSearch/'+this.hash+'&data='
-                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+"")).subscribe((result:any) => {
+        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+      this.http.get(this.baseUri+'reserva/carregarReservasTelaSearch/?data='
+                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == "false"){
           resolve(new ReservaView());
         }
@@ -297,8 +314,10 @@ export class ReservaServiceProvider extends ConexaoProvider{
   validarReservaMesmoHorario(id_usuario:number, data:string, periodo:number){
 
     return new Promise((resolve, reject) => {
-      this.http.get(this.baseUri+'reserva/validarReservaMesmoHorario/'+this.hash+'&id_usuario='+btoa(id_usuario+"")+
-      '&data='+btoa(data+"")+'&periodo='+btoa(periodo+"")).subscribe((result:any) => {
+        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+      this.http.get(this.baseUri+'reserva/validarReservaMesmoHorario/?id_usuario='+btoa(id_usuario+"")+
+      '&data='+btoa(data+"")+'&periodo='+btoa(periodo+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == false){
             resolve(false);
         }
@@ -333,9 +352,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
         };
 
 
-        let headers = new HttpHeaders({'Content-Type':'application/json'});
+        let headers = new HttpHeaders({'Content-Type':'application/json', 'x-access-token':ConexaoProvider.token});
 
-        this.http.post(this.baseUri+'reserva/solicitarReserva/'+this.hash, JSON.stringify(item),
+        this.http.post(this.baseUri+'reserva/solicitarReserva/', JSON.stringify(item),
         { headers: headers})
           .subscribe((result:any) => {
 
@@ -357,8 +376,9 @@ export class ReservaServiceProvider extends ConexaoProvider{
         var item = {
           id: reserva.id
         };
-        let headers = new HttpHeaders({'Content-Type':'application/json'});
-        this.http.put(this.baseUri+'reserva/cancelarReserva/'+this.hash, JSON.stringify(item),
+        let headers = new HttpHeaders({'Content-Type':'application/json', 'x-access-token':ConexaoProvider.token});
+        
+        this.http.put(this.baseUri+'reserva/cancelarReserva/', JSON.stringify(item),
         { headers: headers})
           .subscribe((result:any) => {
             resolve(result);

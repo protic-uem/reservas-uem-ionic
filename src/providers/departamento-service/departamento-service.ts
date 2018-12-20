@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Departamento } from '../../model/Departamento';
@@ -17,10 +17,13 @@ export class DepartamentoServiceProvider extends ConexaoProvider{
   //Busca todos os departamentos da base de dados
   carregarTodosDepartamentos(){
     this.departamentos = new Array<Departamento>();
-    var url = this.baseUri+'departamento/todos/'+this.hash;
+    var url = this.baseUri+'departamento/todos';
 
   return new Promise((resolve, reject) => {
-    this.http.get(url).subscribe((result:any) => {
+
+    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+    this.http.get(url, {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new Departamento());
       }

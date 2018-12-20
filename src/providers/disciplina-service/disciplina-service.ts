@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Disciplina } from '../../model/Disciplina';
@@ -19,11 +19,14 @@ export class DisciplinaServiceProvider extends ConexaoProvider{
   //Buscar as disciplinas de acordo com o departamentoSelecionado
   carregarDisciplinasPorDepartamento(id_departamento:number){
     this.disciplinas = new Array<Disciplina>();
-    var url = this.baseUri+'disciplina/disciplinaPorDepartamento'+this.hash+'&id_departamento='+btoa(id_departamento+"");
+    var url = this.baseUri+'disciplina/disciplinaPorDepartamento/?id_departamento='+btoa(id_departamento+"");
 
 
   return new Promise((resolve, reject) => {
-    this.http.get(url).subscribe((result:any) => {
+
+      let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+    this.http.get(url, {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new Disciplina());
       }
@@ -63,10 +66,13 @@ export class DisciplinaServiceProvider extends ConexaoProvider{
   //Buscar as disciplinas de acordo com o usuario
   carregarDisciplinasPorUsuario(id_usuario:number){
     this.disciplinas = new Array<Disciplina>();
-    var url = this.baseUri+'disciplina/disciplinaPorUsuario'+this.hash+'&id_usuario='+btoa(id_usuario+"");
+    var url = this.baseUri+'disciplina/disciplinaPorUsuario/?id_usuario='+btoa(id_usuario+"");
 
   return new Promise((resolve, reject) => {
-    this.http.get(url).subscribe((result:any) => {
+
+    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+    
+    this.http.get(url, {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
         resolve(new Disciplina());
       }

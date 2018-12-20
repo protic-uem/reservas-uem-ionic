@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Sala } from '../../model/Sala';
@@ -21,8 +21,11 @@ export class SalaServiceProvider extends ConexaoProvider{
     this.salas = new Array<Sala>();
 
         return new Promise((resolve, reject) => {
-          this.http.get(this.baseUri+'sala/buscaPorDepartamento/'+this.hash+'&id_departamento='
-                    +btoa(id_departamento+"")).subscribe((result:any) => {
+
+        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+          this.http.get(this.baseUri+'sala/buscaPorDepartamento/?id_departamento='
+                    +btoa(id_departamento+""), {headers: headers}).subscribe((result:any) => {
             if(result.retorno == "false"){
               resolve(new Sala());
             }
@@ -61,9 +64,13 @@ export class SalaServiceProvider extends ConexaoProvider{
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.salas = new Array<Sala>();
         return new Promise((resolve, reject) => {
-          this.http.get(this.baseUri+'sala/bucaDisponiveisPorDepartamentoDiaPeriodoTipo/'+this.hash+'&id_departamento='
+
+            let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+
+          this.http.get(this.baseUri+'sala/bucaDisponiveisPorDepartamentoDiaPeriodoTipo/?id_departamento='
                     +btoa(id_departamento+"")+'&data='+btoa(data_reserva+"")+'&periodo='+btoa(periodo+"")+
-                  '&tipo='+tipo_uso).subscribe((result:any) => {
+                  '&tipo='+tipo_uso, {headers: headers}).subscribe((result:any) => {
             if(result.retorno == "false"){
               resolve(new Sala());
             }

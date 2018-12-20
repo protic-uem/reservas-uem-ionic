@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Login } from '../../model/Login';
@@ -45,12 +45,20 @@ export class LoginServiceProvider extends ConexaoProvider{
         console.log("senha:"+btoa(senha));
 
           let doLogin = new Promise((resolve, reject) => {
-          this.http.get(this.baseUri+'usuario/login'+this.hash+'&email='
-                    +btoa(email)+'&senha='+btoa(senha)).subscribe((result:any) => {
+
+            var login = {
+               email:btoa(email),
+               senha:btoa(senha)
+            };
+
+          let headers = new HttpHeaders({'Content-Type':'application/json'});
+
+          this.http.post(this.baseUri+'usuario/login', JSON.stringify(login), { headers: headers}).subscribe((result:any) => {
             if(result.retorno == false){
               resolve(new Login());
             }
             else{
+              ConexaoProvider.token = result.token;
               resolve(new Login(result.dados[0].id,
                                 result.dados[0].nome,
                                 result.dados[0].email,
@@ -70,5 +78,17 @@ export class LoginServiceProvider extends ConexaoProvider{
 
 
       }
+
+
+    logout(){
+       new Promise((resolve, reject) => {
+          this.http.get(this.baseUri+'usuario/logout').subscribe((result:any) => {
+              resolve();
+            },
+            (error) => {
+              reject(error.message);
+            });
+          });
+    }
 
 }

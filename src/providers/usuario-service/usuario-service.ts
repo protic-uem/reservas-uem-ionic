@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { Usuario } from '../../model/Usuario';
@@ -21,7 +21,10 @@ export class UsuarioServiceProvider extends ConexaoProvider{
   //zera a lista sempre que fazer a busca para evitar valores duplicados
   this.usuarios = new Array<Usuario>();
         return new Promise((resolve, reject) => {
-          this.http.get(this.baseUri+'usuario/todosPorDepartamento/'+this.hash+'&id_departamento='+btoa(id_deprtamento+""))
+
+          let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
+
+          this.http.get(this.baseUri+'usuario/todosPorDepartamento/?id_departamento='+btoa(id_deprtamento+""), {headers: headers})
           .subscribe((result:any) => {
             if(result.retorno == "false"){
               resolve(new Usuario());

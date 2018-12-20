@@ -260,8 +260,9 @@ export class CreateSegmentPage {
  avancarEtapa2(){
        this.zone.run(() => {
          this.etapas = "etp2";
-         if(this.disciplinas == undefined || this.disciplinas.length == 0)
-           this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+         if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
+           if(this.disciplinas == undefined || this.disciplinas.length == 0)
+             this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
        });
  }
 

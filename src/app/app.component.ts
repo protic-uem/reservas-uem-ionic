@@ -10,7 +10,7 @@ import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
 import { HomePage } from '../pages/home/home';
-
+import { LoginServiceProvider } from '../providers/login-service/login-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +24,7 @@ export class MyApp {
   login: Login;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage:Storage, private events:Events) {
+    private storage:Storage, private events:Events, private loginService:LoginServiceProvider) {
     this.login = new Login();
     this.verificarUsuarioLogado();
     this.initializeApp();
@@ -71,6 +71,10 @@ export class MyApp {
     this.storage.set("clicouSair", true);
     this.nav.setRoot(LoginPage);
     this.events.publish("userloggedin", new Login());
+
+    this.loginService.logout();
+
+
   }
 
 
