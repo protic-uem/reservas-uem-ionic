@@ -15,6 +15,12 @@ page-reserva-my {
     //border-style: ridge;
   }
 
+  ion-select{
+    width: 100%!important;
+    max-width: 100%!important;
+    text-align: right;
+  }
+
   .refresh {
         font-size: 25px; //Preferred size here
     }

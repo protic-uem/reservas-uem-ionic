@@ -10,25 +10,25 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <ion-card class="areaBusca">
+  <ion-card class="areaBusca" *ngIf="login.privilegio == 'Secretário'">
       <ion-list>
         <ion-item>
-          <ion-icon item-start name="options"></ion-icon>
-          <ion-label>Status</ion-label>
+          <ion-icon item-start name="person" class="icones"></ion-icon>
           <ion-select  [selectOptions] ="{
-            subTitle: 'Selecione um status',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)]="statusSelecionado"
-          (ionChange)="statusMudado($event)">
-            <ion-option value=0>PENDENTE</ion-option>
-            <ion-option value=1>ACEITO</ion-option>
-            <ion-option value=2>REJEITADO</ion-option>
-            <ion-option value=3>CANCELADO</ion-option>
-            <ion-option value=-1>TODOS</ion-option>
+            subTitle: 'Selecione um solicitante',
+             mode: 'md'}"
+             okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "usuarioSelecionado"
+             (ionChange)="usuarioChange(usuarioSelecionado)" placeholder="Solicitante"
+             >
+              <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
+                {{usuario.nome}}
+              </ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
   </ion-card>
-  <hr />
+  <hr *ngIf="login.privilegio == 'Secretário'"/>
+
   <ion-row  justify-content-center style="height:100%!important;" *ngIf="reservasNaoEncontrada">
     <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
                 Nenhuma reserva encontrada.
