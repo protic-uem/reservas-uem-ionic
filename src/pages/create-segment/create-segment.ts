@@ -716,7 +716,7 @@ export class CreateSegmentPage {
    * Registers a reservation in database
    * @param reserva reservation
    */
-  cadastrarReserva(reserva:Reserva){
+  cadastrarReserva(reserva:Reserva){ 
 
   let loading = this.loadingCtrl.create({
     content: 'Solicitando reserva...'
