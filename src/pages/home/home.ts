@@ -3,12 +3,12 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format, getHours, getMinutes } from 'date-fns';
 
-//Páginas
+//Pages
 import { ReservaView } from '../../model/ReservaView';
 import { Login } from '../../model/Login';
 
 
-//Provedores
+//Providers
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 
 @Component({
@@ -45,6 +45,10 @@ export class HomePage {
         this.loadResources();//pegar o usuário logado e depois carregar as reservas
   }
 
+  /**
+   * Load resources
+   * Check is the login is on storage
+   */
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
@@ -57,53 +61,59 @@ export class HomePage {
       });
   }
 
-  //Calcula o período corrente
-    calcularPeriodoCorrente(){
+  
+  /**
+   * Calculates the current period
+   */
+  calcularPeriodoCorrente(){
 
-       var horaCorrente = getHours(new Date());
-       var minutoCorrente = getMinutes(new Date());
-       minutoCorrente += horaCorrente*60;
+      var horaCorrente = getHours(new Date());
+      var minutoCorrente = getMinutes(new Date());
+      minutoCorrente += horaCorrente*60;
 
-       if(minutoCorrente > 465 && minutoCorrente <= 565)
-       {
-        this.periodoCorrente = 1;
-        this.periodo = "7:45-9:25";
+      if(minutoCorrente > 465 && minutoCorrente <= 565)
+      {
+      this.periodoCorrente = 1;
+      this.periodo = "7:45-9:25";
+    }
+      else if(minutoCorrente > 565 && minutoCorrente <= 720)
+      {
+      this.periodoCorrente = 2;
+      this.periodo = "9:40-12:00";
+    }
+      else if(minutoCorrente > 720  && minutoCorrente <= 910)
+      {
+        this.periodoCorrente = 3;
+        this.periodo = "13:30-15:10";
       }
-       else if(minutoCorrente > 565 && minutoCorrente <= 720)
-       {
-        this.periodoCorrente = 2;
-        this.periodo = "9:40-12:00";
+      else if(minutoCorrente > 910  && minutoCorrente <= 1080)
+      {
+        this.periodoCorrente = 4;
+        this.periodo = "15:30-18:00";
       }
-       else if(minutoCorrente > 720  && minutoCorrente <= 910)
-       {
-         this.periodoCorrente = 3;
-         this.periodo = "13:30-15:10";
-       }
-       else if(minutoCorrente > 910  && minutoCorrente <= 1080)
-       {
-         this.periodoCorrente = 4;
-          this.periodo = "15:30-18:00";
+      else if(minutoCorrente > 1080  && minutoCorrente <= 1270)
+      {
+        this.periodoCorrente = 5;
+          this.periodo = "19:30-21:10";
         }
-        else if(minutoCorrente > 1080  && minutoCorrente <= 1270)
-        {
-          this.periodoCorrente = 5;
-           this.periodo = "19:30-21:10";
-         }
-        else if(minutoCorrente > 1270 && minutoCorrente <= 1380)
-        {
-          this.periodoCorrente = 6;
-          this.periodo = "21:20-23:00";
-        }
-        else
-        {
-            this.periodoCorrente = 0;
-            this.periodo = "Fora do intervalo";
-        }
+      else if(minutoCorrente > 1270 && minutoCorrente <= 1380)
+      {
+        this.periodoCorrente = 6;
+        this.periodo = "21:20-23:00";
+      }
+      else
+      {
+          this.periodoCorrente = 0;
+          this.periodo = "Fora do intervalo";
+      }
 
 
 
-        }
+      }
 
+  /**
+   * Loads today's reservations according 
+   */
   carregarReservasHome(){
 
     this.reservaService.

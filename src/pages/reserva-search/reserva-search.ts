@@ -22,6 +22,7 @@ export class ReservaSearchPage {
 @ViewChild('selectionSala') selectRef:Select;
 
   reserva:Reserva;
+  periodo:Periodo;
 
   dataSelecionada:string;
   showDate:string;
@@ -48,6 +49,7 @@ export class ReservaSearchPage {
     this.reservas = new Array<ReservaView>();
     this.salaSelecionada = new Sala();
     this.reserva = new Reserva();
+    this.periodo = new Periodo();
 
     this.reservaPeriodo01 = new ReservaView();
     this.reservaPeriodo02 = new ReservaView();
@@ -214,12 +216,12 @@ export class ReservaSearchPage {
 
   filtragemReservas(reservas:Array<ReservaView>){
     return new Promise((resolve, reject) => {
-        let r01 = reservas.filter(item => item.periodo == Periodo.um);
-        let r02 = reservas.filter(item => item.periodo == Periodo.dois);
-        let r03 = reservas.filter(item => item.periodo == Periodo.tres);
-        let r04 = reservas.filter(item => item.periodo == Periodo.quatro);
-        let r05 = reservas.filter(item => item.periodo == Periodo.cinco);
-        let r06 = reservas.filter(item => item.periodo == Periodo.seis);
+        let r01 = reservas.filter(item => item.periodo == this.periodo.um);
+        let r02 = reservas.filter(item => item.periodo == this.periodo.dois);
+        let r03 = reservas.filter(item => item.periodo == this.periodo.tres);
+        let r04 = reservas.filter(item => item.periodo == this.periodo.quatro);
+        let r05 = reservas.filter(item => item.periodo == this.periodo.cinco);
+        let r06 = reservas.filter(item => item.periodo == this.periodo.seis);
 
         if(r01[0] != null && r01[0] != undefined && r01[0].periodo != undefined)
           this.reservaPeriodo01 =  r01[0];

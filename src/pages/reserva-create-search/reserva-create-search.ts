@@ -17,6 +17,7 @@ import { Reserva} from '../../model/Reserva';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
+import { apresentarErro } from '../../util/util';
 
 
 
@@ -26,9 +27,10 @@ import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-
 })
 export class ReservaCreateSearchPage {
 
-reserva:Reserva;
+  reserva:Reserva;
+  periodo:Periodo;
 
- //caso verdadeiro, desativa o input de disciplina
+ //if true,it desative the discipline input
  disciplinaDisabled = true;
 
   disciplinas:Array<Disciplina>;
@@ -54,7 +56,8 @@ reserva:Reserva;
     private reservaService:ReservaServiceProvider, private usuarioService:UsuarioServiceProvider) {
 
 
-      this.reserva = new Reserva;
+      this.reserva = new Reserva();
+      this.periodo = new Periodo();
       this.usuarios = new Array<Usuario>();
       this.disciplinas = new Array<Disciplina>();
       this.login = new Login();
@@ -67,10 +70,10 @@ reserva:Reserva;
       this.salaSelecionada = this.navParams.get('sala');
 
 
-      //pegando usuário
+      //getting the user
       this.login = this.navParams.get('login');
       if(this.login.nome == undefined)
-        this.loadResources();//pegar o usuário logado e depois carregar as reservas
+        this.loadResources();
       else{
         if(this.login.privilegio == "Secretário"){
           this.classe = "secretario";
@@ -84,7 +87,9 @@ reserva:Reserva;
 
   }
 
-
+  /**
+   * Loads resources
+   */
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
@@ -105,6 +110,10 @@ reserva:Reserva;
 
 
   //Carrega as disciplinas de acordo com o privilégio do usuário
+  /**
+   * Loads the disciplines according user privilege
+   * @param privilegio user's privilege
+   */
   carregarDisciplinaPorPrivilegio(privilegio:string){
     if(privilegio == "Docente"){
         this.reserva.id_usuario = this.login.id;
@@ -115,7 +124,10 @@ reserva:Reserva;
     }
   }
 
-
+  /**
+   * Loads users according department
+   * @param id_departamento department's id
+   */
   carregarTodosUsuariosDocentesPorDepartamento(id_departamento: number){
     let loading = this.loadingCtrl.create({
       content: 'Carregando usuarios...'
@@ -130,16 +142,19 @@ reserva:Reserva;
           loading.dismiss();
         }else{
           loading.dismiss();
-          this.apresentarErro("Nenhum usuario docente foi encontrado");
+          apresentarErro(this.alertCtrl, "Nenhum usuario docente foi encontrado");
         }
         } )
       .catch( (error) => {
         loading.dismiss();
-        this.apresentarErro(error.message);
+        apresentarErro(this.alertCtrl, error.message);
       });
   }
 
-  //Carrega todas as dicipinas referente a um determinado usuario
+  /**
+   * Loads all disciplines according a specific user
+   * @param id_usuario user's id
+   */
   carregarDisciplinasPorUsuario(id_usuario:number){
 
       let loading = this.loadingCtrl.create({
@@ -155,18 +170,21 @@ reserva:Reserva;
             });
           }else{
             loading.dismiss();
-            this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+            apresentarErro(this.alertCtrl, "Nenhuma disciplina foi encontrada para esse usuário");
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
 
   }
 
-  //Carrega todas as dicipinas referente a um determinado departamento
+  /**
+   * Loads all discipline according a specific department
+   * @param id_departamento department's id
+   */
   carregarDisciplinasPorDepartamento(id_departamento:number){
 
       let loading = this.loadingCtrl.create({
@@ -182,24 +200,29 @@ reserva:Reserva;
             });
           }else{
             loading.dismiss();
-            this.apresentarErro("Nenhuma disciplina foi encontrada para reste usuário");
+            apresentarErro(this.alertCtrl, "Nenhuma disciplina foi encontrada para reste usuário");
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
   }
 
-  //Toda vez que um usuário é escolhido, suas disciplinas são carregadas
+  /**
+   * Every time that a user is chosen, your disciplines are loaded
+   * @param usuario user
+   */
   changeUsuario(usuario){
     if(usuario != undefined)
       this.carregarDisciplinasPorUsuario(usuario.id);
   }
 
 
-  //cria uma reserva
+  /**
+   * Creates a reservation
+   */
   reservaCreate(){
 
     if(this.validarReserva()){
@@ -222,18 +245,20 @@ reserva:Reserva;
 
   }
 
-  //validar se todos os campos foram preenchidos
+  /**
+   * Validate if all fields were filled
+   */
   validarReserva(){
     if(this.login.privilegio == "Docente")
       if(this.reserva.tipo_uso == undefined || this.disciplinaSelecionada.id == undefined){
-          this.apresentarErro('Por favor, preencha todos os campos');
+          apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos');
         return false;
       }else{
         return true;
       }
     else
       if(this.reserva.tipo_uso == undefined || this.reserva.tipo_reserva == undefined || this.usuarioSelecionado.id == undefined){
-          this.apresentarErro('Por favor, preencha todos os campos');
+          apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos');
         return false;
       }else{
         return true;
@@ -255,12 +280,12 @@ reserva:Reserva;
     msg = '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
     '<b>Disciplina:</b> '+(this.disciplinaSelecionada.codigo == undefined?'':this.disciplinaSelecionada.codigo+'-'+this.disciplinaSelecionada.turma)+'<br/>'+
     '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
-    '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+    '<b>Horário reservado:</b> '+this.periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
     '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
   else
     msg = '<b>Sala:</b> '+this.salaSelecionada.numero+'<br/>'+
     '<b>Data reservada:</b> '+format(this.reserva.data_reserva, 'DD/MM/YYYY')+'<br/>'+
-    '<b>Horário reservado:</b> '+Periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
+    '<b>Horário reservado:</b> '+this.periodo.retornarPeriodo(this.reserva.periodo)+'<br/>'+
     '<b>Tipo de uso:</b> '+this.reserva.tipo_uso;
 
 
@@ -312,13 +337,13 @@ reserva:Reserva;
           });
         }else{
           loading.dismiss();
-          this.apresentarErro("Houve um problema ao solicitar a reserva");
+          apresentarErro(this.alertCtrl, "Houve um problema ao solicitar a reserva");
         }
 
         } )
       .catch((error) => {
         loading.dismiss();
-        this.apresentarErro(error.message);
+        apresentarErro(this.alertCtrl, error.message);
       });
   }
 
@@ -328,21 +353,7 @@ reserva:Reserva;
   }
 
 
-  //apresenta o alerta sobre o erro
-  apresentarErro(msg:string){
-  const alertError = this.alertCtrl.create({
-    title:'Atenção!',
-    message: msg,
-    buttons: [
-      {
-        text: 'Entendi',
-      }
-    ]
-  });
 
-  alertError.setMode("ios");
-  alertError.present();
-  }
 
 
 

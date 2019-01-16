@@ -15,7 +15,6 @@ export class ReservaDetailPage {
    reserva:ReservaView;
    login:Login;
 
-
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private reservaService:ReservaServiceProvider, private loadingCtrl:LoadingController,
     private toastCtrl:ToastController, private alertCtrl:AlertController) {
@@ -25,10 +24,10 @@ export class ReservaDetailPage {
 
   }
 
-
-
-
-
+  /**
+   * load resources 
+   * recover user from storage
+   */
   async loadResources() {
     await this.storage.get("login")
       .then((login) => {
@@ -40,8 +39,11 @@ export class ReservaDetailPage {
       });
   }
 
+  /**
+   * Show the alert to cancel a reserva
+   * @param reserva reserva 
+   */
   confirmarCancelarReserva(reserva:ReservaView){
-
     const alertConfirm = this.alertCtrl.create({
       title:'Atenção!',
       message: "Tem certeza disso?",
@@ -64,41 +66,45 @@ export class ReservaDetailPage {
   }
 
 
-  //cancela uma reserva na base de dados
+  /**
+   * Cancel a reserva from database
+   * @param reserva reserva
+   */
   cancelarReserva(reserva:ReservaView){
 
       let loading = this.loadingCtrl.create({
         content: 'Cancelando reserva...'
       });
 
+      loading.present();
 
-        loading.present();
-
-        this.reservaService.cancelarReserva(reserva)
-          .then((result:any) => {
-            if(result){
-              loading.dismiss().then(() => {
-                  let toast = this.toastCtrl.create({
-                    message: 'Reserva cancelada com sucesso',
-                    duration: 3000
-                  });
-                  toast.present();
-              });
-              this.navCtrl.pop();
-            }else{
-              loading.dismiss();
-              this.apresentarErro("Houve um problema ao cancelar a reserva");
-            }
-
-            } )
-          .catch((error) => {
+      this.reservaService.cancelarReserva(reserva)
+        .then((result:any) => {
+          if(result){
+            loading.dismiss().then(() => {
+                let toast = this.toastCtrl.create({
+                  message: 'Reserva cancelada com sucesso',
+                  duration: 3000
+                });
+                toast.present();
+            });
+            this.navCtrl.pop();
+          }else{
             loading.dismiss();
-            this.apresentarErro(error.message);
-          });
+            this.apresentarErro("Houve um problema ao cancelar a reserva");
+          }
+
+          } )
+        .catch((error) => {
+          loading.dismiss();
+          this.apresentarErro(error.message);
+        });
 
   }
 
-
+  /**
+   * Redirect the user to previous screen
+   */
   voltarTela(){
     this.navCtrl.pop();
   }

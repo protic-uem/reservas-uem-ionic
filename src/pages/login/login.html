@@ -2,7 +2,7 @@
     <img src="assets/imgs/uem-modelo.png" class="redimensionar">
     <div class="formulario" >
 
-        <ion-list>
+      <ion-list>
         <form [formGroup]="loginForm"  novalidate>
           <ion-card class="cardPadding" >
             <ion-item style="position: initial!important;">
@@ -19,13 +19,12 @@
             </ion-item>
             <h6  *ngIf="errorSenha" class="error">{{messageSenha}}</h6>
           </ion-card>
-      </form>
+        </form>
           <ion-item class="check" no-lines>
           <ion-label>Mantenha-me conectado</ion-label>
           <ion-checkbox [(ngModel)]="keepConnected" (ionChange)="saveConnected($event)"></ion-checkbox>
         </ion-item>
-        </ion-list>
-
+      </ion-list>
 
       <ion-row justify-content-center>
         <button ion-button block class="btnLogin" (click)="login()" color="secondary">Login</button>

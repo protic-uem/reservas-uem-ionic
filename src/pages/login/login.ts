@@ -1,22 +1,20 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController, LoadingController, Events, AlertController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { Validators, FormBuilder } from '@angular/forms';
+
+import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 import { HomePage } from '../home/home';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
-import { Storage } from '@ionic/storage';
+
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
-import { SalaServiceProvider } from './../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
+import { SalaServiceProvider } from './../../providers/sala-service/sala-service';
 
-
-import { Sala } from '../../model/Sala';
-import { ReservaView } from '../../model/ReservaView';
 import { Login } from '../../model/Login';
-
-
-import { Validators, FormBuilder } from '@angular/forms';
-import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
-
-
+import { ReservaView } from '../../model/ReservaView';
+import { Sala } from '../../model/Sala';
+import { apresentarErro } from '../../util/util';
 
 @Component({
   selector: 'page-login',
@@ -26,7 +24,6 @@ import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
   }
 })
 export class LoginPage {
-
 
   email: string;
   senha: string;
@@ -56,18 +53,13 @@ export class LoginPage {
     this.minhasReservas = new Array<ReservaView>();
     this.usuario = new Login();
 
-    this.storage.get("login")
-        .then( (value) => {
-          if (value.id != undefined) {
-            this.senha = ''
-          } });
 
-    //verifica se a opção manterConectado está marcada
+    //Check the option 'keepConnected' is marked
     this.storage.get("keepConnected").then( (value) =>{
       this.keepConnected = value;
       if(value == true){
         this.storage.get("clicouSair").then((clicouSair) => {
-          //Apenas preenche os campos de login e senha da tela de Login
+          //Only fill login field and password field on login screen
           if(clicouSair == true){
             this.storage.get("email").then((res) => {
               this.email = res;
@@ -77,7 +69,7 @@ export class LoginPage {
             });
           }
           else{
-            //Faça o login automático
+            //To do automatic login
             this.storage.get("email").then((res) => {
               this.email = res;
               if(this.email != '' && this.senha != ''){
@@ -95,23 +87,29 @@ export class LoginPage {
       }
     });
 
-          //Criar o formulário de validação
-          this.loginForm = this.formBuilder.group({
-            senha:['',Validators.required],
-            email:['', Validators.compose([
-          		Validators.required,
-          		Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-. ]+$')
-          	])]
-          });
+    //Create the validation form
+    this.loginForm = this.formBuilder.group({
+      senha:['',Validators.required],
+      email:['', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-. ]+$')
+      ])]
+    });
 
 
   }
 
+  /**
+   * Save user state, if him clicked on "Matenha-me conectado"
+   */
   saveConnected(event) {
     this.keepConnected = event.checked;
   }
 
-  public toggleSenha(){
+  /**
+   * Show password for user or hide password for user
+   */
+  toggleSenha(){
       if(this.senhaShow){
         this.senhaShow = false;
         this.senhaType = 'password';
@@ -121,18 +119,28 @@ export class LoginPage {
       }
   }
 
+  /**
+   * Capture keyboard event 
+   * when user to press key 'Enter', to do login
+   * @param event keyboard event, show which keys the user is clicking
+   */
   handleKeyboardEvents(event: KeyboardEvent){
     var key = event.which || event.keyCode;
     if(key == 13)
       this.login();
   }
 
+  /**
+   * 
+   */
   ionViewCanEnter(){
     this.senha = '';
     this.menuCtrl.enable(true);
   }
 
-  //Realiza o login automatico
+  /**
+   * Do automatic login
+   */
   loginAutomatico(){
     let loading = this.loadingCtrl.create({
       content: 'Acessando sua conta...'
@@ -149,20 +157,22 @@ export class LoginPage {
           this.storage.set("senha", this.senha);
           this.storage.set("email", this.email);
           this.storage.set("clicouSair", false);
-            this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
+          this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
         }else{
           loading.dismiss();
-          this.presentConfirm("usuário e/ou senha incorreto");
+          apresentarErro(this.alertCtrl,"usuário e/ou senha incorreto");
         }
 
         } )
       .catch( (error) => {
         loading.dismiss();
-        this.presentConfirm(error);
+        apresentarErro(this.alertCtrl,error);
       });
   }
 
-  //Realiza o login debugger;
+  /**
+   * Do login
+   */
   login(){
    this.validarLogin();
 
@@ -182,22 +192,26 @@ export class LoginPage {
             this.storage.set("senha", this.senha);
             this.storage.set("email", this.email);
             this.storage.set("clicouSair", false);
-              this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
+            this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
           }else{
             loading.dismiss();
-            this.presentConfirm("usuário e/ou senha incorreto");
+            apresentarErro(this.alertCtrl, "usuário e/ou senha incorreto");
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.presentConfirm(error);
+          apresentarErro(this.alertCtrl,error);
         });
     }
 
   }
 
-  //Carrega todas as salas referente a um determinado departamento
+  /**
+   * Load all the rooms of a specific department
+   * @param id_departamento solicited department
+   * @param loading loadin component
+   */
   carregarSalasPorDepartamento(id_departamento:number, loading:any){
 
       loading.setContent("Sincronizando com o banco...");
@@ -214,10 +228,14 @@ export class LoginPage {
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.presentConfirm(error.message);
+          apresentarErro(this.alertCtrl,error.message);
         });
   }
 
+  /**
+   * Update the user's reservation list
+   * @param loading loading component
+   */
   atualizarMinhasReservas(loading:any){
     this.reservaService.carregarMinhasReservas(this.usuario.id)
       .then( (reservas:Array<ReservaView>) => {
@@ -239,13 +257,14 @@ export class LoginPage {
       .catch( () => "Erro na requisição de minhas reservas" );
   }
 
-  //Validar se o email e senha foram digitados corretamente
+  /**
+   * Validate the email and password
+   */
   validarLogin(){
         let{email, senha} = this.loginForm.controls;
 
         if(!this.loginForm.valid){
           if(!email.valid){
-            console.log("Email inválido");
             this.errorEmail = true;
             this.messageEmail = "Email inválido";
           }else{
@@ -264,29 +283,16 @@ export class LoginPage {
         }
   }
 
-  //redireciona o usuário para a página de alteração de senha
+  /**
+   * Redirect the user to page of change password  
+   */
   irParaAlterarSenha(){
     this.navCtrl.push(EsqueceuSenhaPage);
   }
 
-//Caso ocorrar algum erro, apresente o erro ao usuário
-  presentConfirm(error:string) {
-    let alert = this.alertCtrl.create({
-      title: 'Atenção',
-      message: 'Houve um erro na requisição de login: '+error,
-      buttons: [
-        {
-          text: 'Okay',
-          handler: () => {
-
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  //Acessa a aplicação como visitante, sem privilégios
+  /**
+   * Redirect the user to visitor page 
+   */
   entrarVisitante(){
     this.navCtrl.push(ReservaVisitanteListPage);
   }

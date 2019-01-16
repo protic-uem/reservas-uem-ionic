@@ -18,11 +18,13 @@ export class AjudaUsuarioPage {
     this.login = new Login();
     this.login = this.navParams.get('login');
     if(this.login.nome == undefined)
-      this.loadResources();//pegar o usuário logado e depois carregar as reservas
+      this.loadResources();
 
   }
 
-  //Busca o login do storage
+  /**
+   * load the login from storage
+   */
    async loadResources() {
      await this.storage.get("login")
        .then((login) => {
