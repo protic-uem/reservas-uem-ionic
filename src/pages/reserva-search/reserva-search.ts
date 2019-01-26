@@ -82,8 +82,8 @@ export class ReservaSearchPage {
 
  //Executa toda vez que a tela é aberta
   ionViewDidEnter(){
-    if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
-      this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id ,this.salaSelecionada.id);
+    //if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
+      //this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id ,this.salaSelecionada.id);
   }
 
 

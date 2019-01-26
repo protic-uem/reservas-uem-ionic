@@ -21,7 +21,7 @@
                 {{reserva.usuario.nome}}
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="reserva.disciplina.codigo != undefined">
+          <ion-row *ngIf="reserva.disciplina != null && reserva.disciplina.codigo != undefined">
             <ion-col >
               <span class="text-details">
                 Disciplina:

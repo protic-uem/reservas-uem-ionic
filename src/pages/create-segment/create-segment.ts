@@ -1,12 +1,11 @@
 import { Component, NgZone } from '@angular/core';
 import { NavController, NavParams, ToastController, AlertController, LoadingController, ModalController } from 'ionic-angular';
-import { parse, format, isSunday, isSaturday, isFriday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
+import { parse, format, isSunday, isSaturday, addWeeks, addMonths, getHours, getMinutes, addDays } from 'date-fns';
 import { Storage } from '@ionic/storage';
 import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
 
 //Pages
 import { HomePage } from '../home/home';
-import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 //Models
 import { Periodo } from '../../model/Periodo';
