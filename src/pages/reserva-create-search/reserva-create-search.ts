@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { parse, format, isSunday, isSaturday } from 'date-fns';
 import { Storage } from '@ionic/storage';
-import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 //Modelos
 import { Periodo } from '../../model/Periodo';
@@ -15,7 +14,8 @@ import { SalaGraphql } from '../../model/Sala.graphql';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
-import { apresentarErro } from '../../util/util';
+import { apresentarErro, apresentarToast } from '../../util/util';
+import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 
 
 
@@ -325,12 +325,12 @@ export class ReservaCreateSearchPage {
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(ReservaMyPage, {login: this.login});
-              let toast = this.toastCtrl.create({
-                message: "Reserva cadastrada com sucesso!",
-                duration: 5000
-              });
-              toast.present();
+            this.navCtrl.setRoot(ReservaDetailPage, {
+              login:this.login,
+              item:result,
+              page:"create-reserva"
+            });
+              apresentarToast(this.toastCtrl, "Reserva Cadastrada com sucesso!");
           });
         }else{
           loading.dismiss();

@@ -1,7 +1,5 @@
-import { AlertController }  from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-import { isSaturday, isSunday, format, parse, getHours, getMinutes, isFriday, addDays } from 'date-fns';
-import { UsuarioGraphql } from '../model/Usuario.graphql';
+import { AlertController, ToastController }  from 'ionic-angular';
+import { isSaturday, isSunday, format, parse, isFriday, addDays } from 'date-fns';
 
 
 //Apresenta o mensagem de erro ao usuário
@@ -18,6 +16,15 @@ export const apresentarErro = (alertCtrl:AlertController, msg:string) => {
   
       alertError.setMode("ios");
       alertError.present();
+ };
+
+ export const apresentarToast = (toastCtrl:ToastController, msg:string) => {
+    let toast = toastCtrl.create({
+      message: msg,
+      duration: 3000,    
+      cssClass: 'changeToast'  
+    });
+    toast.present();
  };
 
 /**

@@ -5,7 +5,8 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 import { ReservaGraphql } from '../../model/Reserva.graphql';
 import { UsuarioGraphql } from '../../model/Usuario.graphql';
 import { Periodo } from '../../model/Periodo';
-import { apresentarErro } from '../../util/util';
+import { apresentarErro, apresentarToast } from '../../util/util';
+import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 
 @Component({
@@ -17,22 +18,23 @@ export class ReservaDetailPage {
    reserva:ReservaGraphql;
    login:UsuarioGraphql;
    periodo:Periodo;
+   page:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private reservaService:ReservaServiceProvider, private loadingCtrl:LoadingController,
     private toastCtrl:ToastController, private alertCtrl:AlertController) {
     this.reserva = this.navParams.get('item');
     this.login = this.navParams.get('login');
-    var page = this.navParams.get('page');
+    this.page = this.navParams.get('page');
 
     this.periodo = new Periodo();
 
-    if(page == "visitante"){
+    if(this.page == "visitante"){
       this.login = new UsuarioGraphql();
       this.login.id = -1;
     }
     else if( this.login == undefined )
-      this.loadResources();
+      this.loadResources();        
 
   }
 
@@ -93,13 +95,9 @@ export class ReservaDetailPage {
       this.reservaService.cancelarReserva(reserva)
         .then((result:any) => {
             loading.dismiss().then(() => {
-                let toast = this.toastCtrl.create({
-                  message: 'Reserva cancelada com sucesso',
-                  duration: 3000
-                });
-                toast.present();
+                apresentarToast(this.toastCtrl, 'Reserva cancelada com sucesso!');
             });
-            this.navCtrl.pop();
+            this.voltarTela();
           } )
         .catch((error) => {
           loading.dismiss();
@@ -112,7 +110,13 @@ export class ReservaDetailPage {
    * Redirect the user to previous screen
    */
   voltarTela(){
-    this.navCtrl.pop();
+    if(this.page == "create-reserva")
+      this.navCtrl.setRoot(ReservaMyPage, {
+        login:this.login,
+        item:this.reserva
+      }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
+    else
+      this.navCtrl.pop();
   }
 
 }

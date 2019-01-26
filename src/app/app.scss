@@ -103,3 +103,11 @@ ion-toolbar{
     background-color: transparent !important;
     //color: #fff;
 }
+
+.changeToast{
+  .toast-wrapper {
+    opacity: 0.9; border-radius: 5px !important; text-align: center; background: color($colors, secondary);
+    width: 75%;
+  }
+};
+

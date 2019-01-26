@@ -151,6 +151,7 @@ export const cadastrarReserva = (input:any) =>
                             status
                             departamento {
                                 id
+                                nome
                                 descricao
                             }
                             usuario{
@@ -160,6 +161,8 @@ export const cadastrarReserva = (input:any) =>
                             disciplina{
                                 id
                                 nome
+                                codigo
+                                turma
                             }
                             sala {
                                 id

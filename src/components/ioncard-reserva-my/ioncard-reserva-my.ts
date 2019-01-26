@@ -7,7 +7,7 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 import { ReservaGraphql } from '../../model/Reserva.graphql';
 import { Periodo } from '../../model/Periodo';
 import { UsuarioGraphql } from '../../model/Usuario.graphql';
-import { apresentarErro } from '../../util/util';
+import { apresentarErro, apresentarToast } from '../../util/util';
 
 
 @Component({
@@ -71,12 +71,7 @@ export class IoncardReservaMyComponent {
           .then((result:any) => {
             if(result){
               loading.dismiss().then(() => {
-                  let toast = this.toastCtrl.create({
-                    message: 'Reserva cancelada com sucesso',
-                    duration: 3000
-                  });
-                  toast.present();
-
+                apresentarToast(this.toastCtrl, 'Reserva cancelada com sucesso!');
               });
             }else{
               loading.dismiss();

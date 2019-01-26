@@ -21,7 +21,8 @@ import { ReservaGraphql } from '../../model/Reserva.graphql';
 import { UsuarioGraphql } from '../../model/Usuario.graphql';
 import { DisciplinaGraphql } from '../../model/Disciplina.grapqhql';
 import { SalaGraphql } from '../../model/Sala.graphql';
-import { validarData, calcularDiaDefaultCalendar, apresentarErro } from '../../util/util';
+import { validarData, calcularDiaDefaultCalendar, apresentarErro, apresentarToast } from '../../util/util';
+import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 
 
 @Component({
@@ -691,12 +692,12 @@ export class CreateSegmentPage {
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(ReservaMyPage, {login:this.login});
-              let toast = this.toastCtrl.create({
-                message: "Reserva Cadastrada com sucesso",
-                duration: 5000
+              this.navCtrl.setRoot(ReservaDetailPage, {
+                login:this.login,
+                item:result,
+                page:"create-reserva"
               });
-              toast.present();
+              apresentarToast(this.toastCtrl, 'Reserva Cadastrada com sucesso!');
           });
         }else{
           loading.dismiss();
