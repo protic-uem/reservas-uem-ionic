@@ -30,7 +30,7 @@
         <ion-list>
           <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
             <ion-item class="transp">
-              <chip-reserva-home [reserva]="reserva" width="100%"></chip-reserva-home>
+              <chip-reserva-home [reserva]="reserva" [login]="login"  width="100%"></chip-reserva-home>
             </ion-item>
           </ion-item-sliding>
         </ion-list>

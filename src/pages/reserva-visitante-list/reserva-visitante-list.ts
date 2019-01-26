@@ -4,11 +4,12 @@ import { Storage } from '@ionic/storage';
 
 //Páginas
 import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
-import { ReservaView } from '../../model/ReservaView';
-import { Disciplina } from '../../model/Disciplina';
+
 //Provedores
 import { ReservaVisitanteServiceProvider } from '../../providers/reserva-visitante-service/reserva-visitante-service';
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { DisciplinaGraphql } from '../../model/Disciplina.grapqhql';
 
 
 @Component({
@@ -17,12 +18,13 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 })
 export class ReservaVisitanteListPage {
 
-   reservas:Array<ReservaView>;
-   disciplinas:Array<Disciplina>;
+   reservas:Array<ReservaGraphql>;
+   disciplinas:Array<DisciplinaGraphql>;
 
   departamentoSelecionado:number = 1;
   disciplinaSelecionada = undefined;
   reservasNaoEncontrada:boolean = false;
+  page:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private menuCtrl:MenuController,
     private alertCtrl:AlertController, private storage:Storage, private loadingCtrl:LoadingController,
@@ -31,8 +33,9 @@ export class ReservaVisitanteListPage {
 
 
     this.menuCtrl.enable(false);
-    this.reservas = new Array<ReservaView>();
-    this.disciplinas = new Array<Disciplina>();
+    this.reservas = new Array<ReservaGraphql>();
+    this.disciplinas = new Array<DisciplinaGraphql>();
+    this.page = "visitante";
     this.carregarDisciplinasPorDepartamento(this.departamentoSelecionado);
 
   }
@@ -44,14 +47,14 @@ export class ReservaVisitanteListPage {
         content: 'Carregando disciplinas...'
       });
 
-      this.storage.get("disciplinasDIN").then( (disciplinasDIN:Array<Disciplina>) => {
+      this.storage.get("disciplinasDIN").then( (disciplinasDIN:Array<DisciplinaGraphql>) => {
 
         if(disciplinasDIN != null && disciplinasDIN.length > 0){
           this.disciplinas = disciplinasDIN;
           loading.dismiss();
         }else{
             this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
-              .then( (disciplinas:Array<Disciplina>) => {
+              .then( (disciplinas:Array<DisciplinaGraphql>) => {
                 if(disciplinas.length > 0){
                   this.disciplinas = disciplinas;
                   this.storage.set("disciplinasDIN", disciplinas);
@@ -96,7 +99,7 @@ export class ReservaVisitanteListPage {
     }
 
 
-  openReserva(event, reserva:ReservaView){
+  openReserva(event, reserva:ReservaGraphql){
       this.navCtrl.push(ReservaDetailPage, {
         item: reserva
       });
@@ -112,14 +115,14 @@ export class ReservaVisitanteListPage {
    loading.present();
    this.reservaVisitanteService.
    carregarReservaVisitante(this.departamentoSelecionado, this.disciplinaSelecionada)
-   .then((reservas:Array<ReservaView>) => {
+   .then((reservas:Array<ReservaGraphql>) => {
      if(reservas != null && reservas.length > 0){
        this.reservas = reservas;
        this.storage.set("reservas", reservas);
        this.reservasNaoEncontrada = false;
        loading.dismiss();
      }else{
-       this.reservas  = new Array<ReservaView>();
+       this.reservas  = new Array<ReservaGraphql>();
        loading.dismiss();
        //this.presentConfirm("Nenhuma reserva ativa foi encontrada");
        this.reservasNaoEncontrada = true;
@@ -127,7 +130,7 @@ export class ReservaVisitanteListPage {
 
      } )
    .catch((error) => {
-     this.reservas  = new Array<ReservaView>();
+     this.reservas  = new Array<ReservaGraphql>();
      loading.dismiss();
      this.presentConfirm(error.message);
       this.reservasNaoEncontrada = true;

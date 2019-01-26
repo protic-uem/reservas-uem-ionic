@@ -1,55 +1,33 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
-import { Departamento } from '../../model/Departamento';
+import { DepartamentoGraphql } from '../../model/Departamento.graphql';
+import { getDepartamentos } from '../../graphql/departamento/departamento-json';
 
 @Injectable()
 export class DepartamentoServiceProvider extends ConexaoProvider{
 
 
-  private departamentos:Array<Departamento>;
+  private departamentos:Array<DepartamentoGraphql>;
 
   constructor(public http: HttpClient) {
     super();
-    this.departamentos = new Array<Departamento>();
   }
 
   //Busca todos os departamentos da base de dados
-  carregarTodosDepartamentos(){
-    this.departamentos = new Array<Departamento>();
-    var url = this.baseUri+'departamento/todos';
+  async carregarTodosDepartamentos(){
+    this.departamentos = new Array<DepartamentoGraphql>();
 
-  return new Promise((resolve, reject) => {
-
-    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-    this.http.get(url, {headers: headers}).subscribe((result:any) => {
-      if(result.retorno == "false"){
-        resolve(new Departamento());
-      }
-      else{
-        if(result.dados.length>0){
-          let tamanho = result.dados.length;
-          for(var i = 0;i<tamanho;i++){
-            console.log("nome:"+result.dados[i].nome);
-            this.departamentos.push(new Departamento(
-                              result.dados[i].id,
-                              result.dados[i].nome,
-                              result.dados[i].descricao,
-                              result.dados[i].status
-                              ));
-                            }
-        }
-
-
-              resolve(this.departamentos);
-        }
-      },
-      (error) => {
-        console.log("carregarTodosDepartamentos error");
-        reject(error);
-
-          });
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', getDepartamentos(), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.departamentos = result.data.departamentos;
+            resolve(this.departamentos);
+          }
       });
-      }
+    });
+  }
+
 }

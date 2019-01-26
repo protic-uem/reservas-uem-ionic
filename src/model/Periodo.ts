@@ -7,6 +7,8 @@ export class Periodo {
   cinco:string = "19:30-21:10";
   seis:string = "21:20-23:00";
 
+  
+
   retornarPeriodo(periodo:number):string {
     if(periodo == 1)
       return this.um;

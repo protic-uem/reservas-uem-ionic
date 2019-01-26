@@ -1,35 +1,46 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReservaView } from '../../model/ReservaView';
 import { ConexaoProvider } from '../conexao/conexao';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { reservasPorDepartamentoDisciplina } from '../../graphql/reserva/reserva-json';
 
 @Injectable()
 export class ReservaVisitanteServiceProvider extends ConexaoProvider{
 
-  private reservas:Array<ReservaView>;
+  private reservas:Array<ReservaGraphql>;
 
   constructor(public http: HttpClient) {
     super();
-    this.reservas = new Array<ReservaView>();
+    this.reservas = new Array<ReservaGraphql>();
   }
 
-  //carrega todas as reservas referente a um determinado usuário
-  carregarReservaVisitante(id_departamento:number, id_disciplina:number){
+  async carregarReservaVisitante(id_departamento:number, id_disciplina:number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
-    this.reservas = new Array<ReservaView>();
+    this.reservas = new Array<ReservaGraphql>();
 
-    var url = this.getUrl(id_departamento, id_disciplina);
+        return await new Promise((resolve, reject) => {
+            this.http.post(this.baseUri+'graphql', reservasPorDepartamentoDisciplina(id_departamento, id_disciplina), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+              if(result.errors){
+                reject(result.errors[0].message);
+              }else{
+                this.reservas = result.data.reservasPorDepartamentoDisciplina;
+                resolve(this.reservas);
+              }
+          });
+        });
+
+    /*var url = this.getUrl(id_departamento, id_disciplina);
 
   return new Promise((resolve, reject) => {
     this.http.get(url).subscribe((result:any) => {
       if(result.retorno == "false"){
-        resolve(new ReservaView());
+        resolve(new ReservaGraphql());
       }
       else{
         if(result.dados.length>0){
           let tamanho = result.dados.length;
           for(var i = 0;i<tamanho;i++){
-            this.reservas.push(new ReservaView(
+            this.reservas.push(new ReservaGraphql(
                                 result.dados[i].id,
                                 result.dados[i].nome_departamento,
                                 result.dados[i].id_usuario,
@@ -57,7 +68,7 @@ export class ReservaVisitanteServiceProvider extends ConexaoProvider{
         reject(error);
 
       });
-  });
+  });*/
 
 
   }

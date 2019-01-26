@@ -1,8 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
-import { Login } from '../../model/Login';
 import { TimeoutPromise } from '../../util/timeout-promise';
+import { createNewToken, deleteToken } from '../../graphql/token/token-json';
+import { getCurrentUsuario } from '../../graphql/usuario/usuario-json';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
 
 /*
   Classe responsável pela comunicação com a API referente ao serviço de login
@@ -40,20 +42,46 @@ export class LoginServiceProvider extends ConexaoProvider{
 
       }
 
-      confirmLogin(email: string, senha: string){
+      async confirmLogin(email: string, senha: string){
         console.log("usuario:"+btoa(email));
         console.log("senha:"+btoa(senha));
 
-          let doLogin = new Promise((resolve, reject) => {
+        return await new Promise((resolver, reject) => {
+           this.getToken(email, senha)
+            .then(() => {
+              let headers = new HttpHeaders({'Content-Type':'application/json', 'Authorization':'Bearer '+ConexaoProvider.token});
+              this.http.post(this.baseUri+'graphql', getCurrentUsuario(), { headers: headers}).subscribe((result:any) => {
+                if(result.errors){
+                  reject(result.errors[0].message);
+                }else{
+                  var usuario: UsuarioGraphql = result.data.currentUsuario;
+                  resolver(usuario);
+                }
+              });
+
+            })
+            .catch((error) => {
+                reject(error);
+            });
+          });
+
+          /*let doLogin = new Promise((resolve, reject) => {
 
             var login = {
                email:btoa(email),
                senha:btoa(senha)
             };
-
+            
           let headers = new HttpHeaders({'Content-Type':'application/json'});
 
-          this.http.post(this.baseUri+'usuario/login', JSON.stringify(login), { headers: headers}).subscribe((result:any) => {
+          //JSON.stringify(login) usuario/login
+          this.http.post(this.baseUri+'graphql', createNewToken(email, senha), { headers: headers}).subscribe((result:any) => {
+            if(result.errors){
+              reject(result.errors[0].message);
+            }else{
+              ConexaoProvider.token = result.data.createToken.token;
+            }
+            
             if(result.retorno == false){
               resolve(new Login());
             }
@@ -74,21 +102,48 @@ export class LoginServiceProvider extends ConexaoProvider{
             });
         });
 
-        return this.promiseTimeout.promiseTimeout(60000, doLogin);
-
+        return this.promiseTimeout.promiseTimeout(60000, doLogin);*/
 
       }
 
+    async getToken(email:string, senha:string) {
+      
+      return await new Promise((resolve, reject) => {
+        this.http.post(this.baseUri+'graphql', createNewToken(email, senha), { headers: this.headers}).subscribe((result:any) => {
+            if(result.errors){
+              reject(result.errors[0].message);
+            }else{
+              ConexaoProvider.token = result.data.createToken.token;
+              ConexaoProvider.headersToken = new HttpHeaders({'Content-Type':'application/json', 'Authorization':'Bearer '+ConexaoProvider.token});
+              resolve(ConexaoProvider.token);
+            }
+        });
+      });
+    }
 
-    logout(){
-       new Promise((resolve, reject) => {
+
+    async logout(){
+
+      return await new Promise((resolve, reject) => {
+        this.http.post(this.baseUri+'graphql', deleteToken(), { headers: this.headers}).subscribe((result:any) => {
+            if(result.errors){
+              reject(result.errors[0].message);
+            }else{
+              ConexaoProvider.token = result.data.deleteToken.token;
+              ConexaoProvider.headersToken = new HttpHeaders({'Content-Type':'application/json', 'Authorization':'Bearer '+ConexaoProvider.token});
+              resolve(ConexaoProvider.token);
+            }
+        });
+      });
+
+       /*new Promise((resolve, reject) => {
           this.http.get(this.baseUri+'usuario/logout').subscribe((result:any) => {
               resolve();
             },
             (error) => {
               reject(error.message);
             });
-          });
+          });*/
     }
 
 }

@@ -3,7 +3,6 @@ import { Nav, Platform, Events} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
-import { Login } from '../model/Login';
 import { LoginPage } from '../pages/login/login';
 import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
 import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
@@ -11,6 +10,8 @@ import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
 import { HomePage } from '../pages/home/home';
 import { LoginServiceProvider } from '../providers/login-service/login-service';
+import { ConexaoProvider } from '../providers/conexao/conexao';
+import { UsuarioGraphql } from '../model/Usuario.graphql';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,15 +22,15 @@ export class MyApp {
   //LoginPage
   rootPage: any = LoginPage;
   pages: Array<{icon: string, title: string, component: any}>;
-  login: Login;
+  login: UsuarioGraphql;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
     private storage:Storage, private events:Events, private loginService:LoginServiceProvider) {
-    this.login = new Login();
+    this.login = new UsuarioGraphql();
     this.verificarUsuarioLogado();
     this.initializeApp();
 
-    this.events.subscribe("userloggedin", (user:Login) => {
+    this.events.subscribe("userloggedin", (user:UsuarioGraphql) => {
         this.login = user;
     });
 
@@ -46,7 +47,7 @@ export class MyApp {
 
 
   async verificarUsuarioLogado(){
-    await this.storage.get("login").then((login: Login) => {
+    await this.storage.get("login").then((login: UsuarioGraphql) => {
       this.login = login;
     } );
   }
@@ -67,12 +68,13 @@ export class MyApp {
   }
 
   logout() {
-    this.storage.set("login", new Login());
+    this.storage.set("login", new UsuarioGraphql());
     this.storage.set("clicouSair", true);
     this.nav.setRoot(LoginPage);
-    this.events.publish("userloggedin", new Login());
+    this.events.publish("userloggedin", new UsuarioGraphql());
 
-    this.loginService.logout();
+    ConexaoProvider.token = null;
+    //this.loginService.logout();
 
 
   }

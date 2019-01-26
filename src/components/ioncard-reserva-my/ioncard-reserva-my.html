@@ -3,8 +3,8 @@
                         <ion-grid>
                           <ion-row>
                             <ion-col text-left>
-                              <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
-                              <span>{{reserva.nome_disciplina}}</span>
+                              <span class="titulo_sala">Sala {{reserva.sala.numero}}</span><br />
+                              <span *ngIf="reserva.disciplina != undefined">{{reserva.disciplina.nome}}</span>
                             </ion-col>
                             <ion-col  text-right>
                                       <span *ngIf="reserva.tipo_reserva == 'Fixo'" class="titulo_sala">{{reserva.tipo_reserva}}</span>
@@ -12,7 +12,13 @@
                           </ion-row>
                           <ion-row>
                             <ion-col  text-left>
-                                   {{reserva.data_reserva}} {{reserva.periodo}}
+                                   {{reserva.data_reserva | date:'dd/MM/yyyy'}}
+                                   <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
+                                   <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
+                                   <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
+                                   <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
+                                   <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
+                                   <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
                             </ion-col>
                           </ion-row>
                           <ion-row>

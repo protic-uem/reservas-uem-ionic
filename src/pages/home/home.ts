@@ -3,13 +3,14 @@ import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format, getHours, getMinutes } from 'date-fns';
 
-//Pages
-import { ReservaView } from '../../model/ReservaView';
-import { Login } from '../../model/Login';
-
+//Models
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
 
 //Providers
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
+import { apresentarErro } from '../../util/util';
+
 
 @Component({
   selector: 'page-home',
@@ -17,20 +18,19 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 })
 export class HomePage {
 
-  reservas:Array<ReservaView>;
-  departamentoDIN:number = 1;
+  reservas:Array<ReservaGraphql>;
   hoje:string;
   periodo:string;
   periodoCorrente:number;
   reservasNaoEncontrada:boolean = false;
-  login:Login;
+  login:UsuarioGraphql;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private alertCtrl:AlertController, private storage:Storage,
     private reservaService:ReservaServiceProvider) {
 
-      this.reservas = new Array<ReservaView>();
+      this.reservas = new Array<ReservaGraphql>();
       this.hoje = format(new Date(), 'YYYY-MM-DD');
       this.calcularPeriodoCorrente();
       this.login = this.navParams.get('login');
@@ -56,7 +56,7 @@ export class HomePage {
           this.login = login;
           this.carregarReservasHome();
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -117,40 +117,25 @@ export class HomePage {
   carregarReservasHome(){
 
     this.reservaService.
-    carregarReservasTelaHome(this.departamentoDIN, this.hoje, this.periodoCorrente)
-    .then((reservas:Array<ReservaView>) => {
+    carregarReservasTelaHome(this.login.departamento.id, this.hoje, this.periodoCorrente)
+    .then((reservas:Array<ReservaGraphql>) => {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
         this.reservasNaoEncontrada = false;
       }else{
-        this.reservas  = new Array<ReservaView>();
+        this.reservas  = new Array<ReservaGraphql>();
         this.reservasNaoEncontrada = true;
       }
 
       } )
     .catch((error) => {
-      this.reservas  = new Array<ReservaView>();
-      this.apresentarErro(error.message);
+      this.reservas  = new Array<ReservaGraphql>();
+      apresentarErro(this.alertCtrl, error.message);
     });
 
   }
 
-
-  //apresenta o alerta sobre o erro
-  apresentarErro(msg:string){
-        const alertError = this.alertCtrl.create({
-          title:'Atenção!',
-          message: msg,
-          buttons: [
-            {
-              text: 'Entendi',
-            }
-          ]
-        });
-        alertError.setMode("ios");
-        alertError.present();
-  }
 
 
 

@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 //Páginas
-import { ReservaView } from '../../model/ReservaView';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
 
 
 @Component({
@@ -12,14 +12,16 @@ import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 })
 export class IoncardReservaComponent {
 
- @Input() reserva:ReservaView;
+ @Input() reserva:ReservaGraphql;
+ @Input() page:string;
   constructor(private navCtrl:NavController) {
 
   }
 
-  openReserva(event, reserva:ReservaView){
+  openReserva(event, reserva:ReservaGraphql, page){
     this.navCtrl.push(ReservaDetailPage, {
-      item: reserva
+      item: reserva,
+      page: page
     });
   }
 

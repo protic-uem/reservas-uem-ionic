@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
-import {ReservaView} from '../../model/ReservaView';
-import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { Periodo } from '../../model/Periodo';
+import { apresentarErro } from '../../util/util';
 
 
 @Component({
@@ -12,15 +14,25 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 })
 export class ReservaDetailPage {
 
-   reserva:ReservaView;
-   login:Login;
+   reserva:ReservaGraphql;
+   login:UsuarioGraphql;
+   periodo:Periodo;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private storage: Storage, private reservaService:ReservaServiceProvider, private loadingCtrl:LoadingController,
     private toastCtrl:ToastController, private alertCtrl:AlertController) {
     this.reserva = this.navParams.get('item');
-    this.login = new Login();
-    this.loadResources();
+    this.login = this.navParams.get('login');
+    var page = this.navParams.get('page');
+
+    this.periodo = new Periodo();
+
+    if(page == "visitante"){
+      this.login = new UsuarioGraphql();
+      this.login.id = -1;
+    }
+    else if( this.login == undefined )
+      this.loadResources();
 
   }
 
@@ -34,7 +46,7 @@ export class ReservaDetailPage {
         if (login) {
           this.login = login;
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -43,7 +55,7 @@ export class ReservaDetailPage {
    * Show the alert to cancel a reserva
    * @param reserva reserva 
    */
-  confirmarCancelarReserva(reserva:ReservaView){
+  confirmarCancelarReserva(reserva:ReservaGraphql){
     const alertConfirm = this.alertCtrl.create({
       title:'Atenção!',
       message: "Tem certeza disso?",
@@ -70,7 +82,7 @@ export class ReservaDetailPage {
    * Cancel a reserva from database
    * @param reserva reserva
    */
-  cancelarReserva(reserva:ReservaView){
+  cancelarReserva(reserva:ReservaGraphql){
 
       let loading = this.loadingCtrl.create({
         content: 'Cancelando reserva...'
@@ -80,7 +92,6 @@ export class ReservaDetailPage {
 
       this.reservaService.cancelarReserva(reserva)
         .then((result:any) => {
-          if(result){
             loading.dismiss().then(() => {
                 let toast = this.toastCtrl.create({
                   message: 'Reserva cancelada com sucesso',
@@ -89,15 +100,10 @@ export class ReservaDetailPage {
                 toast.present();
             });
             this.navCtrl.pop();
-          }else{
-            loading.dismiss();
-            this.apresentarErro("Houve um problema ao cancelar a reserva");
-          }
-
           } )
         .catch((error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
 
   }
@@ -108,23 +114,5 @@ export class ReservaDetailPage {
   voltarTela(){
     this.navCtrl.pop();
   }
-
-
-  //apresenta o alerta sobre o erro
-  apresentarErro(msg:string){
-    const alertError = this.alertCtrl.create({
-      title:'Atenção!',
-      message: msg,
-      buttons: [
-        {
-          text: 'Entendi',
-        }
-      ]
-    });
-
-    alertError.setMode("ios");
-    alertError.present();
-    }
-
 
 }

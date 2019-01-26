@@ -5,13 +5,11 @@ import { Storage } from '@ionic/storage';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 //Modelos
-import { Disciplina } from '../../model/Disciplina';
-import { Login } from '../../model/Login';
-import { Sala } from '../../model/Sala';
 import { Periodo } from '../../model/Periodo';
-import { Usuario } from '../../model/Usuario';
-import { Reserva} from '../../model/Reserva';
-
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { DisciplinaGraphql } from '../../model/Disciplina.grapqhql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { SalaGraphql } from '../../model/Sala.graphql';
 
 //Provedores
 import { DisciplinaServiceProvider } from '../../providers/disciplina-service/disciplina-service';
@@ -21,30 +19,29 @@ import { apresentarErro } from '../../util/util';
 
 
 
+
 @Component({
   selector: 'page-reserva-create-search',
   templateUrl: 'reserva-create-search.html',
 })
 export class ReservaCreateSearchPage {
 
-  reserva:Reserva;
+  reserva:ReservaGraphql;
   periodo:Periodo;
 
  //if true,it desative the discipline input
  disciplinaDisabled = true;
 
-  disciplinas:Array<Disciplina>;
-  usuarios:Array<Usuario>;
+  disciplinas:Array<DisciplinaGraphql>;
+  usuarios:Array<UsuarioGraphql>;
 
 
-  disciplinaSelecionada:Disciplina;
-  salaSelecionada:Sala;
-  usuarioSelecionado:Usuario;
+  disciplinaSelecionada:DisciplinaGraphql;
+  salaSelecionada:SalaGraphql;
+  usuarioSelecionado:UsuarioGraphql;
 
 
-  departamentoDIN:number = 1;
-
-  login:Login;
+  login:UsuarioGraphql;
   hoje:string;
 
   classe:string = "docente";
@@ -56,14 +53,14 @@ export class ReservaCreateSearchPage {
     private reservaService:ReservaServiceProvider, private usuarioService:UsuarioServiceProvider) {
 
 
-      this.reserva = new Reserva();
+      this.reserva = new ReservaGraphql();
       this.periodo = new Periodo();
-      this.usuarios = new Array<Usuario>();
-      this.disciplinas = new Array<Disciplina>();
-      this.login = new Login();
-      this.disciplinaSelecionada = new Disciplina();
-      this.usuarioSelecionado = new Usuario();
-      this.salaSelecionada = new Sala();
+      this.usuarios = new Array<UsuarioGraphql>();
+      this.disciplinas = new Array<DisciplinaGraphql>();
+      this.login = new UsuarioGraphql();
+      this.disciplinaSelecionada = new DisciplinaGraphql();
+      this.usuarioSelecionado = new UsuarioGraphql();
+      this.salaSelecionada = new SalaGraphql();
 
 
       this.reserva =  this.navParams.get('item');
@@ -103,7 +100,7 @@ export class ReservaCreateSearchPage {
               this.carregarDisciplinaPorPrivilegio(this.login.privilegio);
 
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -116,11 +113,11 @@ export class ReservaCreateSearchPage {
    */
   carregarDisciplinaPorPrivilegio(privilegio:string){
     if(privilegio == "Docente"){
-        this.reserva.id_usuario = this.login.id;
+        this.reserva.usuario = this.login;
         this.carregarDisciplinasPorUsuario(this.login.id);
         }
     else if(privilegio == "Secretário"){
-      this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
+      this.carregarTodosUsuariosDocentesPorDepartamento(this.login.departamento.id);
     }
   }
 
@@ -135,7 +132,7 @@ export class ReservaCreateSearchPage {
     loading.present();
 
     this.usuarioService.carregarTodosDocentesPorDepartamento(id_departamento)
-      .then( (usuarios:Array<Usuario>) => {
+      .then( (usuarios:Array<UsuarioGraphql>) => {
         if(usuarios.length > 0){
           this.usuarios = usuarios;
           this.storage.set("usuarios", usuarios);
@@ -162,7 +159,7 @@ export class ReservaCreateSearchPage {
       });
       loading.present();
       this.disciplinaService.carregarDisciplinasPorUsuario(id_usuario)
-        .then( (disciplinas:Array<Disciplina>) => {
+        .then( (disciplinas:Array<DisciplinaGraphql>) => {
           if(disciplinas.length > 0){
             this.disciplinas = disciplinas;
             this.storage.set("disciplinas", disciplinas);
@@ -192,7 +189,7 @@ export class ReservaCreateSearchPage {
       });
       loading.present();
       this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
-        .then( (disciplinas:Array<Disciplina>) => {
+        .then( (disciplinas:Array<DisciplinaGraphql>) => {
           if(disciplinas.length > 0){
             this.disciplinas = disciplinas;
             this.storage.set("disciplinas", disciplinas);
@@ -226,13 +223,13 @@ export class ReservaCreateSearchPage {
   reservaCreate(){
 
     if(this.validarReserva()){
-        this.reserva.id_departamento = this.departamentoDIN;
+        this.reserva.departamento = this.login.departamento;
 
         if(this.reserva.tipo_uso == "Teórica" || this.reserva.tipo_uso == "Prática")
-          this.reserva.id_disciplina = this.disciplinaSelecionada.id;
+          this.reserva.disciplina = this.disciplinaSelecionada;
 
         if(this.usuarioSelecionado.id != undefined)
-          this.reserva.id_usuario = this.usuarioSelecionado.id;
+          this.reserva.usuario = this.usuarioSelecionado;
 
         this.reserva.data_solicitacao = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
         this.reserva.status = 1;
@@ -315,7 +312,7 @@ export class ReservaCreateSearchPage {
   }
 
   //cadastrar uma reserva na base de dados
-  cadastrarReserva(reserva:Reserva){
+  cadastrarReserva(reserva:ReservaGraphql){
 
   let loading = this.loadingCtrl.create({
     content: 'Solicitando reserva...'
@@ -328,9 +325,9 @@ export class ReservaCreateSearchPage {
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
-              this.navCtrl.setRoot(ReservaMyPage);
+              this.navCtrl.setRoot(ReservaMyPage, {login: this.login});
               let toast = this.toastCtrl.create({
-                message: result,
+                message: "Reserva cadastrada com sucesso!",
                 duration: 5000
               });
               toast.present();

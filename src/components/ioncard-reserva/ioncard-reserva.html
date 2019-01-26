@@ -3,22 +3,22 @@
           <ion-grid>
             <ion-row>
               <ion-col col-9 text-left>
-                      <span class="titulo_sala">Sala {{reserva.numero_sala}}</span><br />
-                      <span>{{reserva.nome_disciplina}}</span>
+                      <span class="titulo_sala">Sala {{reserva.sala.numero}}</span><br />
+                      <span>{{reserva.disciplina.nome}}</span>
               </ion-col>
               <ion-col col-3 text-right>
-                      <span class="dept">{{reserva.dept}}</span>
+                      <span class="dept">{{reserva.departamento.nome}}</span>
 
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col text-left>
-                     {{reserva.data_reserva}} {{reserva.periodo}}
+                     {{reserva.data_reserva | date:'dd/MM/yyyy'}} {{reserva.periodo}}
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col text-center>
-                      <button ion-button block color="secondary" small (click)="openReserva($event, reserva)">
+                      <button ion-button block color="secondary" small (click)="openReserva($event, reserva, page)">
                            Detalhes
                       </button>
               </ion-col>

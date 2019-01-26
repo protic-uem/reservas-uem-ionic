@@ -3,18 +3,19 @@ import { NavController, NavParams, MenuController, LoadingController, Events, Al
 import { Storage } from '@ionic/storage';
 import { Validators, FormBuilder } from '@angular/forms';
 
+//Pages
 import { EsqueceuSenhaPage } from '../esqueceu-senha/esqueceu-senha';
 import { HomePage } from '../home/home';
 import { ReservaVisitanteListPage } from '../reserva-visitante-list/reserva-visitante-list';
-
+//Providers
 import { LoginServiceProvider } from './../../providers/login-service/login-service';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
 import { SalaServiceProvider } from './../../providers/sala-service/sala-service';
-
-import { Login } from '../../model/Login';
-import { ReservaView } from '../../model/ReservaView';
-import { Sala } from '../../model/Sala';
+//Models
 import { apresentarErro } from '../../util/util';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { SalaGraphql } from '../../model/Sala.graphql';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
 
 @Component({
   selector: 'page-login',
@@ -36,12 +37,11 @@ export class LoginPage {
   senhaType:string = 'password';
   senhaShow:boolean = false;
   keepConnected:boolean;
-  departamentoDIN:number = 1;
 
 
-  salas:Array<Sala>;
-  minhasReservas:Array<ReservaView>;
-  usuario:Login;
+  salas:Array<SalaGraphql>;
+  minhasReservas:Array<ReservaGraphql>;
+  usuario:UsuarioGraphql;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private menuCtrl: MenuController, private storage:Storage, private loginService:LoginServiceProvider,
@@ -49,9 +49,9 @@ export class LoginPage {
   private reservaService:ReservaServiceProvider, private alertCtrl:AlertController, private formBuilder: FormBuilder) {
 
 
-    this.salas = new Array<Sala>();
-    this.minhasReservas = new Array<ReservaView>();
-    this.usuario = new Login();
+    this.salas = new Array<SalaGraphql>();
+    this.minhasReservas = new Array<ReservaGraphql>();
+    this.usuario = new UsuarioGraphql();
 
 
     //Check the option 'keepConnected' is marked
@@ -148,21 +148,16 @@ export class LoginPage {
 
     loading.present();
     this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
-      .then( (login:Login) => {
-        if(login.id !== undefined){
-          this.ev.publish("userloggedin", login);
-          this.storage.set("login", login);
-          this.usuario = login;
+      .then( (usuario:UsuarioGraphql) => {
+          this.ev.publish("userloggedin", usuario);
+          this.storage.set("login", usuario);
+          this.usuario = usuario;
           this.storage.set("keepConnected", this.keepConnected);
           this.storage.set("senha", this.senha);
           this.storage.set("email", this.email);
           this.storage.set("clicouSair", false);
-          this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
-        }else{
-          loading.dismiss();
-          apresentarErro(this.alertCtrl,"usuário e/ou senha incorreto");
-        }
-
+          this.carregarSalasPorDepartamento(this.usuario.departamento.id, loading);
+       
         } )
       .catch( (error) => {
         loading.dismiss();
@@ -177,27 +172,22 @@ export class LoginPage {
    this.validarLogin();
 
     if(!this.errorEmail && !this.errorSenha){
+
       let loading = this.loadingCtrl.create({
         content: 'Acessando a sua conta...'
       });
 
       loading.present();
       this.loginService.confirmLogin(this.email.toLowerCase().trim(), this.senha.trim())
-        .then( (login:Login) => {
-          if(login.id !== undefined){
-            this.ev.publish("userloggedin", login);
-            this.storage.set("login", login);
-            this.usuario = login;
+        .then( (usuario:UsuarioGraphql) => {
+            this.ev.publish("userloggedin", usuario);
+            this.storage.set("login", usuario);
+            this.usuario = usuario;
             this.storage.set("keepConnected", this.keepConnected);
             this.storage.set("senha", this.senha);
             this.storage.set("email", this.email);
             this.storage.set("clicouSair", false);
-            this.carregarSalasPorDepartamento(this.departamentoDIN, loading);
-          }else{
-            loading.dismiss();
-            apresentarErro(this.alertCtrl, "usuário e/ou senha incorreto");
-          }
-
+            this.carregarSalasPorDepartamento(this.usuario.departamento.id, loading);
           } )
         .catch( (error) => {
           loading.dismiss();
@@ -216,7 +206,7 @@ export class LoginPage {
 
       loading.setContent("Sincronizando com o banco...");
       this.salaService.carregarSalaPorDepartamento(id_departamento)
-        .then( (salas:Array<Sala>) => {
+        .then( (salas:Array<SalaGraphql>) => {
           if(salas.length > 0){
             this.salas = salas;
             this.storage.set("salasDepartamento", salas);
@@ -224,7 +214,6 @@ export class LoginPage {
           }else{
             loading.dismiss();
           }
-
           } )
         .catch( (error) => {
           loading.dismiss();
@@ -238,7 +227,7 @@ export class LoginPage {
    */
   atualizarMinhasReservas(loading:any){
     this.reservaService.carregarMinhasReservas(this.usuario.id)
-      .then( (reservas:Array<ReservaView>) => {
+      .then( (reservas:Array<ReservaGraphql>) => {
         if(reservas.length > 0){
           this.storage.set("minhasReservas", reservas);
           loading.dismiss().then(() => {

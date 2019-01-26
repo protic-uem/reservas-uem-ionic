@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, MenuController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { Login } from '../../model/Login';
-import { ReservaView } from '../../model/ReservaView';
-import { Usuario } from '../../model/Usuario';
-
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
 import { ReservaServiceProvider } from './../../providers/reserva-service/reserva-service';
+
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { apresentarErro } from '../../util/util';
 
 
 
@@ -17,31 +17,30 @@ import { ReservaServiceProvider } from './../../providers/reserva-service/reserv
 })
 export class ReservaMyPage {
 
-   reservas:Array<ReservaView>;
-   usuarios:Array<Usuario>;
-   reservasCarregadas:Array<ReservaView>;
-   login:Login;
+   reservas:Array<ReservaGraphql>;
+   usuarios:Array<UsuarioGraphql>;
+   reservasCarregadas:Array<ReservaGraphql>;
+   login:UsuarioGraphql;
    reservasNaoEncontrada:boolean = false;
-   departamentoDIN:number = 1;
 
    statusSelecionado:string;
-   usuarioSelecionado:Usuario;
+   usuarioSelecionado:UsuarioGraphql;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private menuCtrl:MenuController, private usuarioService:UsuarioServiceProvider, private alertCtrl:AlertController) {
 
-      this.reservas = new Array<ReservaView>();
-      this.reservasCarregadas = new Array<ReservaView>();
-      this.usuarios = new Array<Usuario>();
-      this.usuarioSelecionado = new Usuario();
+      this.reservas = new Array<ReservaGraphql>();
+      this.reservasCarregadas = new Array<ReservaGraphql>();
+      this.usuarios = new Array<UsuarioGraphql>();
+      this.usuarioSelecionado = new UsuarioGraphql();
 
       this.login = this.navParams.get('login');
       this.menuCtrl.enable(true);
       this.reservasNaoEncontrada = true;
 
       if(this.login.privilegio == 'Secretário')
-        this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
+        this.carregarTodosUsuariosDocentesPorDepartamento(this.login.departamento.id);
 
   }
 
@@ -61,7 +60,7 @@ export class ReservaMyPage {
           if(this.login.privilegio == 'Docente')
             this.atualizarMinhasReservas();
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -69,21 +68,21 @@ export class ReservaMyPage {
   carregarTodosUsuariosDocentesPorDepartamento(id_departamento: number){
 
           this.usuarioService.carregarTodosDocentesPorDepartamento(id_departamento)
-            .then( (usuarios:Array<Usuario>) => {
+            .then( (usuarios:Array<UsuarioGraphql>) => {
               if(usuarios.length > 0){
                 this.usuarios = usuarios;
                 this.storage.set("usuarios", usuarios);
               }else{
-                this.apresentarErro("Nenhum usuario docente foi encontrado");
+                apresentarErro(this.alertCtrl, "Nenhum usuario docente foi encontrado");
               }
               } )
             .catch( (error) => {
-              this.apresentarErro(error.message);
+                apresentarErro(this.alertCtrl, error.message);
             });
   }
 
 
-  usuarioChange(usuario:Usuario){
+  usuarioChange(usuario:UsuarioGraphql){
     if(usuario!= undefined && usuario.id != undefined){
         this.carregarReservasPorUsuario(usuario);
      }
@@ -92,48 +91,33 @@ export class ReservaMyPage {
   atualizarMinhasReservas(){
 
     this.reservaService.carregarMinhasReservas(this.login.id)
-      .then( (reservas:Array<ReservaView>) => {
+      .then( (reservas:Array<ReservaGraphql>) => {
         if(reservas.length > 0){
           this.reservas = reservas;
           this.reservasNaoEncontrada = false;
           this.storage.set("minhasReservas", reservas);
         }else{
-          this.reservas  = new Array<ReservaView>();
+          this.reservas  = new Array<ReservaGraphql>();
           this.reservasNaoEncontrada = true;
         }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );
   }
 
-  carregarReservasPorUsuario(usuario:Usuario){
+  carregarReservasPorUsuario(usuario:UsuarioGraphql){
     this.reservaService.carregarReservaPorUsuario(usuario.id)
-      .then( (reservas:Array<ReservaView>) => {
+      .then( (reservas:Array<ReservaGraphql>) => {
         if(reservas.length > 0){
           this.reservas = reservas;
           this.reservasNaoEncontrada = false;
           this.storage.set("minhasReservas", reservas);
         }else{
-          this.reservas  = new Array<ReservaView>();
+          this.reservas  = new Array<ReservaGraphql>();
           this.reservasNaoEncontrada = true;
         }
       })
       .catch( () => "Erro na requisição de reservas por usuário");
 
-  }
-
-  //apresenta o alerta sobre o erro
-  apresentarErro(msg:string){
-        const alertError = this.alertCtrl.create({
-          title:'Atenção!',
-          message: msg,
-          buttons: [
-            {
-              text: 'Entendi',
-            }
-          ]
-        });
-        alertError.setMode("ios");
-        alertError.present();
   }
 
 }

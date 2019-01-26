@@ -1,28 +1,40 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
-import { ReservaView } from '../../model/ReservaView';
-import { Reserva } from '../../model/Reserva';
-/*
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { minhasReservas, reservasTelaHome, cadastrarReserva, validarReservaMesmoHorario, reservasTelaSearch, cancelarReserva } from '../../graphql/reserva/reserva-json';
+import { reservaInput } from '../../graphql/reserva/reservaInput';
 
-*/
+
 @Injectable()
 export class ReservaServiceProvider extends ConexaoProvider{
 
-   reservas:Array<ReservaView>;
-   reserva:Reserva;
+   reservas:Array<ReservaGraphql>;
+   reserva:ReservaGraphql;
+   
   constructor(public http: HttpClient) {
     super();
-    this.reservas = new Array<ReservaView>();
-    this.reserva = new Reserva();
+    this.reservas = new Array<ReservaGraphql>();
+    this.reserva = new ReservaGraphql();
   }
 
   //carrega todas as reservas refereten a um determinado usuário
-  carregarReservaPorUsuario(id_usuario: number){
+  async carregarReservaPorUsuario(id_usuario: number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
-    this.reservas = new Array<ReservaView>();
+    this.reservas = new Array<ReservaGraphql>();
 
-  return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.reservas = result.data.minhasReservas;
+            resolve(this.reservas);
+          }
+      });
+    });
+
+  /*return new Promise((resolve, reject) => {
 
     let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
 
@@ -35,7 +47,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
         if(result.dados.length>0){
           let tamanho = result.dados.length;
           for(var i = 0;i<tamanho;i++){
-            this.reservas.push(new ReservaView(
+            /*this.reservas.push(new ReservaView(
                               result.dados[i].id,
                               result.dados[i].nome_departamento,
                               result.dados[i].id_usuario,
@@ -63,16 +75,27 @@ export class ReservaServiceProvider extends ConexaoProvider{
         reject(error);
 
       });
-  });
+  });*/
   }
 
 
   //carrega todas as reservas refereten a um determinado usuário
-  carregarMinhasReservas(id_usuario: number){
+  async carregarMinhasReservas(id_usuario: number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
-    this.reservas = new Array<ReservaView>();
+    this.reservas = new Array<ReservaGraphql>();
 
-  return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.reservas = result.data.minhasReservas;
+            resolve(this.reservas);
+          }
+      });
+    });
+
+  /*return new Promise((resolve, reject) => {
 
       let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
 
@@ -113,21 +136,33 @@ export class ReservaServiceProvider extends ConexaoProvider{
         reject(error);
 
       });
-  });
+  });*/
   }
 
   //carrega todas com base no departamento,  data e periodo
-  carregarReservasTelaHome(id_departamento: number, data:string, periodo:number){
+  async carregarReservasTelaHome(id_departamento: number, data:string, periodo:number){
     //zera a lista sempre que fazer a busca para evitar valores duplicados
-    this.reservas = new Array<ReservaView>();
-  return new Promise((resolve, reject) => {
+    this.reservas = new Array<ReservaGraphql>();
+    id_departamento = parseInt(id_departamento+"");
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', reservasTelaHome(id_departamento, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.reservas = result.data.reservasTelaHome;
+            resolve(this.reservas);
+          }
+      });
+    });
+  
+    /*return new Promise((resolve, reject) => {
 
     let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
 
     this.http.get(this.baseUri+'reserva/carregarReservasTelaHome/?id_departamento='
               +btoa(id_departamento+"")+'&data='+btoa(data)+'&periodo='+btoa(periodo+""), {headers: headers}).subscribe((result:any) => {
       if(result.retorno == "false"){
-        resolve(new ReservaView());
+        resolve(new ReservaGraphql());
       }
       else{
         if(result.dados.length>0){
@@ -161,7 +196,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
         reject(error);
 
       });
-  });
+  });*/
   }
 
 
@@ -169,7 +204,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
   //carrega todas as reservas com base no dia
   carregarReservaPorData(data:string, id_dept: number){
   //zera a lista sempre que fazer a busca para evitar valores duplicados
-  this.reservas = new Array<ReservaView>();
+  this.reservas = new Array<ReservaGraphql>();
 
     return new Promise((resolve, reject) => {
 
@@ -178,13 +213,13 @@ export class ReservaServiceProvider extends ConexaoProvider{
       this.http.get(this.baseUri+'reserva/buscaPorDepartamentoData/'+this.hash+'&data='
                 +btoa(data+"")+'&id_departamento='+btoa(id_dept+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == "false"){
-          resolve(new ReservaView());
+          resolve(new ReservaGraphql());
         }
         else{
           if(result.dados.length>0){
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
-              this.reservas.push(new ReservaView(
+              /*this.reservas.push(new ReservaView(
                                 result.dados[i].id,
                                 result.dados[i].nome_departamento,
                                 result.dados[i].id_usuario,
@@ -199,7 +234,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
                                 result.dados[i].data_reserva,
                                 result.dados[i].periodo,
                                 result.dados[i].status
-                                ));
+                                ));*/
                               }
           }
 
@@ -217,7 +252,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
 
   carregarReservaPorDataSala(data:string, id_dept: number, id_sala:number){
   //zera a lista sempre que fazer a busca para evitar valores duplicados
-  this.reservas = new Array<ReservaView>();
+  this.reservas = new Array<ReservaGraphql>();
 
     return new Promise((resolve, reject) => {
 
@@ -226,13 +261,13 @@ export class ReservaServiceProvider extends ConexaoProvider{
       this.http.get(this.baseUri+'reserva/buscaPorDepartamentoDataSala/?data='
                 +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+""), {headers: headers}).subscribe((result:any) => {
         if(result.retorno == "false"){
-          resolve(new ReservaView());
+          resolve(new ReservaGraphql());
         }
         else{
           if(result.dados.length>0){
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
-              this.reservas.push(new ReservaView(
+              /*this.reservas.push(new ReservaView(
                                 result.dados[i].id,
                                 result.dados[i].nome_departamento,
                                 result.dados[i].id_usuario,
@@ -247,7 +282,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
                                 result.dados[i].data_reserva,
                                 result.dados[i].periodo,
                                 result.dados[i].status
-                                ));
+                                ));*/
                               }
           }
 
@@ -264,11 +299,25 @@ export class ReservaServiceProvider extends ConexaoProvider{
 
 
   //Carrega todas as reservas e preenche a tela de search
-  carregarReservasTelaSearch(data:string, id_dept: number, id_sala:number){
+  async carregarReservasTelaSearch(data:string, id_departamento: number, id_sala:number){
   //zera a lista sempre que fazer a busca para evitar valores duplicados
-  this.reservas = new Array<ReservaView>();
+  this.reservas = new Array<ReservaGraphql>();
 
-    return new Promise((resolve, reject) => {
+    id_departamento = parseInt(id_departamento+"");
+    id_sala = parseInt(id_sala+"");
+
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', reservasTelaSearch(id_departamento, id_sala, data), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.reservas = result.data.reservasTelaSearch;
+            resolve(this.reservas);
+          }
+      });
+    });
+
+    /*return new Promise((resolve, reject) => {
         let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
 
       this.http.get(this.baseUri+'reserva/carregarReservasTelaSearch/?data='
@@ -280,7 +329,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
           if(result.dados.length>0){
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
-              this.reservas.push(new ReservaView(
+              /*this.reservas.push(new ReservaView(
                                 result.dados[i].id,
                                 result.dados[i].nome_departamento,
                                 result.dados[i].id_usuario,
@@ -307,13 +356,27 @@ export class ReservaServiceProvider extends ConexaoProvider{
           reject(error);
 
             });
-        });
+        });*/
   }
 
   //Valida se já existe uma reserva no mesma data e horário para aquela reserva
-  validarReservaMesmoHorario(id_usuario:number, data:string, periodo:number){
+  async validarReservaMesmoHorario(id_usuario:number, data:string, periodo:number){
 
-    return new Promise((resolve, reject) => {
+      id_usuario = parseInt(id_usuario+"");
+      periodo = parseInt(periodo+"");
+
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', validarReservaMesmoHorario(id_usuario, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            resolve(result.data.validarReservaMesmoHorario);
+          }
+      });
+    });
+
+
+    /*return new Promise((resolve, reject) => {
         let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
 
       this.http.get(this.baseUri+'reserva/validarReservaMesmoHorario/?id_usuario='+btoa(id_usuario+"")+
@@ -330,13 +393,33 @@ export class ReservaServiceProvider extends ConexaoProvider{
           reject(error);
 
             });
-        });
+        });*/
   }
 
 
-  cadastrarReserva(reserva:Reserva){
+  async cadastrarReserva(reserva:ReservaGraphql){
 
-      return new Promise((resolve, reject) => {
+    reserva.departamento.id = parseInt(reserva.departamento.id+"");
+    reserva.periodo = parseInt(reserva.periodo+"");
+    if(reserva.disciplina != undefined)
+      reserva.disciplina.id = parseInt(reserva.disciplina.id+"");
+    reserva.usuario.id = parseInt(reserva.usuario.id+"");
+    reserva.sala.id = parseInt(reserva.sala.id+"");
+
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', cadastrarReserva(reservaInput(reserva)), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            this.reserva = result.data.createReserva;
+            resolve(this.reserva);
+          }
+      });
+    });
+
+
+
+      /*return new Promise((resolve, reject) => {
 
         var item = {
           id_departamento: reserva.id_departamento,
@@ -366,13 +449,25 @@ export class ReservaServiceProvider extends ConexaoProvider{
             reject(error);
 
           });
-      });
+      });*/
   }
 
 
-  cancelarReserva(reserva:ReservaView){
+  async cancelarReserva(reserva:ReservaGraphql){
 
-      return new Promise((resolve, reject) => {
+    var id = parseInt(reserva.id+"");
+
+    return await new Promise((resolve, reject) => {
+      this.http.post(this.baseUri+'graphql', cancelarReserva(id), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+          if(result.errors){
+            reject(result.errors[0].message);
+          }else{
+            resolve(result.data.cancelarReserva);
+          }
+      });
+    });
+
+      /*return new Promise((resolve, reject) => {
         var item = {
           id: reserva.id
         };

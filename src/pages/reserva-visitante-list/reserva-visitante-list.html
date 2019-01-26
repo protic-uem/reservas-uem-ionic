@@ -34,10 +34,10 @@
 
   <ion-scroll #listaReservas  class="resultReservas" scrollY="true"
       *ngIf="reservas != null && reservas.length != 0">
-    <ion-list>
-      <ion-item-sliding *ngFor="let reserva of reservas">
-        <ion-item>
-          <ioncard-reserva [reserva]="reserva" ></ioncard-reserva>
+    <ion-list class="transp">
+      <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
+        <ion-item class="transp"> 
+          <ioncard-reserva [reserva]="reserva" page="visitante"></ioncard-reserva>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

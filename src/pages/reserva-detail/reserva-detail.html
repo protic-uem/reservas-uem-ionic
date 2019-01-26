@@ -15,7 +15,7 @@
               <span class="text-details">
                 Solicitante:
               </span>
-                {{reserva.nome_usuario}}
+                {{reserva.usuario.nome}}
             </ion-col>
           </ion-row>
           <ion-row *ngIf="reserva.codigo_disciplina != undefined">
@@ -23,8 +23,8 @@
               <span class="text-details">
                 Disciplina:
               </span>
-                {{reserva.codigo_disciplina}} - {{reserva.turma_disciplina}} <br />
-                 {{reserva.nome_disciplina}}
+                {{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}} <br />
+                 {{reserva.disciplina.nome}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -32,7 +32,7 @@
               <span class="text-details">
                 Sala:
               </span>
-                {{reserva.numero_sala}}
+                {{reserva.sala.numero}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -40,7 +40,7 @@
               <span class="text-details">
                   Departamento:
               </span>
-                  {{reserva.nome_departamento}}
+                  {{reserva.departamento.nome}}
             </ion-col>
           </ion-row>
           <ion-row >
@@ -64,7 +64,7 @@
               <span class="text-details">
                   Data reservada:
               </span>
-                  {{reserva.data_reserva}}
+                  {{reserva.data_reserva | date:'dd/MM/yyyy'}}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -72,10 +72,15 @@
               <span class="text-details">
                   Horário reservado:
               </span>
-                  {{reserva.periodo}}
+                  <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
+                  <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
+                  <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
+                  <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
+                  <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
+                  <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="reserva.id_usuario == login.id && reserva.status == 1">
+          <ion-row *ngIf="reserva.usuario.id == login.id && reserva.status == 1">
             <ion-col>
               <button ion-button block small color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
             </ion-col>

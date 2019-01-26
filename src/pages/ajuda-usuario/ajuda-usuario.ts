@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { Login } from '../../model/Login';
 import { Storage } from '@ionic/storage';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
 
 
 @Component({
@@ -11,11 +11,11 @@ import { Storage } from '@ionic/storage';
 })
 export class AjudaUsuarioPage {
 
-  login:Login;
+  login:UsuarioGraphql;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage:Storage) {
 
-    this.login = new Login();
+    this.login = new UsuarioGraphql();
     this.login = this.navParams.get('login');
     if(this.login.nome == undefined)
       this.loadResources();
@@ -31,7 +31,7 @@ export class AjudaUsuarioPage {
          if (login) {
            this.login = login;
          } else {
-           this.login = new Login();
+           this.login = new UsuarioGraphql();
          }
        });
    }

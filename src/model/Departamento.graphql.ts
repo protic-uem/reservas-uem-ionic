@@ -1,4 +1,4 @@
-export class Departamento {
+export class DepartamentoGraphql {
   id: number;
   nome: string;
   descricao: string;
@@ -10,4 +10,5 @@ export class Departamento {
       this.descricao = descricao;
       this.status = status;
   }
+  
 }

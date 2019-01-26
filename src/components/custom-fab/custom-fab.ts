@@ -1,9 +1,9 @@
 import { Component, Input} from '@angular/core';
 import { NavController, FabContainer } from 'ionic-angular';
 
-import { Login } from '../../model/Login';
 import { ReservaSearchPage } from '../../pages/reserva-search/reserva-search';
 import { CreateSegmentPage } from '../../pages/create-segment/create-segment';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { CreateSegmentPage } from '../../pages/create-segment/create-segment';
 })
 export class CustomFabComponent {
 
-  @Input() login:Login;
+  @Input() login:UsuarioGraphql;
 
   constructor(private navCtrl:NavController) {
 

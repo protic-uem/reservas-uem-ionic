@@ -9,12 +9,7 @@ import { HomePage } from '../home/home';
 import { ReservaMyPage } from '../reserva-my/reserva-my';
 
 //Models
-import { Disciplina } from '../../model/Disciplina';
-import { Login } from '../../model/Login';
-import { Sala } from '../../model/Sala';
 import { Periodo } from '../../model/Periodo';
-import { Usuario } from '../../model/Usuario';
-import { Reserva} from '../../model/Reserva';
 
 
 //Providers
@@ -22,7 +17,11 @@ import { DisciplinaServiceProvider } from '../../providers/disciplina-service/di
 import { SalaServiceProvider } from '../../providers/sala-service/sala-service';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { UsuarioServiceProvider } from '../../providers/usuario-service/usuario-service';
-import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { DisciplinaGraphql } from '../../model/Disciplina.grapqhql';
+import { SalaGraphql } from '../../model/Sala.graphql';
+import { validarData, calcularDiaDefaultCalendar, apresentarErro } from '../../util/util';
 
 
 @Component({
@@ -31,24 +30,22 @@ import { ReservaDetailPage } from '../reserva-detail/reserva-detail';
 })
 export class CreateSegmentPage {
 
-  reserva:Reserva;
+  reserva:ReservaGraphql;
   periodo:Periodo;
 
   dataSelecionada:string;
   showDate:string;
 
 
-  usuarios:Array<Usuario>;
-  disciplinas:Array<Disciplina>;
-  salas:Array<Sala>;
+  usuarios:Array<UsuarioGraphql>;
+  disciplinas:Array<DisciplinaGraphql>;
+  salas:Array<SalaGraphql>;
 
-  disciplinaSelecionada:Disciplina;
-  salaSelecionada:Sala;
-  usuarioSelecionado:Usuario;
+  disciplinaSelecionada:DisciplinaGraphql;
+  salaSelecionada:SalaGraphql;
+  usuarioSelecionado:UsuarioGraphql;
 
-  departamentoDIN:number = 1;
-
-  login:Login;
+  login:UsuarioGraphql;
   dataDocente:string;
   hoje:string;
   dataDefault:string;
@@ -71,11 +68,11 @@ export class CreateSegmentPage {
 
 
          this.etapas = "etp1";
-         this.reserva = new Reserva;
-         this.login = new Login();
-         this.disciplinaSelecionada = new Disciplina();
-         this.salaSelecionada = new Sala();
-         this.usuarioSelecionado = new Usuario();
+         this.reserva = new ReservaGraphql;
+         this.login = new UsuarioGraphql();
+         this.disciplinaSelecionada = new DisciplinaGraphql();
+         this.salaSelecionada = new SalaGraphql();
+         this.usuarioSelecionado = new UsuarioGraphql();
          this.periodo = new Periodo();
 
          this.hoje = format(new Date(), 'YYYY-MM-DD');
@@ -90,9 +87,9 @@ export class CreateSegmentPage {
            //If it is secretary, he will can to reserve in period of 1 month
            if(this.login.nome != undefined){
              if(this.login.privilegio == 'Docente'){
-               this.reserva.id_usuario = this.login.id;
+               this.reserva.usuario = this.login;
                this.dataDocente = format(addWeeks(new Date(), 3), 'YYYY-MM-DD');
-               this.calcularDiaDefaultCalendar();
+               this.dataDefault = calcularDiaDefaultCalendar();
                this.dataSelecionada = this.dataDefault;
                this.showDate = format(this.dataDefault, 'DD/MM/YY');
 
@@ -101,7 +98,7 @@ export class CreateSegmentPage {
                this.classe = "secretario";
                this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
                this.dataDocente = format(addMonths(new Date(), 1), 'YYYY-MM-DD');
-               this.carregarTodosUsuariosDocentesPorDepartamento(this.departamentoDIN);
+               this.carregarTodosUsuariosDocentesPorDepartamento(this.login.departamento.id);
                this.showDate = format(this.dataDefault, 'DD/MM/YY');
                this.dataSelecionada =  this.dataDefault;
              }
@@ -110,19 +107,6 @@ export class CreateSegmentPage {
 
  }
 
- /**
-  * Check if today is friday or saturday
-  * If today is friday, update default day of calendar component to Monday
-  * If today is saturday, update default day of calendar component to Monday
-  */
- calcularDiaDefaultCalendar(){
-   if(isFriday(this.hoje))
-      this.dataDefault = format(addDays(new Date(), 3), 'YYYY-MM-DD');
-   else if(isSaturday(this.hoje))
-      this.dataDefault = format(addDays(new Date(), 2), 'YYYY-MM-DD');
-   else
-      this.dataDefault = format(addDays(new Date(), 1), 'YYYY-MM-DD');
- }
 
  /**
   * Validate the period
@@ -164,7 +148,7 @@ export class CreateSegmentPage {
         if (login) {
           this.login = login;
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -185,12 +169,12 @@ export class CreateSegmentPage {
     */
   avancarCreate(){
         if(this.usuarioSelecionado.id != undefined)
-          this.reserva.id_usuario = this.usuarioSelecionado.id;
+          this.reserva.usuario = this.usuarioSelecionado;
 
         if(this.validarReserva()){
           if(this.validarPeriodo()){
-            if(!this.validarData() || this.login.privilegio == "Secretário"){
-              this.reservaService.validarReservaMesmoHorario(this.reserva.id_usuario, this.dataSelecionada, this.reserva.periodo)
+            if(!validarData(this.dataSelecionada) || this.login.privilegio == "Secretário"){
+              this.reservaService.validarReservaMesmoHorario(this.reserva.usuario.id, this.dataSelecionada, this.reserva.periodo)
               .then((result:boolean) => {
                 if(result){
                   this.reserva.data_reserva = this.dataSelecionada;
@@ -205,7 +189,7 @@ export class CreateSegmentPage {
                           content: 'Carregando dados...'
                         });
                         loading.present();
-                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
                       }
                     }
                     else
@@ -216,7 +200,7 @@ export class CreateSegmentPage {
                           content: 'Carregando dados...'
                         });
                         loading.present();
-                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
                     }
                   }
 
@@ -227,7 +211,7 @@ export class CreateSegmentPage {
                     });
                     loading.present();
 
-                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+                      this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
 
                   }
                   else if(this.mudouPeriodo == false && this.mudouTipo == true){
@@ -262,19 +246,19 @@ export class CreateSegmentPage {
                   this.mudouUsuario = false;
 
                 }else{
-                  this.apresentarErro("Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
+                  apresentarErro(this.alertCtrl, "Já existe uma reserva na mesma data e horário para esse usuário. Por favor,"+
                           " escolha outra data e/ou periodo.");
                 }
               })
               .catch( (error)=> {
-                this.apresentarErro(""+error);
+                apresentarErro(this.alertCtrl, ""+error);
               });
 
             }else{
-              this.apresentarErro('Não é permitido reserva no sábado ou domingo.');
+              apresentarErro(this.alertCtrl, 'Não é permitido reserva no sábado ou domingo.');
             }
           }else{
-            this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
+            apresentarErro(this.alertCtrl, 'Não é permitido reservar com o horário inferior ao horário atual');
           }
         }
   }
@@ -288,7 +272,7 @@ export class CreateSegmentPage {
          this.etapas = "etp2";
          if(this.reserva.tipo_uso == 'Prática' || this.reserva.tipo_uso == 'Teórica')
            if(this.disciplinas == undefined || this.disciplinas.length == 0)
-             this.apresentarErro("Nenhuma disciplina foi encontrada para esse usuário");
+             apresentarErro(this.alertCtrl, "Nenhuma disciplina foi encontrada para esse usuário");
        });
  }
 
@@ -341,19 +325,19 @@ export class CreateSegmentPage {
          loading.present();
 
          this.usuarioService.carregarTodosDocentesPorDepartamento(id_departamento)
-           .then( (usuarios:Array<Usuario>) => {
+           .then( (usuarios:Array<UsuarioGraphql>) => {
              if(usuarios.length > 0){
                this.usuarios = usuarios;
                this.storage.set("usuarios", usuarios);
                loading.dismiss();
              }else{
                loading.dismiss();
-               this.apresentarErro("Nenhum usuario docente foi encontrado");
+               apresentarErro(this.alertCtrl, "Nenhum usuario docente foi encontrado");
              }
              } )
            .catch( (error) => {
              loading.dismiss();
-             this.apresentarErro(error.message);
+             apresentarErro(this.alertCtrl, error.message);
            });
  }
 
@@ -365,7 +349,7 @@ export class CreateSegmentPage {
    if(this.login.privilegio == "Docente"){
      //se for docente, valide somente data, periodo e tipo de uso
      if(this.dataSelecionada == undefined || this.reserva.periodo == undefined || this.reserva.tipo_uso == undefined){
-         this.apresentarErro('Por favor, preencha todos os campos para continuar');
+         apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos para continuar');
        return false;
      }else
        return true;
@@ -374,7 +358,7 @@ export class CreateSegmentPage {
      //se for secretário, valide usuario, data, periodo e tipo de uso
      if(this.usuarioSelecionado.id == undefined || this.dataSelecionada == undefined || this.reserva.periodo == undefined
       || this.reserva.tipo_uso == undefined){
-         this.apresentarErro('Por favor, preencha todos os campos para continuar');
+         apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos para continuar');
        return false;
      }else
        return true;
@@ -382,12 +366,6 @@ export class CreateSegmentPage {
 
  }
 
- /**
-  * Validate if date isn't saturday or sunday
-  */
- validarData(){
-   return (isSaturday(parse(this.dataSelecionada)) || isSunday(parse(this.dataSelecionada)));
- }
 
   /**
    * Shows the toast of canceled reservation
@@ -397,35 +375,16 @@ export class CreateSegmentPage {
         login: this.login,
       }, {animate: true, animation:'ios-transition', direction: 'back', duration:1000});
   }
-
-  /**
-   * Shows the erro dialog
-   * @param msg 
-   */
-  apresentarErro(msg:string){
-        const alertError = this.alertCtrl.create({
-          title:'Atenção!',
-          message: msg,
-          buttons: [
-            {
-              text: 'Entendi',
-            }
-          ]
-        });
-        alertError.setMode("ios");
-        alertError.present();
-  }
-
   
   /**
    * Executes every time that an user is selected
    * Updates the reservation's id_usuario with id of choosen user
    * @param usuario choosen user
    */
-  usuarioChange(usuario:Usuario){
+  usuarioChange(usuario:UsuarioGraphql){
     this.mudouUsuario = true;
     if(usuario!= undefined && usuario.id != undefined){
-    this.reserva.id_usuario = usuario.id;
+      this.reserva.usuario = usuario;
     }
   }
 
@@ -438,9 +397,9 @@ export class CreateSegmentPage {
    */
   periodoChange(valor){
     this.mudouPeriodo = true;
-    this.salaSelecionada = new Sala();
+    this.salaSelecionada = new SalaGraphql();
     if(!this.validarPeriodo())
-      this.apresentarErro('Não é permitido reservar com o horário inferior ao horário atual');
+      apresentarErro(this.alertCtrl, 'Não é permitido reservar com o horário inferior ao horário atual');
   }
 
 
@@ -455,7 +414,7 @@ export class CreateSegmentPage {
   carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(id_departamento: number, data_reserva: string, periodo:number, tipo_uso:string, loading:any){
 
     return this.salaService.carregarDisponiveisPorDepartamentoDiaPeriodoTipo(id_departamento, data_reserva, periodo, tipo_uso)
-      .then( (salas:Array<Sala>) => {
+      .then( (salas:Array<SalaGraphql>) => {
         if(salas.length > 0){
           this.salas = salas;
           this.storage.set("salas", salas);
@@ -466,13 +425,13 @@ export class CreateSegmentPage {
           loading.dismiss().then(() => {
               this.avancarEtapa2();
           });
-          this.apresentarErro("Nenhuma sala disponivel foi encontrada para essa data e periodo");
+          apresentarErro(this.alertCtrl, "Nenhuma sala disponivel foi encontrada para essa data e periodo");
         }
 
         } )
       .catch( (error) => {
         loading.dismiss();
-        this.apresentarErro(error.message);
+        apresentarErro(this.alertCtrl, error.message);
       });
 
 
@@ -505,19 +464,19 @@ export class CreateSegmentPage {
       });
       loading.present();
       this.disciplinaService.carregarDisciplinasPorUsuario(id_usuario)
-        .then( (disciplinas:Array<Disciplina>) => {
+        .then( (disciplinas:Array<DisciplinaGraphql>) => {
           if(disciplinas.length > 0){
             this.disciplinas = disciplinas;
             this.storage.set("disciplinas", disciplinas);
-              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
           }else{
-              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
 
   }
@@ -533,19 +492,19 @@ export class CreateSegmentPage {
       });
       loading.present();
       this.disciplinaService.carregarDisciplinasPorDepartamento(id_departamento)
-        .then( (disciplinas:Array<Disciplina>) => {
+        .then( (disciplinas:Array<DisciplinaGraphql>) => {
           if(disciplinas.length > 0){
             this.disciplinas = disciplinas;
             this.storage.set("disciplinas", disciplinas);
-              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
           }else{
-              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.departamentoDIN, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
+              this.carregarSalasDisponiveisPorDepartamentoDataPeriodoTipo(this.login.departamento.id, this.dataSelecionada, this.reserva.periodo, this.reserva.tipo_uso, loading);
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
   }
 
@@ -560,20 +519,20 @@ export class CreateSegmentPage {
       });
       loading.present();
       this.salaService.carregarSalaPorDepartamento(id_departamento)
-        .then( (salas:Array<Sala>) => {
+        .then( (salas:Array<SalaGraphql>) => {
           if(salas.length > 0){
             this.salas = salas;
             this.storage.set("salas", salas);
             loading.dismiss();
           }else{
             loading.dismiss();
-            this.apresentarErro("Nenhuma sala foi encontrada");
+            apresentarErro(this.alertCtrl, "Nenhuma sala foi encontrada");
           }
 
           } )
         .catch( (error) => {
           loading.dismiss();
-          this.apresentarErro(error.message);
+          apresentarErro(this.alertCtrl, error.message);
         });
   }
 
@@ -590,7 +549,7 @@ export class CreateSegmentPage {
    * Executes every time that the user change room
    * @param sala reservation's room
    */
-  changeSala(sala:Sala){
+  changeSala(sala:SalaGraphql){
     if(sala != undefined)
       this.storage.set("salaSelecionada", sala);
   }
@@ -602,16 +561,18 @@ export class CreateSegmentPage {
 
     if(this.validarReservaEtapa2()){
 
-        this.reserva.id_departamento = this.departamentoDIN;
-        this.reserva.id_sala = this.salaSelecionada.id;
+        this.reserva.sala = this.salaSelecionada;
+
+        if(this.login.departamento != undefined)
+          this.reserva.departamento = this.login.departamento;
 
         if(this.reserva.tipo_uso == "Teórica" || this.reserva.tipo_uso == "Prática")
-          this.reserva.id_disciplina = this.disciplinaSelecionada.id;
+          this.reserva.disciplina = this.disciplinaSelecionada;
 
         if(this.usuarioSelecionado.id == undefined)
-          this.reserva.id_usuario = this.login.id;
+          this.reserva.usuario = this.login;
         else
-          this.reserva.id_usuario = this.usuarioSelecionado.id;
+          this.reserva.usuario = this.usuarioSelecionado;
 
         this.reserva.data_solicitacao = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
         this.reserva.status = 1;
@@ -630,7 +591,7 @@ export class CreateSegmentPage {
   validarReservaEtapa2(){
           if(this.login.privilegio == "Docente"){
             if( this.salaSelecionada.id == undefined || this.reserva.tipo_uso == undefined || this.disciplinaSelecionada.id == undefined){
-                this.apresentarErro('Por favor, preencha todos os campos');
+                apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos');
               return false;
             }else{
               return true;
@@ -638,7 +599,7 @@ export class CreateSegmentPage {
           }else{
             if( this.reserva.tipo_uso == undefined
                 || this.reserva.tipo_reserva == undefined){
-                this.apresentarErro('Por favor, preencha todos os campos');
+                apresentarErro(this.alertCtrl, 'Por favor, preencha todos os campos');
               return false;
             }else{
               return true;
@@ -716,7 +677,7 @@ export class CreateSegmentPage {
    * Registers a reservation in database
    * @param reserva reservation
    */
-  cadastrarReserva(reserva:Reserva){ 
+  cadastrarReserva(reserva:ReservaGraphql){ 
 
   let loading = this.loadingCtrl.create({
     content: 'Solicitando reserva...'
@@ -725,26 +686,27 @@ export class CreateSegmentPage {
     loading.present();
 
 
+
     this.reservaService.cadastrarReserva(reserva)
       .then((result:any) => {
         if(result){
           loading.dismiss().then(() => {
               this.navCtrl.setRoot(ReservaMyPage, {login:this.login});
               let toast = this.toastCtrl.create({
-                message: result,
+                message: "Reserva Cadastrada com sucesso",
                 duration: 5000
               });
               toast.present();
           });
         }else{
           loading.dismiss();
-          this.apresentarErro("Houve um problema ao solicitar a reserva");
+          apresentarErro(this.alertCtrl, "Houve um problema ao solicitar a reserva");
         }
 
         } )
       .catch((error) => {
         loading.dismiss();
-        this.apresentarErro(error.message);
+        apresentarErro(this.alertCtrl, error.message);
       });
   }
 

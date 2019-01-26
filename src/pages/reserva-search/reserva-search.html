@@ -48,13 +48,13 @@
         07:45<br />09:25
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo01.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.codigo_disciplina}}-{{reservaPeriodo01.turma_disciplina}}-{{reservaPeriodo01.nome_disciplina}}<br />
-        {{reservaPeriodo01.nome_usuario}}
+        <span class="reserva" *ngIf="reservaPeriodo01.disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.disciplina.codigo}}-{{reservaPeriodo01.disciplina.turma}}-{{reservaPeriodo01.disciplina.nome}}<br />
+        {{reservaPeriodo01.usuario.nome}}
       </span>
-        <span class="reserva" *ngIf="reservaPeriodo01.codigo_disciplina == undefined && reservaPeriodo01.periodo != undefined"
+        <span class="reserva" *ngIf="reservaPeriodo01.disciplina == undefined && reservaPeriodo01.periodo != undefined"
           (click)="openReserva(reservaPeriodo01)">
             {{reservaPeriodo01.tipo_uso}}<br />
-            {{reservaPeriodo01.nome_usuario}}
+            {{reservaPeriodo01.usuario.nome}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo01.periodo == undefined" >
            <button ion-button color="secondary" (click)="cadastrarReserva(1)">Reservar</button>
@@ -66,13 +66,13 @@
         09:40<br />12:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo02.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo02)">
-          {{reservaPeriodo02.codigo_disciplina}}-{{reservaPeriodo02.turma_disciplina}}-{{reservaPeriodo02.nome_disciplina}}<br />
-          {{reservaPeriodo02.nome_usuario}}</span>
-        <span class="reserva" *ngIf="reservaPeriodo02.codigo_disciplina == undefined && reservaPeriodo02.periodo != undefined"
+        <span class="reserva" *ngIf="reservaPeriodo02.disciplina != undefined" (click)="openReserva(reservaPeriodo02)">
+          {{reservaPeriodo02.disciplina.codigo}}-{{reservaPeriodo02.disciplina.turma}}-{{reservaPeriodo02.disciplina.nome}}<br />
+          {{reservaPeriodo02.usuario.nome}}</span>
+        <span class="reserva" *ngIf="reservaPeriodo02.disciplina == undefined && reservaPeriodo02.periodo != undefined"
           (click)="openReserva(reservaPeriodo02)">
             {{reservaPeriodo02.tipo_uso}}<br />
-            {{reservaPeriodo02.nome_usuario}}
+            {{reservaPeriodo02.usuario.nome}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo02.periodo == undefined" >
            <button ion-button color="secondary" (click)="cadastrarReserva(2)">Reservar</button>
@@ -84,12 +84,12 @@
         13:30<br />15:10
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo03.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo03)">{{reservaPeriodo03.codigo_disciplina}}-{{reservaPeriodo03.turma_disciplina}}-{{reservaPeriodo03.nome_disciplina}}<br />
-        {{reservaPeriodo03.nome_usuario}}</span>
-        <span class="reserva" *ngIf="reservaPeriodo03.codigo_disciplina == undefined && reservaPeriodo03.periodo != undefined"
+        <span class="reserva" *ngIf="reservaPeriodo03.disciplina != undefined" (click)="openReserva(reservaPeriodo03)">{{reservaPeriodo03.disciplina.codigo}}-{{reservaPeriodo03.disciplina.turma}}-{{reservaPeriodo03.disciplina.nome}}<br />
+        {{reservaPeriodo03.usuario.nome}}</span>
+        <span class="reserva" *ngIf="reservaPeriodo03.disciplina == undefined && reservaPeriodo03.periodo != undefined"
           (click)="openReserva(reservaPeriodo03)">
             {{reservaPeriodo03.tipo_uso}}<br />
-            {{reservaPeriodo03.nome_usuario}}
+            {{reservaPeriodo03.usuario.nome}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo03.periodo == undefined" >
            <button ion-button color="secondary" (click)="cadastrarReserva(3)">Reservar</button>
@@ -101,12 +101,12 @@
         15:30<br />18:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo04.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo04)">{{reservaPeriodo04.codigo_disciplina}}-{{reservaPeriodo04.turma_disciplina}}-{{reservaPeriodo04.nome_disciplina}}<br />
-        {{reservaPeriodo04.nome_usuario}}</span>
-        <span class="reserva" *ngIf="reservaPeriodo04.codigo_disciplina == undefined && reservaPeriodo04.periodo != undefined"
+        <span class="reserva" *ngIf="reservaPeriodo04.disciplina != undefined" (click)="openReserva(reservaPeriodo04)">{{reservaPeriodo04.disciplina.codigo}}-{{reservaPeriodo04.disciplina.turma}}-{{reservaPeriodo04.disciplina.nome}}<br />
+        {{reservaPeriodo04.usuario.nome}}</span>
+        <span class="reserva" *ngIf="reservaPeriodo04.disciplina == undefined && reservaPeriodo04.periodo != undefined"
           (click)="openReserva(reservaPeriodo04)">
             {{reservaPeriodo04.tipo_uso}}<br />
-            {{reservaPeriodo04.nome_usuario}}
+            {{reservaPeriodo04.usuario.nome}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo04.periodo == undefined" >
            <button ion-button color="secondary" (click)="cadastrarReserva(4)">Reservar</button>
@@ -118,12 +118,12 @@
         19:30<br />21:10
       </ion-col>
         <ion-col style="" class="texto " col-10 text-nowrap>
-          <span class="reserva" *ngIf="reservaPeriodo05.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo05)">{{reservaPeriodo05.codigo_disciplina}}-{{reservaPeriodo05.turma_disciplina}}-{{reservaPeriodo05.nome_disciplina}}<br />
-          {{reservaPeriodo05.nome_usuario}}</span>
-          <span class="reserva" *ngIf="reservaPeriodo05.codigo_disciplina == undefined && reservaPeriodo05.periodo != undefined"
+          <span class="reserva" *ngIf="reservaPeriodo05.disciplina != undefined" (click)="openReserva(reservaPeriodo05)">{{reservaPeriodo05.disciplina.codigo}}-{{reservaPeriodo05.disciplina.turma}}-{{reservaPeriodo05.disciplina.nome}}<br />
+          {{reservaPeriodo05.usuario.nome}}</span>
+          <span class="reserva" *ngIf="reservaPeriodo05.disciplina == undefined && reservaPeriodo05.periodo != undefined"
             (click)="openReserva(reservaPeriodo05)">
               {{reservaPeriodo05.tipo_uso}}<br />
-              {{reservaPeriodo05.nome_usuario}}
+              {{reservaPeriodo05.usuario.nome}}
           </span>
           <span class="disponivel" *ngIf="reservaPeriodo05.periodo == undefined" >
              <button ion-button color="secondary" (click)="cadastrarReserva(5)">Reservar</button>
@@ -135,12 +135,12 @@
         21:20<br />23:00
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo06.codigo_disciplina != undefined" (click)="openReserva(reservaPeriodo06)">{{reservaPeriodo06.codigo_disciplina}}-{{reservaPeriodo06.turma_disciplina}}-{{reservaPeriodo06.nome_disciplina}}<br />
-        {{reservaPeriodo06.nome_usuario}}</span>
-        <span class="reserva" *ngIf="reservaPeriodo06.codigo_disciplina == undefined && reservaPeriodo06.periodo != undefined"
+        <span class="reserva" *ngIf="reservaPeriodo06.disciplina != undefined" (click)="openReserva(reservaPeriodo06)">{{reservaPeriodo06.disciplina.codigo}}-{{reservaPeriodo06.disciplina.turma}}-{{reservaPeriodo06.disciplina.nome}}<br />
+        {{reservaPeriodo06.usuario.nome}}</span>
+        <span class="reserva" *ngIf="reservaPeriodo06.disciplina == undefined && reservaPeriodo06.periodo != undefined"
           (click)="openReserva(reservaPeriodo06)">
             {{reservaPeriodo06.tipo_uso}}<br />
-            {{reservaPeriodo06.nome_usuario}}
+            {{reservaPeriodo06.usuario.nome}}
         </span>
         <span class="disponivel" *ngIf="reservaPeriodo06.periodo == undefined" >
            <button ion-button color="secondary" (click)="cadastrarReserva(6)">Reservar</button>

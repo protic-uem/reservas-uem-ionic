@@ -2,9 +2,12 @@ import { Component, Input } from '@angular/core';
 import { NavController, AlertController, LoadingController, ToastController } from 'ionic-angular';
 
 //Páginas
-import { ReservaView } from '../../model/ReservaView';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { Periodo } from '../../model/Periodo';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { apresentarErro } from '../../util/util';
 
 
 @Component({
@@ -13,19 +16,25 @@ import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-
 })
 export class IoncardReservaMyComponent {
 
- @Input() reserva:ReservaView;
+ @Input() reserva:ReservaGraphql;
+ @Input() periodo:Periodo = new Periodo();
+ @Input() login:UsuarioGraphql;
+
   constructor(private navCtrl:NavController, private alertCtrl:AlertController, private loadingCtrl:LoadingController,
     private reservaService:ReservaServiceProvider, private toastCtrl:ToastController) {
+
+
   }
 
 
-  openReserva(event, reserva:ReservaView){
+  openReserva(event, reserva:ReservaGraphql){
     this.navCtrl.push(ReservaDetailPage, {
-      item: reserva
+      item: reserva,
+      login: this.login
     });
   }
 
-  confirmarCancelarReserva(reserva:ReservaView){
+  confirmarCancelarReserva(reserva:ReservaGraphql){
 
     const alertConfirm = this.alertCtrl.create({
       title:'Atenção!',
@@ -49,7 +58,7 @@ export class IoncardReservaMyComponent {
 
 
   //cancela uma reserva na base de dados
-  cancelarReserva(reserva:ReservaView){
+  cancelarReserva(reserva:ReservaGraphql){
 
       let loading = this.loadingCtrl.create({
         content: 'Cancelando reserva...'
@@ -71,32 +80,14 @@ export class IoncardReservaMyComponent {
               });
             }else{
               loading.dismiss();
-              this.apresentarErro("Houve um problema ao cancelar a reserva");
+              apresentarErro(this.alertCtrl, "Houve um problema ao cancelar a reserva");
             }
 
             } )
           .catch((error) => {
             loading.dismiss();
-            this.apresentarErro(error.message);
+            apresentarErro(this.alertCtrl, error.message);
           });
 
   }
-
-      //apresenta o alerta sobre o erro
-      apresentarErro(msg:string){
-        const alertError = this.alertCtrl.create({
-          title:'Atenção!',
-          message: msg,
-          buttons: [
-            {
-              text: 'Entendi',
-            }
-          ]
-        });
-
-        alertError.setMode("ios");
-        alertError.present();
-        }
-
-
 }

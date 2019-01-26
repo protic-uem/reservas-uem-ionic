@@ -2,15 +2,15 @@ import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController, Select, ModalController} from 'ionic-angular';
 import { parse, format,addDays, subDays, isBefore, isAfter, addWeeks, addMonths } from 'date-fns';
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
-import { ReservaView } from '../../model/ReservaView';
 import { Storage } from '@ionic/storage';
 import { Periodo } from '../../model/Periodo';
-import { Reserva } from '../../model/Reserva';
 import { ReservaDetailPage } from '../../pages/reserva-detail/reserva-detail';
-import { Login } from '../../model/Login';
-import { Sala } from '../../model/Sala';
 import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
 import { ReservaCreateSearchPage } from '../reserva-create-search/reserva-create-search';
+import { ReservaGraphql } from '../../model/Reserva.graphql';
+import { SalaGraphql } from '../../model/Sala.graphql';
+import { UsuarioGraphql } from '../../model/Usuario.graphql';
+import { validarData, apresentarErro } from '../../util/util';
 
 
 @Component({
@@ -21,24 +21,23 @@ export class ReservaSearchPage {
 
 @ViewChild('selectionSala') selectRef:Select;
 
-  reserva:Reserva;
+  reserva:ReservaGraphql;
   periodo:Periodo;
 
   dataSelecionada:string;
   showDate:string;
-  salaSelecionada:Sala;
-  salas:Array<Sala>;
+  salaSelecionada:SalaGraphql;
+  salas:Array<SalaGraphql>;
 
 
-  reservas:Array<ReservaView>;
-  reservaPeriodo01:ReservaView;
-  reservaPeriodo02:ReservaView;
-  reservaPeriodo03:ReservaView;
-  reservaPeriodo04:ReservaView;
-  reservaPeriodo05:ReservaView;
-  reservaPeriodo06:ReservaView;
-  departamentoDIN:number = 1;
-  login:Login;
+  reservas:Array<ReservaGraphql>;
+  reservaPeriodo01:ReservaGraphql;
+  reservaPeriodo02:ReservaGraphql;
+  reservaPeriodo03:ReservaGraphql;
+  reservaPeriodo04:ReservaGraphql;
+  reservaPeriodo05:ReservaGraphql;
+  reservaPeriodo06:ReservaGraphql;
+  login:UsuarioGraphql;
   dataDocente: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -46,17 +45,17 @@ export class ReservaSearchPage {
     private loadingCtrl:LoadingController, private alertCtrl:AlertController,
     private modalCtrl:ModalController, private cdr:ChangeDetectorRef) {
 
-    this.reservas = new Array<ReservaView>();
-    this.salaSelecionada = new Sala();
-    this.reserva = new Reserva();
+    this.reservas = new Array<ReservaGraphql>();
+    this.salaSelecionada = new SalaGraphql();
+    this.reserva = new ReservaGraphql();
     this.periodo = new Periodo();
 
-    this.reservaPeriodo01 = new ReservaView();
-    this.reservaPeriodo02 = new ReservaView();
-    this.reservaPeriodo03 = new ReservaView();
-    this.reservaPeriodo04 = new ReservaView();
-    this.reservaPeriodo05 = new ReservaView();
-    this.reservaPeriodo06 = new ReservaView();
+    this.reservaPeriodo01 = new ReservaGraphql();
+    this.reservaPeriodo02 = new ReservaGraphql();
+    this.reservaPeriodo03 = new ReservaGraphql();
+    this.reservaPeriodo04 = new ReservaGraphql();
+    this.reservaPeriodo05 = new ReservaGraphql();
+    this.reservaPeriodo06 = new ReservaGraphql();
 
     this.login = this.navParams.get('login');
 
@@ -77,14 +76,14 @@ export class ReservaSearchPage {
 
     //atualiza o select da sala, caso o usuário ainda não tenha selecionado nenhuma sala
     if(this.salaSelecionada.id == undefined)
-      this.carregarSalasPorDepartamento(this.departamentoDIN);
+      this.carregarSalasPorDepartamento(this.login.departamento.id);
 
   }
 
  //Executa toda vez que a tela é aberta
   ionViewDidEnter(){
     if(this.dataSelecionada != undefined && this.salaSelecionada != undefined && this.salaSelecionada.id != undefined)
-      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN ,this.salaSelecionada.id);
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id ,this.salaSelecionada.id);
   }
 
 
@@ -94,7 +93,7 @@ export class ReservaSearchPage {
         if (login) {
           this.login = login;
         } else {
-          this.login = new Login();
+          this.login = new UsuarioGraphql();
         }
       });
   }
@@ -102,24 +101,38 @@ export class ReservaSearchPage {
 
   //Abre a pagina de cadastro de uma reserva
   cadastrarReserva(periodo:number){
-    if(this.salaSelecionada.id != undefined && this.dataSelecionada != undefined){
 
-      this.reserva.id_sala = this.salaSelecionada.id;
-      this.reserva.periodo = periodo;
-      this.reserva.data_reserva = this.dataSelecionada;
+    let prosseguir = true;
 
-      if(this.login.privilegio == "Docente")
-        this.reserva.id_usuario = this.login.id;
+    if(this.login.privilegio == 'Docente')
+      prosseguir = !validarData(this.dataSelecionada);
+    
+    if(prosseguir){
+        if(this.salaSelecionada.id != undefined && this.dataSelecionada != undefined){
 
-      this.navCtrl.push(ReservaCreateSearchPage, {
-        login: this.login,
-        item: this.reserva,
-        sala: this.salaSelecionada,
-      });
+          this.reserva.sala = this.salaSelecionada;
+          this.reserva.periodo = periodo;
+          this.reserva.data_reserva = this.dataSelecionada;
 
-    }else{
-      this.apresentarErro("Por favor, selecione uma sala");
-    }
+          if(this.login.privilegio == "Docente"){
+            this.reserva.usuario = this.login;
+            this.reserva.departamento = this.login.departamento;
+          }
+
+          this.navCtrl.push(ReservaCreateSearchPage, {
+            login: this.login,
+            item: this.reserva,
+            sala: this.salaSelecionada,
+          });
+
+        }else{
+          apresentarErro(this.alertCtrl, "Por favor, selecione uma sala");
+        }
+      }
+      else{
+        apresentarErro(this.alertCtrl, 'Não é permitido reservas no sábado ou domingo.');
+      }
+    
 
   }
 
@@ -146,7 +159,7 @@ export class ReservaSearchPage {
       if(date != null && date != undefined){
         this.dataSelecionada = date.string;
         this.showDate = format(date.string, 'DD/MM/YYYY');
-        this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
+        this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id, this.salaSelecionada.id);
       }
     })
   }
@@ -154,7 +167,7 @@ export class ReservaSearchPage {
   //Carrega as reservas por data e sala
   changeSala(valor){
     if(valor != undefined && this.dataSelecionada != undefined)
-      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, valor.id);
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id, valor.id);
   }
 
     //Carrega todas as salas referente a um determinado departamento
@@ -163,19 +176,19 @@ export class ReservaSearchPage {
           content: 'Carregando salas...'
         });
         loading.present();
-           this.storage.get("salasDepartamento").then((salas:Array<Sala>) => {
+           this.storage.get("salasDepartamento").then((salas:Array<SalaGraphql>) => {
             if(salas.length > 0){
                 this.salas = salas;
                 this.cdr.detectChanges();
                 this.selectRef.open();
               }
             else
-              this.salas = new Array<Sala>();
+              this.salas = new Array<SalaGraphql>();
             loading.dismiss();
           }).catch( (error) => {
             loading.dismiss();
-            this.salas = new Array<Sala>();
-            this.apresentarErro(error.message);
+            this.salas = new Array<SalaGraphql>();
+            apresentarErro(this.alertCtrl,error.message);
           });
     }
 
@@ -183,17 +196,17 @@ export class ReservaSearchPage {
   carregarReservasPorDataSala(data:string, id_departamento:number, id_sala:number){
 
 
-    this.reservaPeriodo01 = new ReservaView();
-    this.reservaPeriodo02 = new ReservaView();
-    this.reservaPeriodo03 = new ReservaView();
-    this.reservaPeriodo04 = new ReservaView();
-    this.reservaPeriodo05 = new ReservaView();
-    this.reservaPeriodo06 = new ReservaView();
+    this.reservaPeriodo01 = new ReservaGraphql();
+    this.reservaPeriodo02 = new ReservaGraphql();
+    this.reservaPeriodo03 = new ReservaGraphql();
+    this.reservaPeriodo04 = new ReservaGraphql();
+    this.reservaPeriodo05 = new ReservaGraphql();
+    this.reservaPeriodo06 = new ReservaGraphql();
 
 
     this.reservaService.
     carregarReservasTelaSearch(data, id_departamento, id_sala)
-    .then((reservas:Array<ReservaView>) => {
+    .then((reservas:Array<ReservaGraphql>) => {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
@@ -203,25 +216,25 @@ export class ReservaSearchPage {
           );
 
       }else{
-        this.reservas  = new Array<ReservaView>();
+        this.reservas  = new Array<ReservaGraphql>();
       }
 
       } )
     .catch((error) => {
-      this.reservas  = new Array<ReservaView>();
+      this.reservas  = new Array<ReservaGraphql>();
       this.presentConfirm(error.message);
     });
 
   }
 
-  filtragemReservas(reservas:Array<ReservaView>){
+  filtragemReservas(reservas:Array<ReservaGraphql>){
     return new Promise((resolve, reject) => {
-        let r01 = reservas.filter(item => item.periodo == this.periodo.um);
-        let r02 = reservas.filter(item => item.periodo == this.periodo.dois);
-        let r03 = reservas.filter(item => item.periodo == this.periodo.tres);
-        let r04 = reservas.filter(item => item.periodo == this.periodo.quatro);
-        let r05 = reservas.filter(item => item.periodo == this.periodo.cinco);
-        let r06 = reservas.filter(item => item.periodo == this.periodo.seis);
+        let r01 = reservas.filter(item => item.periodo == 1);
+        let r02 = reservas.filter(item => item.periodo == 2);
+        let r03 = reservas.filter(item => item.periodo == 3);
+        let r04 = reservas.filter(item => item.periodo == 4);
+        let r05 = reservas.filter(item => item.periodo == 5);
+        let r06 = reservas.filter(item => item.periodo == 6);
 
         if(r01[0] != null && r01[0] != undefined && r01[0].periodo != undefined)
           this.reservaPeriodo01 =  r01[0];
@@ -242,9 +255,10 @@ export class ReservaSearchPage {
   }
 
   //Vai para a página de reservar
-  openReserva(reserva:ReservaView){
+  openReserva(reserva:ReservaGraphql){
     this.navCtrl.push(ReservaDetailPage, {
-      item: reserva
+      item: reserva,
+      login: this.login
     });
   }
 
@@ -255,7 +269,7 @@ export class ReservaSearchPage {
       this.dataSelecionada = format(addDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
 
       this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
-      this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
+      this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id, this.salaSelecionada.id);
   }
 
   anteriorDia(){
@@ -264,7 +278,7 @@ export class ReservaSearchPage {
       this.dataSelecionada = format(subDays(parse(this.dataSelecionada),1), 'YYYY-MM-DD');
 
     this.showDate = format(this.dataSelecionada, 'DD/MM/YYYY');
-    this.carregarReservasPorDataSala(this.dataSelecionada, this.departamentoDIN, this.salaSelecionada.id);
+    this.carregarReservasPorDataSala(this.dataSelecionada, this.login.departamento.id, this.salaSelecionada.id);
   }
 
   //Caso ocorrar algum erro, apresente o erro ao usuário
@@ -282,21 +296,6 @@ export class ReservaSearchPage {
         ]
       });
       alert.present();
-    }
-
-    //apresenta o alerta sobre o erro
-    apresentarErro(msg:string){
-    const alertError = this.alertCtrl.create({
-      title:'Atenção!',
-      message: msg,
-      buttons: [
-        {
-          text: 'Entendi',
-        }
-      ]
-    });
-    alertError.setMode("ios");
-    alertError.present();
     }
 
 }
