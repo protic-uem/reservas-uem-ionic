@@ -16,8 +16,9 @@
 <ion-header color="secondary">
   <div class="menu-header" >
       <!--material-design-background-->
-      <img class="user-avatar round" style="height:90px;max-width:100px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/profile2.png'"
+      <img class="user-avatar round" style="height:90px;max-width:200px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/imgs/uem-modelo.png'"
       />
+      <p *ngIf="login != null && login.id != undefined" class="departamento">{{login.departamento.descricao}}</p>
       <p *ngIf="login != null && login.id != undefined" class="name">{{login.nome}}</p>
       <p *ngIf="login != null && login.id != undefined" class="e-mail">{{login.email}}</p>
     </div>

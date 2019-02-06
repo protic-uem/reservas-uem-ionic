@@ -45,7 +45,7 @@
   <ion-grid  *ngIf="salaSelecionada != undefined && salaSelecionada.id != undefined">
     <ion-row class="periodo" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2 >
-        07:45<br />09:25
+        {{periodo.p1_1}}<br />{{periodo.p1_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo01.disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.disciplina.codigo}}-{{reservaPeriodo01.disciplina.turma}}-{{reservaPeriodo01.disciplina.nome}}<br />
@@ -63,7 +63,7 @@
     </ion-row>
     <ion-row class="periodo" >
       <ion-col class="texto verticalLine"  col-2>
-        09:40<br />12:00
+        {{periodo.p2_1}}<br />{{periodo.p2_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo02.disciplina != undefined" (click)="openReserva(reservaPeriodo02)">
@@ -81,7 +81,7 @@
     </ion-row>
     <ion-row class="periodo" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
-        13:30<br />15:10
+        {{periodo.p2_1}}<br />{{periodo.p3_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo03.disciplina != undefined" (click)="openReserva(reservaPeriodo03)">{{reservaPeriodo03.disciplina.codigo}}-{{reservaPeriodo03.disciplina.turma}}-{{reservaPeriodo03.disciplina.nome}}<br />
@@ -98,7 +98,7 @@
     </ion-row>
     <ion-row class="periodo" >
       <ion-col class="texto verticalLine"  col-2>
-        15:30<br />18:00
+        {{periodo.p4_1}}<br />{{periodo.p4_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo04.disciplina != undefined" (click)="openReserva(reservaPeriodo04)">{{reservaPeriodo04.disciplina.codigo}}-{{reservaPeriodo04.disciplina.turma}}-{{reservaPeriodo04.disciplina.nome}}<br />
@@ -115,7 +115,7 @@
     </ion-row>
     <ion-row class="periodo" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
-        19:30<br />21:10
+        {{periodo.p5_1}}<br />{{periodo.p5_2}}
       </ion-col>
         <ion-col style="" class="texto " col-10 text-nowrap>
           <span class="reserva" *ngIf="reservaPeriodo05.disciplina != undefined" (click)="openReserva(reservaPeriodo05)">{{reservaPeriodo05.disciplina.codigo}}-{{reservaPeriodo05.disciplina.turma}}-{{reservaPeriodo05.disciplina.nome}}<br />
@@ -132,7 +132,7 @@
     </ion-row>
     <ion-row class="periodo" >
       <ion-col class="texto verticalLine"  col-2>
-        21:20<br />23:00
+        {{periodo.p6_1}}<br />{{periodo.p6_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo06.disciplina != undefined" (click)="openReserva(reservaPeriodo06)">{{reservaPeriodo06.disciplina.codigo}}-{{reservaPeriodo06.disciplina.turma}}-{{reservaPeriodo06.disciplina.nome}}<br />

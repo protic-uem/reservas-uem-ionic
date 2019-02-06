@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConexaoProvider } from '../conexao/conexao';
 import { disciplinasPorUsuario, disciplinasPorDepartamento } from '../../graphql/disciplina/disciplina-json';

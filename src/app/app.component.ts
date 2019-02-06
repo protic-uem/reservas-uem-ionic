@@ -9,7 +9,6 @@ import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
 import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
 import { CreateSegmentPage } from '../pages/create-segment/create-segment';
 import { HomePage } from '../pages/home/home';
-import { LoginServiceProvider } from '../providers/login-service/login-service';
 import { ConexaoProvider } from '../providers/conexao/conexao';
 import { UsuarioGraphql } from '../model/Usuario.graphql';
 
@@ -25,7 +24,7 @@ export class MyApp {
   login: UsuarioGraphql;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage:Storage, private events:Events, private loginService:LoginServiceProvider) {
+    private storage:Storage, private events:Events) {
     this.login = new UsuarioGraphql();
     this.verificarUsuarioLogado();
     this.initializeApp();
@@ -74,8 +73,6 @@ export class MyApp {
     this.events.publish("userloggedin", new UsuarioGraphql());
 
     ConexaoProvider.token = null;
-    //this.loginService.logout();
-
 
   }
 

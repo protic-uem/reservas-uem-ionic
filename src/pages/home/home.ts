@@ -10,6 +10,7 @@ import { UsuarioGraphql } from '../../model/Usuario.graphql';
 //Providers
 import { ReservaServiceProvider } from '../../providers/reserva-service/reserva-service';
 import { apresentarErro } from '../../util/util';
+import { Periodo } from '../../model/Periodo';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class HomePage {
   hoje:string;
   periodo:string;
   periodoCorrente:number;
+  p:Periodo;
   reservasNaoEncontrada:boolean = false;
   login:UsuarioGraphql;
 
@@ -30,6 +32,7 @@ export class HomePage {
     private alertCtrl:AlertController, private storage:Storage,
     private reservaService:ReservaServiceProvider) {
 
+      this.p = new Periodo();
       this.reservas = new Array<ReservaGraphql>();
       this.hoje = format(new Date(), 'YYYY-MM-DD');
       this.calcularPeriodoCorrente();
@@ -74,32 +77,32 @@ export class HomePage {
       if(minutoCorrente > 465 && minutoCorrente <= 565)
       {
       this.periodoCorrente = 1;
-      this.periodo = "7:45-9:25";
+      this.periodo = this.p.um;
     }
       else if(minutoCorrente > 565 && minutoCorrente <= 720)
       {
       this.periodoCorrente = 2;
-      this.periodo = "9:40-12:00";
+      this.periodo = this.p.dois;
     }
       else if(minutoCorrente > 720  && minutoCorrente <= 910)
       {
         this.periodoCorrente = 3;
-        this.periodo = "13:30-15:10";
+        this.periodo = this.p.tres;
       }
       else if(minutoCorrente > 910  && minutoCorrente <= 1080)
       {
         this.periodoCorrente = 4;
-        this.periodo = "15:30-18:00";
+        this.periodo = this.p.quatro;
       }
       else if(minutoCorrente > 1080  && minutoCorrente <= 1270)
       {
         this.periodoCorrente = 5;
-          this.periodo = "19:30-21:10";
+          this.periodo = this.p.cinco;
         }
       else if(minutoCorrente > 1270 && minutoCorrente <= 1380)
       {
         this.periodoCorrente = 6;
-        this.periodo = "21:20-23:00";
+        this.periodo = this.p.seis;
       }
       else
       {

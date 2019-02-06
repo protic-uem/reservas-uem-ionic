@@ -9,9 +9,14 @@
     background-color: color($colors, secondary);
     background-size: cover;
     color: white;
+    .departamento{
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
     .name {
       font-weight: 500;
       margin-bottom: 3px;
+      margin-top: 0;
     }
     .e-mail {
       margin-top: 0;
