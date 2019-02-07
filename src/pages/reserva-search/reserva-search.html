@@ -46,15 +46,15 @@
       </ion-list>
   </ion-card>
   <ion-grid  *ngIf="salaSelecionada != undefined && salaSelecionada.id != undefined">
-    <ion-row class="periodo" style="background-color: #ADD8E6;">
+    <ion-row  style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2 >
         {{periodo.p1_1}}<br />{{periodo.p1_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
-        <span class="reserva" *ngIf="reservaPeriodo01.disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.disciplina.codigo}}-{{reservaPeriodo01.disciplina.turma}}-{{reservaPeriodo01.disciplina.nome}}<br />
+        <span *ngIf="reservaPeriodo01.disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.disciplina.codigo}}-{{reservaPeriodo01.disciplina.turma}}-{{reservaPeriodo01.disciplina.nome}}<br />
         {{reservaPeriodo01.usuario.nome}}
       </span>
-        <span class="reserva" *ngIf="reservaPeriodo01.disciplina == undefined && reservaPeriodo01.periodo != undefined"
+        <span *ngIf="reservaPeriodo01.disciplina == undefined && reservaPeriodo01.periodo != undefined"
           (click)="openReserva(reservaPeriodo01)">
             {{reservaPeriodo01.tipo_uso}}<br />
             {{reservaPeriodo01.usuario.nome}}
@@ -64,7 +64,7 @@
         </span>
       </ion-col>
     </ion-row>
-    <ion-row class="periodo" >
+    <ion-row >
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p2_1}}<br />{{periodo.p2_2}}
       </ion-col>
@@ -82,7 +82,7 @@
         </span>
       </ion-col>
     </ion-row>
-    <ion-row class="periodo" style="background-color: #ADD8E6;">
+    <ion-row class="grow1" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p2_1}}<br />{{periodo.p3_2}}
       </ion-col>
@@ -99,7 +99,7 @@
         </span>
       </ion-col>
     </ion-row>
-    <ion-row class="periodo" >
+    <ion-row class="grow1" >
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p4_1}}<br />{{periodo.p4_2}}
       </ion-col>
@@ -116,7 +116,7 @@
         </span>
       </ion-col>
     </ion-row>
-    <ion-row class="periodo" style="background-color: #ADD8E6;">
+    <ion-row class="grow1" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p5_1}}<br />{{periodo.p5_2}}
       </ion-col>
@@ -133,7 +133,7 @@
           </span>
         </ion-col>
     </ion-row>
-    <ion-row class="periodo" >
+    <ion-row class="grow1" >
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p6_1}}<br />{{periodo.p6_2}}
       </ion-col>
