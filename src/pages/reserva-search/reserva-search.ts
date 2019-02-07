@@ -40,6 +40,8 @@ export class ReservaSearchPage {
   login:UsuarioGraphql;
   dataDocente: string;
 
+  showSpinner: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private reservaService:ReservaServiceProvider, private storage:Storage,
     private loadingCtrl:LoadingController, private alertCtrl:AlertController,
@@ -195,6 +197,7 @@ export class ReservaSearchPage {
  //carrega todas as reservas de uma determinada data
   carregarReservasPorDataSala(data:string, id_departamento:number, id_sala:number){
 
+    this.showSpinner = true;
 
     this.reservaPeriodo01 = new ReservaGraphql();
     this.reservaPeriodo02 = new ReservaGraphql();
@@ -210,6 +213,7 @@ export class ReservaSearchPage {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
+        
           this.filtragemReservas(reservas).then( () =>
             {
             }
@@ -219,8 +223,11 @@ export class ReservaSearchPage {
         this.reservas  = new Array<ReservaGraphql>();
       }
 
+      this.showSpinner = false;
+
       } )
     .catch((error) => {
+      this.showSpinner = false;
       this.reservas  = new Array<ReservaGraphql>();
       this.presentConfirm(error.message);
     });

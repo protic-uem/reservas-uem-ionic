@@ -21,7 +21,7 @@ export class ReservaMyPage {
    usuarios:Array<UsuarioGraphql>;
    reservasCarregadas:Array<ReservaGraphql>;
    login:UsuarioGraphql;
-   reservasNaoEncontrada:boolean = false;
+   reservasNaoEncontrada:string = undefined;
 
    statusSelecionado:string;
    usuarioSelecionado:UsuarioGraphql;
@@ -37,10 +37,11 @@ export class ReservaMyPage {
 
       this.login = this.navParams.get('login');
       this.menuCtrl.enable(true);
-      this.reservasNaoEncontrada = true;
 
-      if(this.login.privilegio == 'Secretário')
+      if(this.login.privilegio == 'Secretário'){
+        this.reservasNaoEncontrada = "naoEncontrada";
         this.carregarTodosUsuariosDocentesPorDepartamento(this.login.departamento.id);
+      }
 
   }
 
@@ -94,26 +95,29 @@ export class ReservaMyPage {
       .then( (reservas:Array<ReservaGraphql>) => {
         if(reservas.length > 0){
           this.reservas = reservas;
-          this.reservasNaoEncontrada = false;
+          this.reservasNaoEncontrada = "econtrada";
           this.storage.set("minhasReservas", reservas);
         }else{
           this.reservas  = new Array<ReservaGraphql>();
-          this.reservasNaoEncontrada = true;
+          this.reservasNaoEncontrada = "naoEncontrada";
         }
       } )
       .catch( () => "Erro na requisição de minhas reservas" );
   }
 
   carregarReservasPorUsuario(usuario:UsuarioGraphql){
+
+    this.reservasNaoEncontrada = undefined;
+
     this.reservaService.carregarReservaPorUsuario(usuario.id)
       .then( (reservas:Array<ReservaGraphql>) => {
         if(reservas.length > 0){
           this.reservas = reservas;
-          this.reservasNaoEncontrada = false;
+          this.reservasNaoEncontrada = "encontrada";
           this.storage.set("minhasReservas", reservas);
         }else{
           this.reservas  = new Array<ReservaGraphql>();
-          this.reservasNaoEncontrada = true;
+          this.reservasNaoEncontrada = "naoEncontrada";
         }
       })
       .catch( () => "Erro na requisição de reservas por usuário");

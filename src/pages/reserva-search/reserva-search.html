@@ -6,6 +6,9 @@
     <ion-title>
       <h5>SALAS: Reservas </h5>
     </ion-title>
+    <ion-buttons end>
+        <ion-spinner *ngIf="showSpinner"></ion-spinner>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content no-bounce>

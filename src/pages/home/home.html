@@ -21,8 +21,12 @@
     </ion-card-header>
   </ion-card>
   <hr />
-  <ion-row  justify-content-center style="height:100%!important;" *ngIf="reservasNaoEncontrada">
-    <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
+  <ion-row  justify-content-center style="height:100%!important;"  
+  *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'">
+    <div *ngIf="reservasNaoEncontrada == undefined" class="centralizarVerticalmente">
+      <ion-spinner ></ion-spinner>
+    </div>
+    <span *ngIf="reservasNaoEncontrada == 'naoEncontrada'" class="centralizarVerticalmente">
                 Nenhuma reserva encontrada.
     </span>
   </ion-row>

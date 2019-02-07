@@ -24,7 +24,7 @@ export class HomePage {
   periodo:string;
   periodoCorrente:number;
   p:Periodo;
-  reservasNaoEncontrada:boolean = false;
+  reservasNaoEncontrada:string = undefined;
   login:UsuarioGraphql;
 
 
@@ -125,10 +125,10 @@ export class HomePage {
       if(reservas.length > 0){
         this.reservas = reservas;
         this.storage.set("reservas", reservas);
-        this.reservasNaoEncontrada = false;
+        this.reservasNaoEncontrada = "encontrada";
       }else{
         this.reservas  = new Array<ReservaGraphql>();
-        this.reservasNaoEncontrada = true;
+        this.reservasNaoEncontrada = "naoEncontrada";
       }
 
       } )
