@@ -37,7 +37,7 @@
     </span>
   </ion-row>
 
-  <ion-scroll *ngIf="reservasNaoEncontrada == 'encontrada'" #listaReservas  class="resultReservas" scrollY="true">
+  <ion-scroll  #listaReservas  class="resultReservas" scrollY="true">
     <ion-list >
       <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
         <ion-item class="transp">
