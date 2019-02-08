@@ -2,52 +2,55 @@ page-reserva-my {
 
   ion-content{
       background-image: $fundo;
+      display: flex;
   }
 
   .scroll-content {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
 
   ion-card{
     border-radius: 10px!important;
     box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+    flex-grow: 0;
     //border-style: ridge;
   }
 
   ion-select{
+    flex-grow: 0;
     width: 100%!important;
     max-width: 100%!important;
     text-align: right;
   }
 
+  ion-row{
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .resultReservas{
+    flex-grow: 1;
+  }
+
   .refresh {
-        font-size: 25px; //Preferred size here
+       font-size: 25px; //Preferred size here
     }
 
-    .areaBusca {
-      position: sticky;
-      left: 0;
-      up: 10px;
-      right: 0;
-    }
 
-    .resultReservas{
-      width:100%;
-      height: 100%;
-      overflow-y: scroll;
-    }
+  .centralizarVerticalmente{
+      display: flex!important;
+      align-content: center!important;
+      align-items: center!important;
 
-    .centralizarVerticalmente{
-       display: flex!important;
-       align-content: center!important;
-       align-items: center!important;
+  }
 
-    }
-
-    .transp{
-        background-color: transparent !important;
-        //color: #fff;
-    }
+  .transp{
+      background-color: transparent !important;
+      //color: #fff;
+  }
 
 }

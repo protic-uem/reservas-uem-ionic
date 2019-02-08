@@ -1,5 +1,6 @@
 page-reserva-detail {
 
+
   ion-content{
     background-image: $fundo;
     display:flex;
@@ -30,8 +31,6 @@ page-reserva-detail {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    font-size: 18px!important;
-
   }
 
   ion-card-header{
@@ -44,7 +43,7 @@ page-reserva-detail {
   }
 
 
-  button {
+  ion-content.button {
     flex-grow: 1;
   }
 
@@ -52,6 +51,7 @@ page-reserva-detail {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    width: 100%;
   }
 
   .text-negrito{
@@ -60,7 +60,6 @@ page-reserva-detail {
 
   .text-details{
     font-weight: bold;
-    font-size: 18px;
   }
 
   

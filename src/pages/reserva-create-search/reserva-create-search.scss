@@ -1,80 +1,65 @@
 page-reserva-create-search {
 
   ion-content{
-    height: 100%;
     background-image: $fundo;
+    display: flex;
   }
-  
-  ion-list{
-    height: 90%;
+
+  .scroll-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
   }
 
   #div_main{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     width: 100%!important;
+    justify-content: space-between;
   }
 
-    .vertical-align-content > *
-    {
-         display: flex!important;
-         align-content: center!important;
-         align-items: center!important;
-    }
 
   .icones{
-    font-size: 40px;
-  }
-
-  .docente{
-    height: 30%;
-  }
-
-  .secretario{
-    height: 21%;
+    font-size: 35px;
   }
 
   ion-select{
+    flex-grow: 1;
     width: 100%!important;
     max-width: 100%!important;
     text-align: right;
   }
 
+  ion-item{
+    flex-grow: 0;
+    max-height: 45px!important;
+  }
 
   ion-card{
+    flex-grow: 0;
     border-radius: 10px!important;
     box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
   }
 
-  .ionCardDocente{
-    height: 30%!important;
-  }
-
-  .ionCardSecretario{
-    height: 75%!important;
-  }
-
   ion-card-content{
-    height: 100%;
-  }
-  form{
-    height: 100%;
+    flex-grow: 0;
   }
 
-  .instrucao{
-    text-align: center;
-    font-weight: bold;
-  }
 
+  //BOTOES
   .btnReserva {
       width: 100%;
       background-color: #28a745;
   }
 
   .btnCancelar{
-        width: 100%;
+      width: 100%;
   }
 
   .botoes {
-    position: fixed;
+    flex-grow: 0;
     left: 0;
     bottom: 10px;
     right: 0;

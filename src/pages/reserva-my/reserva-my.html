@@ -27,9 +27,7 @@
         </ion-item>
       </ion-list>
   </ion-card>
-  <hr *ngIf="login.privilegio == 'Secretário'"/>
-
-  <ion-row  justify-content-center style="height:100%!important;" 
+  <ion-row  justify-content-center  
     *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'">
     <div *ngIf="reservasNaoEncontrada == undefined" class="centralizarVerticalmente">
       <ion-spinner ></ion-spinner>
@@ -39,7 +37,7 @@
     </span>
   </ion-row>
 
-  <ion-scroll #listaReservas  class="resultReservas" scrollY="true">
+  <ion-scroll *ngIf="reservasNaoEncontrada == 'encontrada'" #listaReservas  class="resultReservas" scrollY="true">
     <ion-list >
       <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
         <ion-item class="transp">
