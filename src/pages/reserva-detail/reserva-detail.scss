@@ -2,6 +2,12 @@ page-reserva-detail {
 
   ion-content{
     background-image: $fundo;
+    display:flex;
+  }
+
+  .scroll-content {
+    display: flex;
+    flex-direction: column;
   }
 
   ion-badge{
@@ -9,12 +15,43 @@ page-reserva-detail {
   }
 
   ion-card{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     border-radius: 10px!important;
     box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
   }
 
+  ion-grid{
+    flex-grow: 1;
+  }
+
+  ion-card-content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-size: 18px!important;
+
+  }
+
   ion-card-header{
     text-align: center;
+    font-size: 24px!important;
+  }
+
+  ion-row{
+    flex-grow: 1;
+  }
+
+
+  button {
+    flex-grow: 1;
+  }
+
+  .botoes{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 
   .text-negrito{
@@ -23,7 +60,9 @@ page-reserva-detail {
 
   .text-details{
     font-weight: bold;
-    font-size: 15px;
+    font-size: 18px;
   }
+
+  
 
 }

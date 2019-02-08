@@ -83,19 +83,21 @@
                   <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="reserva.usuario.id == login.id && reserva.status == 1">
-            <ion-col>
-              <button ion-button block small color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
+         <ion-row class="botoes">
+          <ion-row *ngIf="reserva.usuario.id == login.id && reserva.status == 1" >
+            <ion-col >
+              <button ion-button block lg color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <button ion-button block small color="secondary" (click)="voltarTela()">
+              <button ion-button block lg color="secondary" (click)="voltarTela()">
               <span *ngIf="page == 'create-reserva'">MINHAS RESERVAS</span>  
               <span *ngIf="page != 'create-reserva'">VOLTAR</span>
               </button>
             </ion-col>
           </ion-row>
+        </ion-row>
         </ion-grid>
     </ion-card-content>
   </ion-card>

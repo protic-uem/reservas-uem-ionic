@@ -4,6 +4,56 @@ page-home {
     //background-color: color($colors, fundo)!important;
     background-image: $fundo;
     display: flex;
+    
+  }
+
+  .scroll-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ion-card{
+    border-radius: 10px!important;
+    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+    flex-grow: 0;
+  }
+
+  ion-row{
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+
+  .resultReservas{
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+
+  .transp{
+      background-color: transparent !important;
+      //color: #fff;
+  }
+
+  .spinner {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .centralizarVerticalmente{
+    display: flex!important;
+    align-content: center!important;
+    align-items: center!important;
+  }
+
+
+  /*ion-content{
+    //background-color: color($colors, fundo)!important;
+    background-image: $fundo;
+    display: flex;
   }
 
   .scroll-content {

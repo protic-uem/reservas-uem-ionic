@@ -105,6 +105,9 @@ export class CreateSegmentPage {
 
          }
 
+         this.reserva.periodo = 1;
+         this.reserva.tipo_uso = 'Prática';
+
  }
 
 
