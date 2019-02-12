@@ -24,7 +24,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaGraphql>();
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -85,7 +85,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaGraphql>();
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, minhasReservas(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -145,7 +145,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaGraphql>();
     id_departamento = parseInt(id_departamento+"");
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', reservasTelaHome(id_departamento, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, reservasTelaHome(id_departamento, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -307,7 +307,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     id_sala = parseInt(id_sala+"");
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', reservasTelaSearch(id_departamento, id_sala, data), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, reservasTelaSearch(id_departamento, id_sala, data), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -366,7 +366,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
       periodo = parseInt(periodo+"");
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', validarReservaMesmoHorario(id_usuario, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, validarReservaMesmoHorario(id_usuario, data, periodo), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -407,7 +407,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     reserva.sala.id = parseInt(reserva.sala.id+"");
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', cadastrarReserva(reservaInput(reserva)), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, cadastrarReserva(reservaInput(reserva)), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -458,7 +458,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
     var id = parseInt(reserva.id+"");
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', cancelarReserva(id), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, cancelarReserva(id), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{

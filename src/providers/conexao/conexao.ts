@@ -13,8 +13,9 @@ export class ConexaoProvider {
    //protected baseUri: string = "https://reservas-uem-bj1qtis7b.now.sh/";
    static token:string;
    //protected baseUri: string = "http://192.168.100.15:3000/";
+   protected baseUri: string = "https://www.npd.uem.br/graphql";
    //protected baseUri: string = "http://din.uem.br/appsmoveisapi/"; 
-   protected baseUri: string = "https://floating-thicket-10976.herokuapp.com/"
+   //protected baseUri: string = "https://floating-thicket-10976.herokuapp.com/"
    //protected baseUri: string = "http://ec2-18-228-116-126.sa-east-1.compute.amazonaws.com/";
    //protected baseUri: string = "http://localhost:5000/";
 
@@ -23,7 +24,7 @@ export class ConexaoProvider {
 
 
   constructor() {
-
+    
   }
 
 }

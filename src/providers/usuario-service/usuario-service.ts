@@ -25,7 +25,7 @@ export class UsuarioServiceProvider extends ConexaoProvider{
     id_departamento = parseInt(id_departamento+"");
 
     return await new Promise((resolve, reject) => {
-        this.http.post(this.baseUri+'graphql', getUsuariosPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+        this.http.post(this.baseUri, getUsuariosPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{

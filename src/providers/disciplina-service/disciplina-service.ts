@@ -23,7 +23,7 @@ export class DisciplinaServiceProvider extends ConexaoProvider{
     id_departamento = parseInt(id_departamento+"");
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', disciplinasPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, disciplinasPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
@@ -41,7 +41,7 @@ export class DisciplinaServiceProvider extends ConexaoProvider{
     this.disciplinas = new Array<DisciplinaGraphql>();
   
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', disciplinasPorUsuario(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, disciplinasPorUsuario(id_usuario), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{

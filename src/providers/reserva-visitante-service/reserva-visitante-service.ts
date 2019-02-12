@@ -19,7 +19,7 @@ export class ReservaVisitanteServiceProvider extends ConexaoProvider{
     this.reservas = new Array<ReservaGraphql>();
 
         return await new Promise((resolve, reject) => {
-            this.http.post(this.baseUri+'graphql', reservasPorDepartamentoDisciplina(id_departamento, id_disciplina), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+            this.http.post(this.baseUri, reservasPorDepartamentoDisciplina(id_departamento, id_disciplina), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
               if(result.errors){
                 reject(result.errors[0].message);
               }else{

@@ -19,7 +19,7 @@ export class DepartamentoServiceProvider extends ConexaoProvider{
     this.departamentos = new Array<DepartamentoGraphql>();
 
     return await new Promise((resolve, reject) => {
-      this.http.post(this.baseUri+'graphql', getDepartamentos(), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+      this.http.post(this.baseUri, getDepartamentos(), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{

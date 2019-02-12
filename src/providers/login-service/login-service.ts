@@ -50,18 +50,20 @@ export class LoginServiceProvider extends ConexaoProvider{
            this.getToken(email, senha)
             .then(() => {
               let headers = new HttpHeaders({'Content-Type':'application/json', 'Authorization':'Bearer '+ConexaoProvider.token});
-              this.http.post(this.baseUri+'graphql', getCurrentUsuario(), { headers: headers}).subscribe((result:any) => {
+              this.http.post(this.baseUri, getCurrentUsuario(), { headers: headers}).subscribe((result:any) => {
                 if(result.errors){
                   reject(result.errors[0].message);
                 }else{
                   var usuario: UsuarioGraphql = result.data.currentUsuario;
+                  console.log("USUARIO",usuario.email);
+
                   resolver(usuario);
                 }
               });
 
             })
             .catch((error) => {
-                reject(error);
+                reject(error.message);
             });
           });
 
@@ -75,7 +77,7 @@ export class LoginServiceProvider extends ConexaoProvider{
           let headers = new HttpHeaders({'Content-Type':'application/json'});
 
           //JSON.stringify(login) usuario/login
-          this.http.post(this.baseUri+'graphql', createNewToken(email, senha), { headers: headers}).subscribe((result:any) => {
+          this.http.post(this.baseUri, createNewToken(email, senha), { headers: headers}).subscribe((result:any) => {
             if(result.errors){
               reject(result.errors[0].message);
             }else{
@@ -109,11 +111,12 @@ export class LoginServiceProvider extends ConexaoProvider{
     async getToken(email:string, senha:string) {
       
       return await new Promise((resolve, reject) => {
-        this.http.post(this.baseUri+'graphql', createNewToken(email, senha), { headers: this.headers}).subscribe((result:any) => {
+        this.http.post(this.baseUri, createNewToken(email, senha), { headers: this.headers}).subscribe((result:any) => {
             if(result.errors){
               reject(result.errors[0].message);
             }else{
               ConexaoProvider.token = result.data.createToken.token;
+              console.log("TOKEN", ConexaoProvider.token);
               ConexaoProvider.headersToken = new HttpHeaders({'Content-Type':'application/json', 'Authorization':'Bearer '+ConexaoProvider.token});
               resolve(ConexaoProvider.token);
             }
@@ -125,7 +128,7 @@ export class LoginServiceProvider extends ConexaoProvider{
     async logout(){
 
       return await new Promise((resolve, reject) => {
-        this.http.post(this.baseUri+'graphql', deleteToken(), { headers: this.headers}).subscribe((result:any) => {
+        this.http.post(this.baseUri, deleteToken(), { headers: this.headers}).subscribe((result:any) => {
             if(result.errors){
               reject(result.errors[0].message);
             }else{

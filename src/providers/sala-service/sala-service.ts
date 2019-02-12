@@ -23,7 +23,7 @@ export class SalaServiceProvider extends ConexaoProvider{
     this.salas = new Array<SalaGraphql>();
 
         return await new Promise((resolve, reject) => {
-            this.http.post(this.baseUri+'graphql', getSalasPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+            this.http.post(this.baseUri, getSalasPorDepartamento(id_departamento), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
               if(result.errors){
                 reject(result.errors[0].message);
               }else{
@@ -75,7 +75,7 @@ export class SalaServiceProvider extends ConexaoProvider{
     periodo = parseInt(""+periodo);
 
     return await new Promise((resolve, reject) => {
-        this.http.post(this.baseUri+'graphql', getSalasDisponiveisDepartamentoDiaPeriodoTipo(id_departamento, data_reserva, periodo, tipo_uso), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
+        this.http.post(this.baseUri, getSalasDisponiveisDepartamentoDiaPeriodoTipo(id_departamento, data_reserva, periodo, tipo_uso), { headers: ConexaoProvider.headersToken}).subscribe((result:any) => {
           if(result.errors){
             reject(result.errors[0].message);
           }else{
