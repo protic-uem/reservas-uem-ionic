@@ -7,8 +7,6 @@ page-reserva-create-search {
 
   .scroll-content{
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     flex-grow: 1;
   }
 
@@ -22,7 +20,18 @@ page-reserva-create-search {
 
 
   .icones{
-    font-size: 35px;
+    //font-size: 35px;
+  }
+
+
+  ion-card{
+    flex-grow: 0;
+    border-radius: 10px!important;
+    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+  }
+
+  ion-card-content{
+    flex-grow: 0;
   }
 
   ion-select{
@@ -34,18 +43,9 @@ page-reserva-create-search {
 
   ion-item{
     flex-grow: 0;
-    max-height: 45px!important;
+    max-height: 35px!important;
   }
 
-  ion-card{
-    flex-grow: 0;
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
-  }
-
-  ion-card-content{
-    flex-grow: 0;
-  }
 
 
   //BOTOES

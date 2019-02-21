@@ -37,6 +37,8 @@ export class ReservaSearchPage {
   reservaPeriodo04:ReservaGraphql;
   reservaPeriodo05:ReservaGraphql;
   reservaPeriodo06:ReservaGraphql;
+  reservaPeriodo07:ReservaGraphql;
+
   login:UsuarioGraphql;
   dataDocente: string;
 
@@ -58,6 +60,7 @@ export class ReservaSearchPage {
     this.reservaPeriodo04 = new ReservaGraphql();
     this.reservaPeriodo05 = new ReservaGraphql();
     this.reservaPeriodo06 = new ReservaGraphql();
+    this.reservaPeriodo07 = new ReservaGraphql();
 
     this.login = this.navParams.get('login');
 
@@ -205,6 +208,7 @@ export class ReservaSearchPage {
     this.reservaPeriodo04 = new ReservaGraphql();
     this.reservaPeriodo05 = new ReservaGraphql();
     this.reservaPeriodo06 = new ReservaGraphql();
+    this.reservaPeriodo07 = new ReservaGraphql();
 
 
     this.reservaService.
@@ -242,6 +246,7 @@ export class ReservaSearchPage {
         let r04 = reservas.filter(item => item.periodo == 4);
         let r05 = reservas.filter(item => item.periodo == 5);
         let r06 = reservas.filter(item => item.periodo == 6);
+        let r07 = reservas.filter(item => item.periodo == 7);
 
         if(r01[0] != null && r01[0] != undefined && r01[0].periodo != undefined)
           this.reservaPeriodo01 =  r01[0];
@@ -255,6 +260,8 @@ export class ReservaSearchPage {
           this.reservaPeriodo05 =  r05[0];
         if(r06[0] != null && r06[0] != undefined && r06[0].periodo != undefined)
           this.reservaPeriodo06 =  r06[0];
+        if(r07[0] != null && r07[0] != undefined && r07[0].periodo != undefined)
+          this.reservaPeriodo07 =  r07[0];
 
         });
 

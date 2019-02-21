@@ -24,6 +24,9 @@ page-reserva-detail {
   }
 
   ion-grid{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-grow: 1;
   }
 
@@ -42,16 +45,22 @@ page-reserva-detail {
     flex-grow: 1;
   }
 
-
-  ion-content.button {
-    flex-grow: 1;
-  }
-
   .botoes{
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 0;
     width: 100%;
+    height: 90px;
+  }
+
+  .botoes.button{
+    height: 40px;
+  }
+
+  .conteudo{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
 
   .text-negrito{

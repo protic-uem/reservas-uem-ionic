@@ -50,7 +50,7 @@
       <ion-col class="texto verticalLine"  col-2 >
         {{periodo.p1_1}}<br />{{periodo.p1_2}}
       </ion-col>
-      <ion-col class="texto " col-10 text-nowrap>
+      <ion-col class="texto slide-right" col-10 text-nowrap>
         <span *ngIf="reservaPeriodo01.disciplina != undefined" (click)="openReserva(reservaPeriodo01)">{{reservaPeriodo01.disciplina.codigo}}-{{reservaPeriodo01.disciplina.turma}}-{{reservaPeriodo01.disciplina.nome}}<br />
         {{reservaPeriodo01.usuario.nome}}
       </span>
@@ -84,7 +84,7 @@
     </ion-row>
     <ion-row class="grow1" style="background-color: #ADD8E6;">
       <ion-col class="texto verticalLine"  col-2>
-        {{periodo.p2_1}}<br />{{periodo.p3_2}}
+        {{periodo.p3_1}}<br />{{periodo.p3_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo03.disciplina != undefined" (click)="openReserva(reservaPeriodo03)">{{reservaPeriodo03.disciplina.codigo}}-{{reservaPeriodo03.disciplina.turma}}-{{reservaPeriodo03.disciplina.nome}}<br />
@@ -136,6 +136,23 @@
     <ion-row class="grow1" >
       <ion-col class="texto verticalLine"  col-2>
         {{periodo.p6_1}}<br />{{periodo.p6_2}}
+      </ion-col>
+        <ion-col style="" class="texto " col-10 text-nowrap>
+          <span class="reserva" *ngIf="reservaPeriodo05.disciplina != undefined" (click)="openReserva(reservaPeriodo05)">{{reservaPeriodo05.disciplina.codigo}}-{{reservaPeriodo05.disciplina.turma}}-{{reservaPeriodo05.disciplina.nome}}<br />
+          {{reservaPeriodo05.usuario.nome}}</span>
+          <span class="reserva" *ngIf="reservaPeriodo05.disciplina == undefined && reservaPeriodo05.periodo != undefined"
+            (click)="openReserva(reservaPeriodo05)">
+              {{reservaPeriodo05.tipo_uso}}<br />
+              {{reservaPeriodo05.usuario.nome}}
+          </span>
+          <span class="disponivel" *ngIf="reservaPeriodo05.periodo == undefined" >
+             <button ion-button color="secondary" (click)="cadastrarReserva(5)">Reservar</button>
+          </span>
+        </ion-col>
+    </ion-row>
+    <ion-row class="grow1" style="background-color: #ADD8E6;">
+      <ion-col class="texto verticalLine"  col-2>
+        {{periodo.p7_1}}<br />{{periodo.p7_2}}
       </ion-col>
       <ion-col class="texto " col-10 text-nowrap>
         <span class="reserva" *ngIf="reservaPeriodo06.disciplina != undefined" (click)="openReserva(reservaPeriodo06)">{{reservaPeriodo06.disciplina.codigo}}-{{reservaPeriodo06.disciplina.turma}}-{{reservaPeriodo06.disciplina.nome}}<br />
