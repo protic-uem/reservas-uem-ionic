@@ -13,7 +13,7 @@ export class ReservaGraphql {
     data_reserva: string;
     dia_semana_reserva: number;
     periodo: number;
-    status: number;
+    status: string;
     departamento: DepartamentoGraphql;
     disciplina: DisciplinaGraphql;
     usuario: UsuarioGraphql;
@@ -21,7 +21,7 @@ export class ReservaGraphql {
 
   constructor(id?:number, tipo_uso?: string,
     tipo_reserva?: string, data_solicitacao?:string, data_reserva?: string, dia_semana_reserva?: number,periodo?: number,
-    status?: number, departamento?:DepartamentoGraphql, disciplina?:DisciplinaGraphql,
+    status?: string, departamento?:DepartamentoGraphql, disciplina?:DisciplinaGraphql,
     usuario?:UsuarioGraphql, sala?:SalaGraphql) {
 
         this.id = id;

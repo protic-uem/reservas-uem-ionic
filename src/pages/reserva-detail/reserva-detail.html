@@ -86,7 +86,7 @@
           </ion-row>
         </div>
         <div class="botoes">
-                <button *ngIf="reserva.usuario.id == login.id && reserva.status == 1" ion-button block lg color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
+                <button *ngIf="reserva.usuario.id == login.id && reserva.status == 'Aceito'" ion-button block lg color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
                 <button ion-button block lg color="secondary" (click)="voltarTela()">
                   <span *ngIf="page == 'create-reserva'">MINHAS RESERVAS</span>  
                   <span *ngIf="page != 'create-reserva'">VOLTAR</span>

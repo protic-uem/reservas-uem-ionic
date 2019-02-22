@@ -232,7 +232,7 @@ export class ReservaCreateSearchPage {
           this.reserva.usuario = this.usuarioSelecionado;
 
         this.reserva.data_solicitacao = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-        this.reserva.status = 1;
+        this.reserva.status = "Aceito";
 
         if(this.login.privilegio == "Docente")
           this.reserva.tipo_reserva = "Eventual";

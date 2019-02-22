@@ -33,10 +33,10 @@
                             </ion-col>
                           </ion-row>
                           <ion-row class="linha_status">
-                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 2,
-                                                  'aceito': reserva.status == 1,
-                                                  'cancelado': reserva.status == 3,
-                                                  'pendente': reserva.status == 0}"
+                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 'Rejeitado',
+                                                  'aceito': reserva.status == 'Aceito',
+                                                  'cancelado': reserva.status == 'Cancelado',
+                                                  'pendente': reserva.status == 'Pendente'}"
                                                   >
                                   </ion-col>
 

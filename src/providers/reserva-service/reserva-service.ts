@@ -33,49 +33,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-  /*return new Promise((resolve, reject) => {
-
-    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-    this.http.get(this.baseUri+'reserva/buscaPorUsuario/?id_usuario='
-              +btoa(id_usuario+""), {headers: headers}).subscribe((result:any) => {
-      if(result.retorno == "false"){
-        resolve(new ReservaView());
-      }
-      else{
-        if(result.dados.length>0){
-          let tamanho = result.dados.length;
-          for(var i = 0;i<tamanho;i++){
-            /*this.reservas.push(new ReservaView(
-                              result.dados[i].id,
-                              result.dados[i].nome_departamento,
-                              result.dados[i].id_usuario,
-                              result.dados[i].nome_usuario,
-                              result.dados[i].nome_disciplina,
-                              result.dados[i].codigo_disciplina,
-                              result.dados[i].turma_disciplina,
-                              result.dados[i].numero_sala,
-                              result.dados[i].tipo_sala,
-                              result.dados[i].tipo_uso,
-                              result.dados[i].tipo_reserva,
-                              result.dados[i].data_reserva,
-                              result.dados[i].periodo,
-                              result.dados[i].status
-                              ));
-                            }
-        }
-
-
-              resolve(this.reservas);
-        }
-      },
-      (error) => {
-        console.log("carregarReservaPorUsuario error");
-        reject(error);
-
-      });
-  });*/
   }
 
 
@@ -94,49 +51,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-  /*return new Promise((resolve, reject) => {
-
-      let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-    this.http.get(this.baseUri+'reserva/minhasReservas/?id_usuario='
-              +btoa(id_usuario+""), {headers: headers}).subscribe((result:any) => {
-      if(result.retorno == "false"){
-        resolve(new ReservaView());
-      }
-      else{
-        if(result.dados.length>0){
-          let tamanho = result.dados.length;
-          for(var i = 0;i<tamanho;i++){
-            this.reservas.push(new ReservaView(
-                              result.dados[i].id,
-                              result.dados[i].nome_departamento,
-                              result.dados[i].id_usuario,
-                              result.dados[i].nome_usuario,
-                              result.dados[i].nome_disciplina,
-                              result.dados[i].codigo_disciplina,
-                              result.dados[i].turma_disciplina,
-                              result.dados[i].numero_sala,
-                              result.dados[i].tipo_sala,
-                              result.dados[i].tipo_uso,
-                              result.dados[i].tipo_reserva,
-                              result.dados[i].data_reserva,
-                              result.dados[i].periodo,
-                              result.dados[i].status
-                              ));
-                            }
-        }
-
-
-              resolve(this.reservas);
-        }
-      },
-      (error) => {
-        console.log("carregarReservaPorUsuario error");
-        reject(error);
-
-      });
-  });*/
   }
 
   //carrega todas com base no departamento,  data e periodo
@@ -154,49 +68,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-  
-    /*return new Promise((resolve, reject) => {
-
-    let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-    this.http.get(this.baseUri+'reserva/carregarReservasTelaHome/?id_departamento='
-              +btoa(id_departamento+"")+'&data='+btoa(data)+'&periodo='+btoa(periodo+""), {headers: headers}).subscribe((result:any) => {
-      if(result.retorno == "false"){
-        resolve(new ReservaGraphql());
-      }
-      else{
-        if(result.dados.length>0){
-          let tamanho = result.dados.length;
-          for(var i = 0;i<tamanho;i++){
-            this.reservas.push(new ReservaView(
-                              result.dados[i].id,
-                              result.dados[i].nome_departamento,
-                              result.dados[i].id_usuario,
-                              result.dados[i].nome_usuario,
-                              result.dados[i].nome_disciplina,
-                              result.dados[i].codigo_disciplina,
-                              result.dados[i].turma_disciplina,
-                              result.dados[i].numero_sala,
-                              result.dados[i].tipo_sala,
-                              result.dados[i].tipo_uso,
-                              result.dados[i].tipo_reserva,
-                              result.dados[i].data_reserva,
-                              result.dados[i].periodo,
-                              result.dados[i].status
-                              ));
-                            }
-        }
-
-
-              resolve(this.reservas);
-        }
-      },
-      (error) => {
-        console.log("carregarReservasTelaHome error");
-        reject(error);
-
-      });
-  });*/
   }
 
 
@@ -219,22 +90,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
           if(result.dados.length>0){
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
-              /*this.reservas.push(new ReservaView(
-                                result.dados[i].id,
-                                result.dados[i].nome_departamento,
-                                result.dados[i].id_usuario,
-                                result.dados[i].nome_usuario,
-                                result.dados[i].nome_disciplina,
-                                result.dados[i].codigo_disciplina,
-                                result.dados[i].turma_disciplina,
-                                result.dados[i].numero_sala,
-                                result.dados[i].tipo_sala,
-                                result.dados[i].tipo_uso,
-                                result.dados[i].tipo_reserva,
-                                result.dados[i].data_reserva,
-                                result.dados[i].periodo,
-                                result.dados[i].status
-                                ));*/
+     
                               }
           }
 
@@ -267,22 +123,7 @@ export class ReservaServiceProvider extends ConexaoProvider{
           if(result.dados.length>0){
             let tamanho = result.dados.length;
             for(var i = 0;i<tamanho;i++){
-              /*this.reservas.push(new ReservaView(
-                                result.dados[i].id,
-                                result.dados[i].nome_departamento,
-                                result.dados[i].id_usuario,
-                                result.dados[i].nome_usuario,
-                                result.dados[i].nome_disciplina,
-                                result.dados[i].codigo_disciplina,
-                                result.dados[i].turma_disciplina,
-                                result.dados[i].numero_sala,
-                                result.dados[i].tipo_sala,
-                                result.dados[i].tipo_uso,
-                                result.dados[i].tipo_reserva,
-                                result.dados[i].data_reserva,
-                                result.dados[i].periodo,
-                                result.dados[i].status
-                                ));*/
+       
                               }
           }
 
@@ -316,47 +157,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-    /*return new Promise((resolve, reject) => {
-        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-      this.http.get(this.baseUri+'reserva/carregarReservasTelaSearch/?data='
-                +btoa(data+"")+'&id_departamento='+btoa(id_dept+"")+'&id_sala='+btoa(id_sala+""), {headers: headers}).subscribe((result:any) => {
-        if(result.retorno == "false"){
-          resolve(new ReservaView());
-        }
-        else{
-          if(result.dados.length>0){
-            let tamanho = result.dados.length;
-            for(var i = 0;i<tamanho;i++){
-              /*this.reservas.push(new ReservaView(
-                                result.dados[i].id,
-                                result.dados[i].nome_departamento,
-                                result.dados[i].id_usuario,
-                                result.dados[i].nome_usuario,
-                                result.dados[i].nome_disciplina,
-                                result.dados[i].codigo_disciplina,
-                                result.dados[i].turma_disciplina,
-                                result.dados[i].numero_sala,
-                                result.dados[i].tipo_sala,
-                                result.dados[i].tipo_uso,
-                                result.dados[i].tipo_reserva,
-                                result.dados[i].data_reserva,
-                                result.dados[i].periodo,
-                                result.dados[i].status
-                                ));
-                              }
-          }
-
-                resolve(this.reservas);
-          }
-        },
-        (error) => {
-          console.log("carregarReservaPorData error");
-          reject(error);
-
-            });
-        });*/
   }
 
   //Valida se já existe uma reserva no mesma data e horário para aquela reserva
@@ -374,26 +174,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-
-    /*return new Promise((resolve, reject) => {
-        let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-      this.http.get(this.baseUri+'reserva/validarReservaMesmoHorario/?id_usuario='+btoa(id_usuario+"")+
-      '&data='+btoa(data+"")+'&periodo='+btoa(periodo+""), {headers: headers}).subscribe((result:any) => {
-        if(result.retorno == false){
-            resolve(false);
-        }
-        else{
-            resolve(true);
-          }
-        },
-        (error) => {
-          console.log("validarReservaMesmoHorario error");
-          reject(error);
-
-            });
-        });*/
   }
 
 
@@ -416,40 +196,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-
-
-      /*return new Promise((resolve, reject) => {
-
-        var item = {
-          id_departamento: reserva.id_departamento,
-          id_usuario: reserva.id_usuario,
-          id_disciplina: reserva.id_disciplina,
-          tipo_uso: reserva.tipo_uso,
-          tipo_reserva: reserva.tipo_reserva,
-          data_solicitacao: reserva.data_solicitacao,
-          data_reserva: reserva.data_reserva,
-          periodo: reserva.periodo,
-          id_sala: reserva.id_sala,
-          status: reserva.status
-        };
-
-
-        let headers = new HttpHeaders({'Content-Type':'application/json', 'x-access-token':ConexaoProvider.token});
-
-        this.http.post(this.baseUri+'reserva/solicitarReserva/', JSON.stringify(item),
-        { headers: headers})
-          .subscribe((result:any) => {
-
-            resolve(result.retorno);
-
-          },
-          (error) => {
-            console.log("cadastrarReserva error");
-            reject(error);
-
-          });
-      });*/
   }
 
 
@@ -466,39 +212,6 @@ export class ReservaServiceProvider extends ConexaoProvider{
           }
       });
     });
-
-      /*return new Promise((resolve, reject) => {
-        var item = {
-          id: reserva.id
-        };
-        let headers = new HttpHeaders({'Content-Type':'application/json', 'x-access-token':ConexaoProvider.token});
-        
-        this.http.put(this.baseUri+'reserva/cancelarReserva/', JSON.stringify(item),
-        { headers: headers})
-          .subscribe((result:any) => {
-            resolve(result);
-          },
-          (error) => {
-            console.log("cancelarReserva error");
-            reject(error);
-
-          });
-      });
-  }
-
-  //atualiza uma determianda reserva
-  atualizarReserva(encapsula){
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    /*return new Promise((resolve, reject) => {
-      this.http.put(this.baseUri+'reserva/alterarReserva', JSON.stringify(encapsula), { headers: headers })
-        .subscribe((result:any) => {
-          resolve(result.json());
-        },
-        (error) => {
-          reject(error.json());
-          });
-        });*/
 
   }
 
