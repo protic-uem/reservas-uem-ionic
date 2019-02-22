@@ -1,27 +1,24 @@
 page-reserva-visitante-list {
-
-
-  ion-content{
+  ion-content {
     background-image: $fundo;
   }
 
-  ion-card{
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
-    
+  ion-card {
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
   }
 
   .scroll-content {
     overflow: hidden;
   }
 
-  ion-select{
-    width: 100%!important;
-    max-width: 100%!important;
+  ion-select {
+    width: 100% !important;
+    max-width: 100% !important;
     text-align: right;
   }
 
-  .center{
+  .center {
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -34,29 +31,26 @@ page-reserva-visitante-list {
     right: 0;
   }
 
-  .disciplina{
-    width: 100%!important;
-    text-align: right!important;
-    justify-content: flex-end!important;
+  .disciplina {
+    width: 100% !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
   }
 
-  .centralizarVerticalmente{
-     display: flex!important;
-     align-content: center!important;
-     align-items: center!important;
-
+  .centralizarVerticalmente {
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
   }
 
-
-  .resultReservas{
-    width:100%;
+  .resultReservas {
+    width: 100%;
     height: 85%;
-    overflow-y: scroll;;
+    overflow-y: scroll;
   }
 
-  .transp{
+  .transp {
     background-color: transparent !important;
     //color: #fff;
   }
-
 }

@@ -1,54 +1,64 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events} from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Storage } from '@ionic/storage';
-import { LoginPage } from '../pages/login/login';
-import { AjudaUsuarioPage } from '../pages/ajuda-usuario/ajuda-usuario';
-import { ReservaSearchPage } from '../pages/reserva-search/reserva-search';
-import { ReservaMyPage } from '../pages/reserva-my/reserva-my';
-import { CreateSegmentPage } from '../pages/create-segment/create-segment';
-import { HomePage } from '../pages/home/home';
-import { ConexaoProvider } from '../providers/conexao/conexao';
-import { UsuarioGraphql } from '../model/Usuario.graphql';
+import { Component, ViewChild } from "@angular/core";
+import { Nav, Platform, Events } from "ionic-angular";
+import { StatusBar } from "@ionic-native/status-bar";
+import { SplashScreen } from "@ionic-native/splash-screen";
+import { Storage } from "@ionic/storage";
+import { LoginPage } from "../pages/login/login";
+import { AjudaUsuarioPage } from "../pages/ajuda-usuario/ajuda-usuario";
+import { ReservaSearchPage } from "../pages/reserva-search/reserva-search";
+import { ReservaMyPage } from "../pages/reserva-my/reserva-my";
+import { CreateSegmentPage } from "../pages/create-segment/create-segment";
+import { HomePage } from "../pages/home/home";
+import { ConexaoProvider } from "../providers/conexao/conexao";
+import { UsuarioGraphql } from "../model/Usuario.graphql";
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: "app.html"
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //LoginPage
   rootPage: any = LoginPage;
-  pages: Array<{icon: string, title: string, component: any}>;
+  pages: Array<{ icon: string; title: string; component: any }>;
   login: UsuarioGraphql;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-    private storage:Storage, private events:Events) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    private storage: Storage,
+    private events: Events
+  ) {
     this.login = new UsuarioGraphql();
     this.verificarUsuarioLogado();
     this.initializeApp();
 
-    this.events.subscribe("userloggedin", (user:UsuarioGraphql) => {
-        this.login = user;
+    this.events.subscribe("userloggedin", (user: UsuarioGraphql) => {
+      this.login = user;
     });
 
     this.pages = [
-      { icon: 'home', title:"Inicio", component: HomePage},
-      { icon: 'add', title: 'Solicitar Reserva', component: CreateSegmentPage },
-      { icon: 'search', title: 'Consultar Reservas', component: ReservaSearchPage },
-      { icon: 'filing', title: 'Minhas Reservas', component: ReservaMyPage },
-      { icon: 'help-buoy', title: 'Ajuda Usuários', component: AjudaUsuarioPage }
-
+      { icon: "home", title: "Inicio", component: HomePage },
+      { icon: "add", title: "Solicitar Reserva", component: CreateSegmentPage },
+      {
+        icon: "search",
+        title: "Consultar Reservas",
+        component: ReservaSearchPage
+      },
+      { icon: "filing", title: "Minhas Reservas", component: ReservaMyPage },
+      {
+        icon: "help-buoy",
+        title: "Ajuda Usuários",
+        component: AjudaUsuarioPage
+      }
     ];
-
   }
 
-
-  async verificarUsuarioLogado(){
+  async verificarUsuarioLogado() {
     await this.storage.get("login").then((login: UsuarioGraphql) => {
       this.login = login;
-    } );
+    });
   }
 
   initializeApp() {
@@ -60,10 +70,7 @@ export class MyApp {
   }
 
   openPage(page) {
-
-      this.nav.setRoot(page.component,
-      {login: this.login});
-
+    this.nav.setRoot(page.component, { login: this.login });
   }
 
   logout() {
@@ -73,9 +80,5 @@ export class MyApp {
     this.events.publish("userloggedin", new UsuarioGraphql());
 
     ConexaoProvider.token = null;
-
   }
-
-
-
 }

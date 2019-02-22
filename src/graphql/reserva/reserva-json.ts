@@ -1,7 +1,6 @@
-export const minhasReservas = (usuarioID:number) => 
-{
-   return {
-        "query": `query getMinhasReservas($usuarioID: ID!) {
+export const minhasReservas = (usuarioID: number) => {
+  return {
+    query: `query getMinhasReservas($usuarioID: ID!) {
                     minhasReservas(usuarioID: $usuarioID) {
                         id
                         tipo_uso
@@ -37,16 +36,19 @@ export const minhasReservas = (usuarioID:number) =>
                         }
                     }
                 }`,
-        "variables": {
-        "usuarioID": usuarioID
-        }
+    variables: {
+      usuarioID: usuarioID
     }
+  };
 };
 
-export const reservasTelaHome = (departamentoID:number, data_reserva:string, periodo:number) => 
-{
-   return {
-        "query": `query getReservasHome($departamentoID: ID!, $data_reserva: String!, $periodo: Int!) {
+export const reservasTelaHome = (
+  departamentoID: number,
+  data_reserva: string,
+  periodo: number
+) => {
+  return {
+    query: `query getReservasHome($departamentoID: ID!, $data_reserva: String!, $periodo: Int!) {
             reservasTelaHome(departamentoID: $departamentoID, data_reserva:$data_reserva, periodo:$periodo) {
                 id
                 tipo_uso
@@ -82,18 +84,21 @@ export const reservasTelaHome = (departamentoID:number, data_reserva:string, per
                 }
             }
         }`,
-        "variables": {
-        "departamentoID": departamentoID,
-        "data_reserva": data_reserva,
-        "periodo":periodo
-        }
+    variables: {
+      departamentoID: departamentoID,
+      data_reserva: data_reserva,
+      periodo: periodo
     }
+  };
 };
 
-export const reservasTelaSearch = (departamentoID:number, salaID:number, data_reserva:string) => 
-{
-   return {
-        "query": `query getReservasSeach($departamentoID: ID!, $salaID: ID!, $data_reserva: String!) {
+export const reservasTelaSearch = (
+  departamentoID: number,
+  salaID: number,
+  data_reserva: string
+) => {
+  return {
+    query: `query getReservasSeach($departamentoID: ID!, $salaID: ID!, $data_reserva: String!) {
             reservasTelaSearch(departamentoID: $departamentoID, salaID:$salaID ,data_reserva:$data_reserva) {
                 id
                 tipo_uso
@@ -129,18 +134,17 @@ export const reservasTelaSearch = (departamentoID:number, salaID:number, data_re
                 }
             }
         }`,
-        "variables": {
-        "departamentoID": departamentoID,
-        "salaID": salaID,
-        "data_reserva":data_reserva
-        }
+    variables: {
+      departamentoID: departamentoID,
+      salaID: salaID,
+      data_reserva: data_reserva
     }
+  };
 };
 
-export const cadastrarReserva = (input:any) => 
-{
-   return {
-        "query": `mutation createNewReserva($reservaInput: ReservaInput!) {
+export const cadastrarReserva = (input: any) => {
+  return {
+    query: `mutation createNewReserva($reservaInput: ReservaInput!) {
                         createReserva(input: $reservaInput) {
                             id
                             tipo_uso
@@ -170,41 +174,45 @@ export const cadastrarReserva = (input:any) =>
                             }
                         }
                     }`,
-        "variables": {
-        "reservaInput": input
-        }
+    variables: {
+      reservaInput: input
     }
+  };
 };
 
-export const cancelarReserva = (id:number) => 
-{
-   return {
-        "query": `mutation cancelarReserva($id: ID!) {
+export const cancelarReserva = (id: number) => {
+  return {
+    query: `mutation cancelarReserva($id: ID!) {
             cancelarReserva(id: $id) 
         }`,
-        "variables": {
-        "id": id
-        }
+    variables: {
+      id: id
     }
+  };
 };
 
-export const validarReservaMesmoHorario = (usuarioID:number, data_reserva:string, periodo: number) => 
-{
-   return {
-        "query": `query validarReservaMesmoHorario($usuarioID: ID!, $data_reserva: String!, $periodo: Int!) {
+export const validarReservaMesmoHorario = (
+  usuarioID: number,
+  data_reserva: string,
+  periodo: number
+) => {
+  return {
+    query: `query validarReservaMesmoHorario($usuarioID: ID!, $data_reserva: String!, $periodo: Int!) {
             validarReservaMesmoHorario(usuarioID: $usuarioID, data_reserva:$data_reserva, periodo:$periodo) 
         }`,
-        "variables": {
-        "usuarioID": usuarioID,
-        "data_reserva": data_reserva,
-        "periodo": periodo
-        }
+    variables: {
+      usuarioID: usuarioID,
+      data_reserva: data_reserva,
+      periodo: periodo
     }
+  };
 };
-export const reservasPorDepartamentoDisciplina = (departamentoID:number, disciplinaID: number) => 
-{
-   return {
-        "query": `query getReservasDepartamentoDisciplina($departamentoID: ID!, $disciplinaID: ID!) {
+export const reservasPorDepartamentoDisciplina = (
+  departamentoID: number,
+  disciplinaID: number
+) => {
+  return {
+    query: `query getReservasDepartamentoDisciplina($departamentoID: ID!, $disciplinaID: ID!) {
             reservasPorDepartamentoDisciplina(departamentoID: $departamentoID, disciplinaID:$disciplinaID) {
                             id
                             tipo_uso
@@ -231,9 +239,9 @@ export const reservasPorDepartamentoDisciplina = (departamentoID:number, discipl
                             }
             }
         }`,
-        "variables": {
-        "departamentoID": departamentoID,
-        "disciplinaID": disciplinaID
-        }
+    variables: {
+      departamentoID: departamentoID,
+      disciplinaID: disciplinaID
     }
-}
+  };
+};

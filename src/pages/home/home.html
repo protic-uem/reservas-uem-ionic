@@ -9,32 +9,48 @@
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content >
+<ion-content>
   <ion-card>
     <ion-card-header>
       <ion-grid>
         <ion-row>
-            Atual: {{periodo}}
+          Atual: {{periodo}}
         </ion-row>
       </ion-grid>
     </ion-card-header>
   </ion-card>
   <hr />
-  <ion-row class="spinner"
-  *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'">
-    <div *ngIf="reservasNaoEncontrada == undefined" class="centralizarVerticalmente">
-      <ion-spinner ></ion-spinner>
+  <ion-row
+    class="spinner"
+    *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'"
+  >
+    <div
+      *ngIf="reservasNaoEncontrada == undefined"
+      class="centralizarVerticalmente"
+    >
+      <ion-spinner></ion-spinner>
     </div>
-    <span *ngIf="reservasNaoEncontrada == 'naoEncontrada'" class="centralizarVerticalmente">
-                Nenhuma reserva encontrada.
+    <span
+      *ngIf="reservasNaoEncontrada == 'naoEncontrada'"
+      class="centralizarVerticalmente"
+    >
+      Nenhuma reserva encontrada.
     </span>
   </ion-row>
-  <ion-scroll #listaReservas class="resultReservas"  scrollY="true" *ngIf="reservasNaoEncontrada == 'encontrada'">
+  <ion-scroll
+    #listaReservas
+    class="resultReservas"
+    scrollY="true"
+    *ngIf="reservasNaoEncontrada == 'encontrada'"
+  >
     <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
         <ion-item class="transp">
-          <chip-reserva-home [reserva]="reserva" [login]="login"  width="100%"></chip-reserva-home>
+          <chip-reserva-home
+            [reserva]="reserva"
+            [login]="login"
+            width="100%"
+          ></chip-reserva-home>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

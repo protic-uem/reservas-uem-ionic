@@ -1,62 +1,56 @@
 page-reserva-create-search {
-
-  ion-content{
+  ion-content {
     background-image: $fundo;
     display: flex;
   }
 
-  .scroll-content{
+  .scroll-content {
     display: flex;
     flex-grow: 1;
   }
 
-  #div_main{
+  #div_main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    width: 100%!important;
+    width: 100% !important;
     justify-content: space-between;
   }
 
-
-  .icones{
+  .icones {
     font-size: 35px;
   }
 
-
-  ion-card{
+  ion-card {
     flex-grow: 0;
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
-    min-height: 422px;
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
   }
 
-  ion-card-content{
+  ion-card-content {
     flex-grow: 0;
   }
 
-  ion-select{
+  ion-select {
     flex-grow: 1;
-    width: 100%!important;
-    max-width: 100%!important;
+    width: 100% !important;
+    max-width: 100% !important;
     text-align: right;
   }
 
-  ion-item{
+  ion-item {
     flex-grow: 0;
-    max-height: 35px!important;
+    max-height: 35px !important;
   }
-
-
 
   //BOTOES
   .btnReserva {
-      width: 100%;
-      background-color: #28a745;
+    width: 100%;
+    background-color: #28a745;
   }
 
-  .btnCancelar{
-      width: 100%;
+  .btnCancelar {
+    width: 100%;
   }
 
   .botoes {
@@ -64,7 +58,5 @@ page-reserva-create-search {
     left: 0;
     bottom: 10px;
     right: 0;
-}
-
-
+  }
 }

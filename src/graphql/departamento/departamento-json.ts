@@ -1,7 +1,6 @@
-export const getDepartamentos = () => 
-{
-   return {
-        "query": `query getDepartamentos($first: Int, $offset: Int) {
+export const getDepartamentos = () => {
+  return {
+    query: `query getDepartamentos($first: Int, $offset: Int) {
             departamentos(first: $first, offset: $offset) {
               id
               nome
@@ -9,5 +8,5 @@ export const getDepartamentos = () =>
               status
             }
           }`
-    }
+  };
 };

@@ -1,7 +1,6 @@
-export const disciplinasPorUsuario = (usuarioID:number) => 
-{
-   return {
-        "query": `query getDisciplinasPorUsuario($usuarioID:ID!, $first: Int, $offset: Int) {
+export const disciplinasPorUsuario = (usuarioID: number) => {
+  return {
+    query: `query getDisciplinasPorUsuario($usuarioID:ID!, $first: Int, $offset: Int) {
                     disciplinasPorUsuario(usuarioID:$usuarioID, first: $first, offset: $offset) {
                         id
                         codigo
@@ -18,17 +17,15 @@ export const disciplinasPorUsuario = (usuarioID:number) =>
                         }
                     }
                 }`,
-        "variables": {
-        "usuarioID": usuarioID
-        }
+    variables: {
+      usuarioID: usuarioID
     }
+  };
 };
 
-
-export const disciplinasPorDepartamento = (departamentoID:number) => 
-{
-   return {
-        "query": `query getDisciplinasPorDepartamento($departamentoID:ID!) {
+export const disciplinasPorDepartamento = (departamentoID: number) => {
+  return {
+    query: `query getDisciplinasPorDepartamento($departamentoID:ID!) {
             disciplinasPorDepartamento(departamentoID:$departamentoID) {
                 id
                 codigo
@@ -45,8 +42,8 @@ export const disciplinasPorDepartamento = (departamentoID:number) =>
                 }
             }
         }`,
-        "variables": {
-        "departamentoID": departamentoID
-        }
+    variables: {
+      departamentoID: departamentoID
     }
+  };
 };

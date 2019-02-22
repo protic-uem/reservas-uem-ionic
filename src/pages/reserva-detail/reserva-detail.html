@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar color="secondary" hideBackButton="true">
     <button *ngIf="page == 'create-reserva'" ion-button menuToggle>
-        <ion-icon item-start name="menu"></ion-icon>
-      </button>
+      <ion-icon item-start name="menu"></ion-icon>
+    </button>
     <ion-title><h5>SALA: Reservada</h5></ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,87 +12,99 @@
       Detalhes da Reserva
     </ion-card-header>
     <ion-card-content>
-        <ion-grid>
-          <div class="conteudo">
+      <ion-grid>
+        <div class="conteudo">
           <ion-row>
-            <ion-col >
+            <ion-col>
               <span class="text-details">
                 Solicitante:
               </span>
-                {{reserva.usuario.nome}}
+              {{reserva.usuario.nome}}
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="reserva.disciplina != null && reserva.disciplina.codigo != undefined">
-            <ion-col >
+          <ion-row
+            *ngIf="reserva.disciplina != null && reserva.disciplina.codigo != undefined"
+          >
+            <ion-col>
               <span class="text-details">
                 Disciplina:
               </span>
-                {{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}} <br />
-                 {{reserva.disciplina.nome}}
+              {{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}}
+              <br />
+              {{reserva.disciplina.nome}}
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col >
+            <ion-col>
               <span class="text-details">
                 Sala:
               </span>
-                {{reserva.sala.numero}}
+              {{reserva.sala.numero}}
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <span class="text-details">
-                  Departamento:
+                Departamento:
               </span>
-                  {{reserva.departamento.nome}}
-            </ion-col>
-          </ion-row>
-          <ion-row >
-            <ion-col>
-              <span class="text-details">
-                  Tipo de uso:
-              </span>
-                  {{reserva.tipo_uso}}
-            </ion-col>
-          </ion-row>
-          <ion-row >
-            <ion-col>
-              <span class="text-details">
-                  Tipo de reserva:
-              </span>
-                  {{reserva.tipo_reserva}}
+              {{reserva.departamento.nome}}
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <span class="text-details">
-                  Data reservada:
+                Tipo de uso:
               </span>
-                  {{reserva.data_reserva | date:'dd/MM/yyyy'}}
+              {{reserva.tipo_uso}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                Tipo de reserva:
+              </span>
+              {{reserva.tipo_reserva}}
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <span class="text-details">
+                Data reservada:
+              </span>
+              {{reserva.data_reserva | date:'dd/MM/yyyy'}}
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col text-left>
               <span class="text-details">
-                  Horário reservado:
+                Horário reservado:
               </span>
-                  <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
-                  <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
-                  <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
-                  <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
-                  <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
-                  <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
+              <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
+              <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
+              <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
+              <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
+              <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
+              <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
             </ion-col>
           </ion-row>
         </div>
         <div class="botoes">
-                <button *ngIf="reserva.usuario.id == login.id && reserva.status == 'Aceito'" ion-button block lg color="danger" (click)="confirmarCancelarReserva(reserva)">CANCELAR RESERVA</button>
-                <button ion-button block lg color="secondary" (click)="voltarTela()">
-                  <span *ngIf="page == 'create-reserva'">MINHAS RESERVAS</span>  
-                  <span *ngIf="page != 'create-reserva'">VOLTAR</span>
-                </button>
+          <button
+            *ngIf="reserva.usuario.id == login.id && reserva.status == 'Aceito'"
+            ion-button
+            block
+            lg
+            color="danger"
+            (click)="confirmarCancelarReserva(reserva)"
+          >
+            CANCELAR RESERVA
+          </button>
+          <button ion-button block lg color="secondary" (click)="voltarTela()">
+            <span *ngIf="page == 'create-reserva'">MINHAS RESERVAS</span>
+            <span *ngIf="page != 'create-reserva'">VOLTAR</span>
+          </button>
         </div>
-        </ion-grid>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

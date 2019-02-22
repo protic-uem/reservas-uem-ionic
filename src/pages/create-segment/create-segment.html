@@ -10,8 +10,7 @@
 </ion-header>
 
 <ion-content class="vertical-align-content">
-
-<!--  <div padding>
+  <!--  <div padding>
     <ion-segment [(ngModel)]="etapas" color="secondary" (ionChange)="segmentChanged(etapas)">
       <ion-segment-button value="etp1" disabled="true" hidden>
         Etapa 1
@@ -22,156 +21,228 @@
     </ion-segment>
   </div-->
 
-
-<div id="div_main"  [ngSwitch]="etapas">
-  <div id="div_etp1" *ngSwitchCase="'etp1'" >
-    <ion-card >
-      <ion-card-content >
-      <ion-list >
-        <ion-item *ngIf="login.privilegio == 'Secretário'" >
-          <ion-icon item-start name="person" class="icones"></ion-icon>
-          <ion-label>Solicitante</ion-label>
-        </ion-item>
-        <ion-item *ngIf="login.privilegio == 'Secretário'">
-          <ion-select  [selectOptions] ="{
+  <div id="div_main" [ngSwitch]="etapas">
+    <div id="div_etp1" *ngSwitchCase="'etp1'">
+      <ion-card>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngIf="login.privilegio == 'Secretário'">
+              <ion-icon item-start name="person" class="icones"></ion-icon>
+              <ion-label>Solicitante</ion-label>
+            </ion-item>
+            <ion-item *ngIf="login.privilegio == 'Secretário'">
+              <ion-select
+                [selectOptions]="{
             subTitle: 'Selecione um solicitante',
              mode: 'md'}"
-             okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "usuarioSelecionado"
-             (ionChange)="usuarioChange(usuarioSelecionado)" placeholder="selecione"
-             >
-              <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
-                {{usuario.nome}}
-              </ion-option>
-          </ion-select>
-        </ion-item>
-        <hr *ngIf="login.privilegio == 'Secretário'"/>
-        <ion-item >
-          <ion-icon item-start name="calendar" class="icones"></ion-icon>
-          <ion-label >Data</ion-label>
-        </ion-item>
-        <ion-item (click)="openCalendar()" >
-          <ion-label  text-right >{{showDate}}</ion-label>
-          <ion-icon item-end name="md-arrow-dropdown"></ion-icon>
-        </ion-item>
-        <hr />
-        <ion-item >
-          <ion-icon item-start name="clock" class="icones"></ion-icon>  <ion-label>Período</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-select  [selectOptions] ="{
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="usuarioSelecionado"
+                (ionChange)="usuarioChange(usuarioSelecionado)"
+                placeholder="selecione"
+              >
+                <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
+                  {{usuario.nome}}
+                </ion-option>
+              </ion-select>
+            </ion-item>
+            <hr *ngIf="login.privilegio == 'Secretário'" />
+            <ion-item>
+              <ion-icon item-start name="calendar" class="icones"></ion-icon>
+              <ion-label>Data</ion-label>
+            </ion-item>
+            <ion-item (click)="openCalendar()">
+              <ion-label text-right>{{showDate}}</ion-label>
+              <ion-icon item-end name="md-arrow-dropdown"></ion-icon>
+            </ion-item>
+            <hr />
+            <ion-item>
+              <ion-icon item-start name="clock" class="icones"></ion-icon>
+              <ion-label>Período</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-select
+                [selectOptions]="{
             title: ' ',
             subTitle: 'Selecione um periodo',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.periodo"
-             width="40%" (ionChange)="periodoChange($event)"
-             placeholder="selecione">
-            <ion-option value="1" >{{periodo.um}}</ion-option>
-            <ion-option value="2">{{periodo.dois}}</ion-option>
-            <ion-option value="3">{{periodo.tres}}</ion-option>
-            <ion-option value="4">{{periodo.quatro}}</ion-option>
-            <ion-option value="7">{{periodo.sete}}</ion-option>
-            <ion-option value="5">{{periodo.cinco}}</ion-option>
-            <ion-option value="6">{{periodo.seis}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <hr />
-        <ion-item>
-          <ion-icon item-start name="pricetag" class="icones"></ion-icon> <ion-label>Tipo de uso</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-select [selectOptions] ="{
+             mode: 'md'}"
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="reserva.periodo"
+                width="40%"
+                (ionChange)="periodoChange($event)"
+                placeholder="selecione"
+              >
+                <ion-option value="1">{{periodo.um}}</ion-option>
+                <ion-option value="2">{{periodo.dois}}</ion-option>
+                <ion-option value="3">{{periodo.tres}}</ion-option>
+                <ion-option value="4">{{periodo.quatro}}</ion-option>
+                <ion-option value="7">{{periodo.sete}}</ion-option>
+                <ion-option value="5">{{periodo.cinco}}</ion-option>
+                <ion-option value="6">{{periodo.seis}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <hr />
+            <ion-item>
+              <ion-icon item-start name="pricetag" class="icones"></ion-icon>
+              <ion-label>Tipo de uso</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-select
+                [selectOptions]="{
             subTitle: 'Selecione um tipo de uso',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_uso"
-             (ionChange)="changeUso($event)" 
-             placeholder="selecione"
-             [disabled]="(reserva.periodo == dataSelecionada && reserva.periodo <= periodoCorrente) || reserva.periodo == undefined">
-            <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Prática</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'" >Teórica</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Mestrado</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Especialização</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Defesa</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Minicurso</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Reunião</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
-      </ion-card-content>
-    </ion-card>
-    <ion-row class="botoes" justify-content-center>
-      <ion-col col-3 justify-content-end>
-        <button ion-button block class="btnCancelar" (click)="reservaCanceled()" color="danger">
-          <ion-icon name="ios-arrow-back"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col col-9>
-        <button ion-button block class="btnReserva" (click)="avancarCreate()" >Continuar</button>
-      </ion-col>
-    </ion-row>  
+             mode: 'md'}"
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="reserva.tipo_uso"
+                (ionChange)="changeUso($event)"
+                placeholder="selecione"
+                [disabled]="(reserva.periodo == dataSelecionada && reserva.periodo <= periodoCorrente) || reserva.periodo == undefined"
+              >
+                <ion-option
+                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  >Prática</ion-option
+                >
+                <ion-option
+                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  >Teórica</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Mestrado</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Especialização</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Defesa</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Minicurso</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Reunião</ion-option
+                >
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-row class="botoes" justify-content-center>
+        <ion-col col-3 justify-content-end>
+          <button
+            ion-button
+            block
+            class="btnCancelar"
+            (click)="reservaCanceled()"
+            color="danger"
+          >
+            <ion-icon name="ios-arrow-back"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-9>
+          <button ion-button block class="btnReserva" (click)="avancarCreate()">
+            Continuar
+          </button>
+        </ion-col>
+      </ion-row>
     </div>
 
-
-
-  <div id="div_etp2" *ngSwitchCase="'etp2'">
-    <ion-card>
-      <ion-card-content>
-      <ion-list>
-        <ion-item >
-          <ion-icon item-start name="key" class="icones"></ion-icon>
-          <ion-label>Sala</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-select [selectOptions] ="{
+    <div id="div_etp2" *ngSwitchCase="'etp2'">
+      <ion-card>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-icon item-start name="key" class="icones"></ion-icon>
+              <ion-label>Sala</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-select
+                [selectOptions]="{
             subTitle: 'Selecione uma sala',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "salaSelecionada"
-             (ionChange)="changeSala($event)"
-             placeholder="selecione">
-          <ion-option *ngFor="let sala of salas" [value]="sala">{{sala.numero}}</ion-option>
-          </ion-select>
-        </ion-item>
-          <hr />
-        <ion-item >
-          <ion-icon item-start name="book" class="icones"></ion-icon>
-          <ion-label>Disciplina</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-select  [selectOptions] ="{
+             mode: 'md'}"
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="salaSelecionada"
+                (ionChange)="changeSala($event)"
+                placeholder="selecione"
+              >
+                <ion-option *ngFor="let sala of salas" [value]="sala"
+                  >{{sala.numero}}</ion-option
+                >
+              </ion-select>
+            </ion-item>
+            <hr />
+            <ion-item>
+              <ion-icon item-start name="book" class="icones"></ion-icon>
+              <ion-label>Disciplina</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-select
+                [selectOptions]="{
             subTitle: 'Selecione uma disciplina',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "disciplinaSelecionada"
-            [disabled]="disciplinas == undefined || disciplinas.length == 0"
-            placeholder="selecione">
-            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina">
-              {{disciplina.codigo}}-{{disciplina.turma}}
-              {{disciplina.nome}}
-            </ion-option>
-          </ion-select>
-        </ion-item>
-          <hr  *ngIf="login.privilegio == 'Secretário'"/>
-        <ion-item *ngIf="login.privilegio == 'Secretário'" [ngClass]="classe">
-          <ion-icon item-start name="list-box" class="icones"></ion-icon>
-          <ion-label>Tipo de reserva</ion-label>
-        </ion-item>
-        <ion-item *ngIf="login.privilegio == 'Secretário'">
-          <ion-select  [selectOptions] ="{
+             mode: 'md'}"
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="disciplinaSelecionada"
+                [disabled]="disciplinas == undefined || disciplinas.length == 0"
+                placeholder="selecione"
+              >
+                <ion-option
+                  *ngFor="let disciplina of disciplinas"
+                  [value]="disciplina"
+                >
+                  {{disciplina.codigo}}-{{disciplina.turma}} {{disciplina.nome}}
+                </ion-option>
+              </ion-select>
+            </ion-item>
+            <hr *ngIf="login.privilegio == 'Secretário'" />
+            <ion-item
+              *ngIf="login.privilegio == 'Secretário'"
+              [ngClass]="classe"
+            >
+              <ion-icon item-start name="list-box" class="icones"></ion-icon>
+              <ion-label>Tipo de reserva</ion-label>
+            </ion-item>
+            <ion-item *ngIf="login.privilegio == 'Secretário'">
+              <ion-select
+                [selectOptions]="{
             subTitle: 'Selecione um tipo de reserva',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "reserva.tipo_reserva"
-            placeholder="selecione">
-            <ion-option *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'">Eventual</ion-option>
-            <ion-option *ngIf="login.privilegio == 'Secretário'">Fixo</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-    </ion-card>
-    <ion-row class="botoes" justify-content-center>
-      <ion-col col-3 justify-content-end>
-        <button ion-button block class="btnCancelar" (click)="prevCreate()" color="danger">
-          <ion-icon name="ios-arrow-back"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col col-9>
-        <button ion-button block class="btnReserva" (click)="reservaCreate()" >Reservar</button>
-      </ion-col>
-    </ion-row>
+             mode: 'md'}"
+                okText="Selecionar"
+                cancelText="Cancelar"
+                [(ngModel)]="reserva.tipo_reserva"
+                placeholder="selecione"
+              >
+                <ion-option
+                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  >Eventual</ion-option
+                >
+                <ion-option *ngIf="login.privilegio == 'Secretário'"
+                  >Fixo</ion-option
+                >
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-row class="botoes" justify-content-center>
+        <ion-col col-3 justify-content-end>
+          <button
+            ion-button
+            block
+            class="btnCancelar"
+            (click)="prevCreate()"
+            color="danger"
+          >
+            <ion-icon name="ios-arrow-back"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-9>
+          <button ion-button block class="btnReserva" (click)="reservaCreate()">
+            Reservar
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
   </div>
-</div>
-
 </ion-content>

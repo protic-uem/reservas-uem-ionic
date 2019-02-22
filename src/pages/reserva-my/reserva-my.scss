@@ -1,8 +1,7 @@
 page-reserva-my {
-
-  ion-content{
-      background-image: $fundo;
-      display: flex;
+  ion-content {
+    background-image: $fundo;
+    display: flex;
   }
 
   .scroll-content {
@@ -11,46 +10,42 @@ page-reserva-my {
     flex-direction: column;
   }
 
-
-  ion-card{
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+  ion-card {
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
     flex-grow: 0;
     //border-style: ridge;
   }
 
-  ion-select{
+  ion-select {
     flex-grow: 0;
-    width: 100%!important;
-    max-width: 100%!important;
+    width: 100% !important;
+    max-width: 100% !important;
     text-align: right;
   }
 
-  ion-row{
+  ion-row {
     flex-grow: 1;
     justify-content: flex-end;
     align-items: flex-end;
   }
 
-  .resultReservas{
+  .resultReservas {
     flex-grow: 1;
   }
 
   .refresh {
-       font-size: 25px; //Preferred size here
-    }
-
-
-  .centralizarVerticalmente{
-      display: flex!important;
-      align-content: center!important;
-      align-items: center!important;
-
+    font-size: 25px; //Preferred size here
   }
 
-  .transp{
-      background-color: transparent !important;
-      //color: #fff;
+  .centralizarVerticalmente {
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
   }
 
+  .transp {
+    background-color: transparent !important;
+    //color: #fff;
+  }
 }

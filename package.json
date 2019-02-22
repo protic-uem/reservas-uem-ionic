@@ -8,7 +8,8 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "format": "prettier --write src/**/*.{ts,scss,html}"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -48,6 +49,7 @@
     "@ionic/app-scripts": "3.2.1",
     "@ionic/lab": "1.0.11",
     "@types/core-js": "^0.9.36",
+    "prettier": "^1.16.4",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",

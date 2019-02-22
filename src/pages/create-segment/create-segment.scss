@@ -1,6 +1,5 @@
 page-create-segment {
-
-  ion-content{
+  ion-content {
     background-image: $fundo;
     display: flex;
   }
@@ -10,34 +9,32 @@ page-create-segment {
     flex-direction: column;
   }
 
-  .icones{
+  .icones {
     font-size: 35px;
   }
 
-  ion-item{
-    width: 100%!important;
+  ion-item {
+    width: 100% !important;
     background-color: transparent !important;
     flex-grow: 0;
     max-height: 40px;
   }
 
-
-  ion-card{
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+  ion-card {
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
     opacity: 0.9;
     flex-grow: 0;
   }
 
-  ion-card-content{
+  ion-card-content {
     //height: calc(50% - 54px)!important;
     flex-grow: 0;
   }
 
-
-  #div_main{
+  #div_main {
     display: flex;
-    width: 100%!important;
+    width: 100% !important;
     height: 100%;
   }
 
@@ -49,7 +46,7 @@ page-create-segment {
     max-width: 100%;
   }
 
-  #div_etp2{
+  #div_etp2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -59,22 +56,19 @@ page-create-segment {
 
   ion-select {
     flex-grow: 0;
-    width: 100%!important;
-    max-width: 100%!important;
+    width: 100% !important;
+    max-width: 100% !important;
     text-align: right;
   }
 
-
-
-
   //BOTÕES
   .btnReserva {
-      width: 100%;
-      background-color: #28a745;
+    width: 100%;
+    background-color: #28a745;
   }
 
-  .btnCancelar{
-        width: 100%;
+  .btnCancelar {
+    width: 100%;
   }
 
   .botoes {
@@ -84,9 +78,7 @@ page-create-segment {
     right: 0;
   }
 
-  .transp{
-      background-color: transparent !important;
+  .transp {
+    background-color: transparent !important;
   }
-
-
 }

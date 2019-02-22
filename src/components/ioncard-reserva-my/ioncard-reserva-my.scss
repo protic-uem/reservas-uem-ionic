@@ -1,49 +1,44 @@
 ioncard-reserva-my {
-
   .aceito {
     background-color: #32db64; // black
   }
-  .rejeitado{
+  .rejeitado {
     background-color: red;
   }
-  .pendente{
+  .pendente {
     background-color: yellow;
   }
 
-  .cancelado{
+  .cancelado {
     background-color: orange;
   }
 
-  .icon-sucess{
-    color:green;
+  .icon-sucess {
+    color: green;
   }
-  .icon-fail{
-    color:red;
+  .icon-fail {
+    color: red;
   }
-  .text-negrito{
-    font-weight: bold;
-
-  }
-  .titulo_sala{
-    font-size: 20px!important;
+  .text-negrito {
     font-weight: bold;
   }
-  .disciplina{
-
+  .titulo_sala {
+    font-size: 20px !important;
+    font-weight: bold;
   }
-  .dept{
-    font-size: 20px!important;
+  .disciplina {
+  }
+  .dept {
+    font-size: 20px !important;
     font-weight: bold;
   }
 
-  .linha_status{
+  .linha_status {
     width: 100%;
     border-radius: 5px;
-    height: 1px!important;
+    height: 1px !important;
   }
-  .col_status{
+  .col_status {
     border-radius: 5px;
   }
-
-
 }

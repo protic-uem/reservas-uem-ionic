@@ -1,45 +1,57 @@
-        <ion-card class="border-card"
-          >
-                        <ion-grid>
-                          <ion-row>
-                            <ion-col text-left>
-                              <span class="titulo_sala">Sala {{reserva.sala.numero}}</span><br />
-                              <span *ngIf="reserva.disciplina != undefined">{{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}}</span>
-                            </ion-col>
-                            <ion-col  text-right>
-                                      <span *ngIf="reserva.tipo_reserva == 'Fixo'" class="titulo_sala">{{reserva.tipo_reserva}}</span>
-                            </ion-col>
-                          </ion-row>
-                          <ion-row>
-                            <ion-col  text-left>
-                                   {{reserva.data_reserva | date:'dd/MM/yyyy'}}
-                                   <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
-                                   <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
-                                   <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
-                                   <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
-                                   <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
-                                   <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
-                            </ion-col>
-                          </ion-row>
-                          <ion-row>
-                            <ion-col  text-center>
-                                    <button ion-button block color="secondary" small (click)="openReserva($event, reserva)" outline>
-                                         Detalhes/Cancelar
-                                    </button>
-                                    <!--<span *ngIf="reserva.status === 0">PENDENTE</span>
+<ion-card class="border-card">
+  <ion-grid>
+    <ion-row>
+      <ion-col text-left>
+        <span class="titulo_sala">Sala {{reserva.sala.numero}}</span><br />
+        <span *ngIf="reserva.disciplina != undefined"
+          >{{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}}</span
+        >
+      </ion-col>
+      <ion-col text-right>
+        <span *ngIf="reserva.tipo_reserva == 'Fixo'" class="titulo_sala"
+          >{{reserva.tipo_reserva}}</span
+        >
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-left>
+        {{reserva.data_reserva | date:'dd/MM/yyyy'}}
+        <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
+        <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
+        <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
+        <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
+        <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
+        <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <button
+          ion-button
+          block
+          color="secondary"
+          small
+          (click)="openReserva($event, reserva)"
+          outline
+        >
+          Detalhes/Cancelar
+        </button>
+        <!--<span *ngIf="reserva.status === 0">PENDENTE</span>
                                     <span *ngIf="reserva.status === 1">ACEITO</span>
                                     <span *ngIf="reserva.status === 2">REJEITADO</span>
                                     <span *ngIf="reserva.status === 3">CANCELADO</span>-->
-                            </ion-col>
-                          </ion-row>
-                          <ion-row class="linha_status">
-                                  <ion-col class="col_status" col-12 [ngClass]="{'rejeitado': reserva.status == 'Rejeitado',
+      </ion-col>
+    </ion-row>
+    <ion-row class="linha_status">
+      <ion-col
+        class="col_status"
+        col-12
+        [ngClass]="{'rejeitado': reserva.status == 'Rejeitado',
                                                   'aceito': reserva.status == 'Aceito',
                                                   'cancelado': reserva.status == 'Cancelado',
                                                   'pendente': reserva.status == 'Pendente'}"
-                                                  >
-                                  </ion-col>
-
-                          </ion-row>
-                        </ion-grid>
-        </ion-card>
+      >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

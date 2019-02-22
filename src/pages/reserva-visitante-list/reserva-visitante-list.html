@@ -1,4 +1,4 @@
-<ion-header >
+<ion-header>
   <ion-navbar color="secondary" justify-content-center>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -9,35 +9,59 @@
 
 <ion-content>
   <ion-card class="areaBusca">
-      <ion-list>
-        <ion-item>
-          <ion-icon item-start name="book"></ion-icon>
-          <ion-select item-end [selectOptions] ="{
+    <ion-list>
+      <ion-item>
+        <ion-icon item-start name="book"></ion-icon>
+        <ion-select
+          item-end
+          [selectOptions]="{
             subTitle: 'Selecione uma disciplina',
-             mode: 'md'}" okText="Selecionar" cancelText="Cancelar" (ionChange)="changeDisciplina($event)"
-             placeholder="Disciplina">
-            <ion-option *ngFor="let disciplina of disciplinas" [value]="disciplina.id">
-              {{disciplina.codigo}}-{{disciplina.turma}}
-              {{disciplina.nome}}
-            </ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
+             mode: 'md'}"
+          okText="Selecionar"
+          cancelText="Cancelar"
+          (ionChange)="changeDisciplina($event)"
+          placeholder="Disciplina"
+        >
+          <ion-option
+            *ngFor="let disciplina of disciplinas"
+            [value]="disciplina.id"
+          >
+            {{disciplina.codigo}}-{{disciplina.turma}} {{disciplina.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
   </ion-card>
   <hr />
-  <ion-row  justify-content-center style="height:100%!important;" *ngIf="(disciplinaSelecionada == undefined) || reservasNaoEncontrada">
-    <span *ngIf="disciplinaSelecionada == undefined" class="centralizarVerticalmente"> Por favor, preencha os campos de pesquisa</span>
+  <ion-row
+    justify-content-center
+    style="height:100%!important;"
+    *ngIf="(disciplinaSelecionada == undefined) || reservasNaoEncontrada"
+  >
+    <span
+      *ngIf="disciplinaSelecionada == undefined"
+      class="centralizarVerticalmente"
+    >
+      Por favor, preencha os campos de pesquisa</span
+    >
     <span *ngIf="reservasNaoEncontrada" class="centralizarVerticalmente">
-                Nenhuma reserva encontrada com esses parâmetros.
+      Nenhuma reserva encontrada com esses parâmetros.
     </span>
   </ion-row>
 
-  <ion-scroll #listaReservas  class="resultReservas" scrollY="true"
-      *ngIf="reservas != null && reservas.length != 0">
+  <ion-scroll
+    #listaReservas
+    class="resultReservas"
+    scrollY="true"
+    *ngIf="reservas != null && reservas.length != 0"
+  >
     <ion-list class="transp">
       <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
-        <ion-item class="transp"> 
-          <ioncard-reserva [reserva]="reserva" page="visitante"></ioncard-reserva>
+        <ion-item class="transp">
+          <ioncard-reserva
+            [reserva]="reserva"
+            page="visitante"
+          ></ioncard-reserva>
         </ion-item>
       </ion-item-sliding>
     </ion-list>

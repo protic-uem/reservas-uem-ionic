@@ -1,50 +1,65 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="secondary" hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-        <h5>SALAS: Minhas Reservas</h5>
-      </ion-title>
+      <h5>SALAS: Minhas Reservas</h5>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-bounce>
   <ion-card class="areaBusca" *ngIf="login.privilegio == 'Secretário'">
-      <ion-list>
-        <ion-item>
-          <ion-icon item-start name="person" class="icones"></ion-icon>
-          <ion-select  [selectOptions] ="{
+    <ion-list>
+      <ion-item>
+        <ion-icon item-start name="person" class="icones"></ion-icon>
+        <ion-select
+          [selectOptions]="{
             subTitle: 'Selecione um solicitante',
              mode: 'md'}"
-             okText="Selecionar" cancelText="Cancelar" [(ngModel)] = "usuarioSelecionado"
-             (ionChange)="usuarioChange(usuarioSelecionado)" placeholder="Solicitante"
-             >
-              <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
-                {{usuario.nome}}
-              </ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
+          okText="Selecionar"
+          cancelText="Cancelar"
+          [(ngModel)]="usuarioSelecionado"
+          (ionChange)="usuarioChange(usuarioSelecionado)"
+          placeholder="Solicitante"
+        >
+          <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
+            {{usuario.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
   </ion-card>
-  <ion-row  justify-content-center  
-    *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'">
-    <div *ngIf="reservasNaoEncontrada == undefined" class="centralizarVerticalmente">
-      <ion-spinner ></ion-spinner>
+  <ion-row
+    justify-content-center
+    *ngIf="reservasNaoEncontrada == undefined || reservasNaoEncontrada == 'naoEncontrada'"
+  >
+    <div
+      *ngIf="reservasNaoEncontrada == undefined"
+      class="centralizarVerticalmente"
+    >
+      <ion-spinner></ion-spinner>
     </div>
-    <span *ngIf="reservasNaoEncontrada == 'naoEncontrada'" class="centralizarVerticalmente">
-                Nenhuma reserva encontrada.
+    <span
+      *ngIf="reservasNaoEncontrada == 'naoEncontrada'"
+      class="centralizarVerticalmente"
+    >
+      Nenhuma reserva encontrada.
     </span>
   </ion-row>
 
-  <ion-scroll  #listaReservas  class="resultReservas" scrollY="true">
-    <ion-list >
+  <ion-scroll #listaReservas class="resultReservas" scrollY="true">
+    <ion-list>
       <ion-item-sliding *ngFor="let reserva of reservas" class="transp">
         <ion-item class="transp">
-          <ioncard-reserva-my [reserva]="reserva" [login]="login"></ioncard-reserva-my>
+          <ioncard-reserva-my
+            [reserva]="reserva"
+            [login]="login"
+          ></ioncard-reserva-my>
         </ion-item>
       </ion-item-sliding>
     </ion-list>
   </ion-scroll>
-    <custom-fab [login]="login" style="position:static;"></custom-fab>
+  <custom-fab [login]="login" style="position:static;"></custom-fab>
 </ion-content>

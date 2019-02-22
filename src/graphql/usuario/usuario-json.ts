@@ -1,7 +1,6 @@
-export const getUsuarioPorId = (id:number) => 
-{
-   return {
-        "query": `query getUsuarioPorId($id: ID!) {
+export const getUsuarioPorId = (id: number) => {
+  return {
+    query: `query getUsuarioPorId($id: ID!) {
                         usuario(id: $id) {
                             id
                             nome
@@ -18,16 +17,15 @@ export const getUsuarioPorId = (id:number) =>
                             }
                         }
                     }`,
-        "variables": {
-        "id": id
-        }
+    variables: {
+      id: id
     }
+  };
 };
 
-export const getUsuariosPorDepartamento = (departamentoID:number) => 
-{
-   return {
-        "query": `query getUsuariosPorDepartamento($departamentoID: ID!) {
+export const getUsuariosPorDepartamento = (departamentoID: number) => {
+  return {
+    query: `query getUsuariosPorDepartamento($departamentoID: ID!) {
             usuariosPorDepartamento(departamentoID: $departamentoID) {
                             id
                             nome
@@ -44,15 +42,15 @@ export const getUsuariosPorDepartamento = (departamentoID:number) =>
                             }
                         }
                     }`,
-        "variables": {
-        "departamentoID": departamentoID
-        }
+    variables: {
+      departamentoID: departamentoID
     }
+  };
 };
 
 export const getCurrentUsuario = () => {
-    return {
-        "query": `query getCurrentUsuario {
+  return {
+    query: `query getCurrentUsuario {
                         currentUsuario {
                             id
                             nome
@@ -69,6 +67,5 @@ export const getCurrentUsuario = () => {
                             }
                         }
                     }`
-    }
+  };
 };
-

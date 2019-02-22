@@ -1,13 +1,11 @@
 page-esqueceu-senha {
-
-  ion-content{
+  ion-content {
     //background-color: color($colors, fundo)!important;
     background-image: $fundo;
   }
 
-  ion-card{
-    border-radius: 10px!important;
-    box-shadow: 0 0 25px rgba(0,0,0,.04)!important;
+  ion-card {
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
   }
-
 }

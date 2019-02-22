@@ -1,24 +1,16 @@
-import { Injectable } from '@angular/core';
-
-
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class TimeoutPromise {
+  promiseTimeout(ms, promise) {
+    let timeout = new Promise((resolve, reject) => {
+      let id = setTimeout(() => {
+        clearTimeout(id);
+        reject("Tempo de requisição esgotado");
+      }, ms);
+    });
 
-  promiseTimeout(ms, promise){
-
-      let timeout = new Promise((resolve, reject) => {
-         let id = setTimeout(() => {
-           clearTimeout(id);
-          reject('Tempo de requisição esgotado');
-        }, ms)
-        });
-
-      // Returns a race between our timeout and the passed in promise
-      return Promise.race([
-        promise,
-        timeout
-      ]);
+    // Returns a race between our timeout and the passed in promise
+    return Promise.race([promise, timeout]);
   }
-
 }
