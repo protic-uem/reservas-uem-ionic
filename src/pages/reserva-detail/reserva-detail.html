@@ -19,19 +19,22 @@
               <span class="text-details">
                 Solicitante:
               </span>
-              {{reserva.usuario.nome}}
+              {{ reserva.usuario.nome }}
             </ion-col>
           </ion-row>
           <ion-row
-            *ngIf="reserva.disciplina != null && reserva.disciplina.codigo != undefined"
+            *ngIf="
+              reserva.disciplina != null &&
+              reserva.disciplina.codigo != undefined
+            "
           >
             <ion-col>
               <span class="text-details">
                 Disciplina:
               </span>
-              {{reserva.disciplina.codigo}} - {{reserva.disciplina.turma}}
+              {{ reserva.disciplina.codigo }} - {{ reserva.disciplina.turma }}
               <br />
-              {{reserva.disciplina.nome}}
+              {{ reserva.disciplina.nome }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -39,7 +42,7 @@
               <span class="text-details">
                 Sala:
               </span>
-              {{reserva.sala.numero}}
+              {{ reserva.sala.numero }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -47,7 +50,7 @@
               <span class="text-details">
                 Departamento:
               </span>
-              {{reserva.departamento.nome}}
+              {{ reserva.departamento.nome }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -55,7 +58,7 @@
               <span class="text-details">
                 Tipo de uso:
               </span>
-              {{reserva.tipo_uso}}
+              {{ reserva.tipo_uso }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -63,7 +66,7 @@
               <span class="text-details">
                 Tipo de reserva:
               </span>
-              {{reserva.tipo_reserva}}
+              {{ reserva.tipo_reserva }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -71,7 +74,7 @@
               <span class="text-details">
                 Data reservada:
               </span>
-              {{reserva.data_reserva | date:'dd/MM/yyyy'}}
+              {{ reserva.data_reserva | date: "dd/MM/yyyy" }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -79,12 +82,13 @@
               <span class="text-details">
                 Horário reservado:
               </span>
-              <span *ngIf="reserva.periodo == 1">{{periodo.um}}</span>
-              <span *ngIf="reserva.periodo == 2">{{periodo.dois}}</span>
-              <span *ngIf="reserva.periodo == 3">{{periodo.tres}}</span>
-              <span *ngIf="reserva.periodo == 4">{{periodo.quatro}}</span>
-              <span *ngIf="reserva.periodo == 5">{{periodo.cinco}}</span>
-              <span *ngIf="reserva.periodo == 6">{{periodo.seis}}</span>
+              <span *ngIf="reserva.periodo == 1">{{ periodo.um }}</span>
+              <span *ngIf="reserva.periodo == 2">{{ periodo.dois }}</span>
+              <span *ngIf="reserva.periodo == 3">{{ periodo.tres }}</span>
+              <span *ngIf="reserva.periodo == 4">{{ periodo.quatro }}</span>
+              <span *ngIf="reserva.periodo == 5">{{ periodo.cinco }}</span>
+              <span *ngIf="reserva.periodo == 6">{{ periodo.seis }}</span>
+              <span *ngIf="reserva.periodo == 7">{{ periodo.sete }}</span>
             </ion-col>
           </ion-row>
         </div>

@@ -18,9 +18,9 @@ export class Periodo {
   dois: string = "9:40-12:10";
   tres: string = "13:30-15:10";
   quatro: string = "15:20-17:50";
-  cinco: string = "19:30-21:10";
-  seis: string = "21:20-23:00";
-  sete: string = "17:50-19:30";
+  cinco: string = "17:50-19:30";
+  seis: string = "19:30-21:10";
+  sete: string = "21:20-23:00";
 
   retornarPeriodo(periodo: number): string {
     if (periodo == 1) return this.um;

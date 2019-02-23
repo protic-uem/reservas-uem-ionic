@@ -25,6 +25,7 @@ page-create-segment {
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
     opacity: 0.9;
     flex-grow: 0;
+    overflow: visible !important;
   }
 
   ion-card-content {
