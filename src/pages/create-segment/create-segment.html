@@ -33,8 +33,9 @@
             <ion-item *ngIf="login.privilegio == 'Secretário'">
               <ion-select
                 [selectOptions]="{
-            subTitle: 'Selecione um solicitante',
-             mode: 'md'}"
+                  subTitle: 'Selecione um solicitante',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="usuarioSelecionado"
@@ -42,7 +43,7 @@
                 placeholder="selecione"
               >
                 <ion-option *ngFor="let usuario of usuarios" [value]="usuario">
-                  {{usuario.nome}}
+                  {{ usuario.nome }}
                 </ion-option>
               </ion-select>
             </ion-item>
@@ -52,7 +53,7 @@
               <ion-label>Data</ion-label>
             </ion-item>
             <ion-item (click)="openCalendar()">
-              <ion-label text-right>{{showDate}}</ion-label>
+              <ion-label text-right>{{ showDate }}</ion-label>
               <ion-icon item-end name="md-arrow-dropdown"></ion-icon>
             </ion-item>
             <hr />
@@ -63,9 +64,10 @@
             <ion-item>
               <ion-select
                 [selectOptions]="{
-            title: ' ',
-            subTitle: 'Selecione um periodo',
-             mode: 'md'}"
+                  title: ' ',
+                  subTitle: 'Selecione um periodo',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="reserva.periodo"
@@ -73,13 +75,13 @@
                 (ionChange)="periodoChange($event)"
                 placeholder="selecione"
               >
-                <ion-option value="1">{{periodo.um}}</ion-option>
-                <ion-option value="2">{{periodo.dois}}</ion-option>
-                <ion-option value="3">{{periodo.tres}}</ion-option>
-                <ion-option value="4">{{periodo.quatro}}</ion-option>
-                <ion-option value="7">{{periodo.sete}}</ion-option>
-                <ion-option value="5">{{periodo.cinco}}</ion-option>
-                <ion-option value="6">{{periodo.seis}}</ion-option>
+                <ion-option value="1">{{ periodo.um }}</ion-option>
+                <ion-option value="2">{{ periodo.dois }}</ion-option>
+                <ion-option value="3">{{ periodo.tres }}</ion-option>
+                <ion-option value="4">{{ periodo.quatro }}</ion-option>
+                <ion-option value="5">{{ periodo.cinco }}</ion-option>
+                <ion-option value="6">{{ periodo.seis }}</ion-option>
+                <ion-option value="7">{{ periodo.sete }}</ion-option>
               </ion-select>
             </ion-item>
             <hr />
@@ -90,21 +92,32 @@
             <ion-item>
               <ion-select
                 [selectOptions]="{
-            subTitle: 'Selecione um tipo de uso',
-             mode: 'md'}"
+                  subTitle: 'Selecione um tipo de uso',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="reserva.tipo_uso"
                 (ionChange)="changeUso($event)"
                 placeholder="selecione"
-                [disabled]="(reserva.periodo == dataSelecionada && reserva.periodo <= periodoCorrente) || reserva.periodo == undefined"
+                [disabled]="
+                  (reserva.periodo == dataSelecionada &&
+                    reserva.periodo <= periodoCorrente) ||
+                  reserva.periodo == undefined
+                "
               >
                 <ion-option
-                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  *ngIf="
+                    login.privilegio == 'Docente' ||
+                    login.privilegio == 'Secretário'
+                  "
                   >Prática</ion-option
                 >
                 <ion-option
-                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  *ngIf="
+                    login.privilegio == 'Docente' ||
+                    login.privilegio == 'Secretário'
+                  "
                   >Teórica</ion-option
                 >
                 <ion-option *ngIf="login.privilegio == 'Secretário'"
@@ -158,17 +171,18 @@
             <ion-item>
               <ion-select
                 [selectOptions]="{
-            subTitle: 'Selecione uma sala',
-             mode: 'md'}"
+                  subTitle: 'Selecione uma sala',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="salaSelecionada"
                 (ionChange)="changeSala($event)"
                 placeholder="selecione"
               >
-                <ion-option *ngFor="let sala of salas" [value]="sala"
-                  >{{sala.numero}}</ion-option
-                >
+                <ion-option *ngFor="let sala of salas" [value]="sala">{{
+                  sala.numero
+                }}</ion-option>
               </ion-select>
             </ion-item>
             <hr />
@@ -179,8 +193,9 @@
             <ion-item>
               <ion-select
                 [selectOptions]="{
-            subTitle: 'Selecione uma disciplina',
-             mode: 'md'}"
+                  subTitle: 'Selecione uma disciplina',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="disciplinaSelecionada"
@@ -191,7 +206,8 @@
                   *ngFor="let disciplina of disciplinas"
                   [value]="disciplina"
                 >
-                  {{disciplina.codigo}}-{{disciplina.turma}} {{disciplina.nome}}
+                  {{ disciplina.codigo }}-{{ disciplina.turma }}
+                  {{ disciplina.nome }}
                 </ion-option>
               </ion-select>
             </ion-item>
@@ -206,15 +222,19 @@
             <ion-item *ngIf="login.privilegio == 'Secretário'">
               <ion-select
                 [selectOptions]="{
-            subTitle: 'Selecione um tipo de reserva',
-             mode: 'md'}"
+                  subTitle: 'Selecione um tipo de reserva',
+                  mode: 'md'
+                }"
                 okText="Selecionar"
                 cancelText="Cancelar"
                 [(ngModel)]="reserva.tipo_reserva"
                 placeholder="selecione"
               >
                 <ion-option
-                  *ngIf="login.privilegio == 'Docente' || login.privilegio == 'Secretário'"
+                  *ngIf="
+                    login.privilegio == 'Docente' ||
+                    login.privilegio == 'Secretário'
+                  "
                   >Eventual</ion-option
                 >
                 <ion-option *ngIf="login.privilegio == 'Secretário'"
