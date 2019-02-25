@@ -150,11 +150,12 @@ export class CreateSegmentPage {
         this.periodoCorrente = 0;
       else if (minutoCorrente < 580) this.periodoCorrente = 1;
       else if (minutoCorrente < 810) this.periodoCorrente = 2;
-      else if (minutoCorrente < 930) this.periodoCorrente = 3;
-      else if (minutoCorrente < 1170) this.periodoCorrente = 4;
+      else if (minutoCorrente < 920) this.periodoCorrente = 3;
+      else if (minutoCorrente < 1070) this.periodoCorrente = 4;
+      else if (minutoCorrente < 1170) this.periodoCorrente = 5;
       else if (minutoCorrente < 1280)
         //21:20
-        this.periodoCorrente = 5;
+        this.periodoCorrente = 6;
 
       return this.reserva.periodo > this.periodoCorrente;
     } else {
