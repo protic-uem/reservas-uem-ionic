@@ -37,8 +37,8 @@ page-reserva-search {
     flex-grow: 1;
     width: 100%;
     //min-height: 60px;
-    justify-content: center;
-    align-items: center;
+    //justify-content: center;
+    //align-items: center;
   }
 
   ion-col {
@@ -46,6 +46,7 @@ page-reserva-search {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    justify-content: center;
   }
 
   .texto {

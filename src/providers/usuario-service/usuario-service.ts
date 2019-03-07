@@ -34,40 +34,5 @@ export class UsuarioServiceProvider extends ConexaoProvider {
           }
         });
     });
-
-    /*return new Promise((resolve, reject) => {
-
-          let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-          this.http.get(this.baseUri+'usuario/todosPorDepartamento/?id_departamento='+btoa(id_deprtamento+""), {headers: headers})
-          .subscribe((result:any) => {
-            if(result.retorno == "false"){
-              resolve(new UsuarioGraphql());
-            }
-            else{
-              if(result.dados.length>0){
-                let tamanho = result.dados.length;
-                for(var i = 0;i<tamanho;i++){
-                  this.usuarios.push(new UsuarioGraphql(
-                                    result.dados[i].id,
-                                    result.dados[i].id_departamento,
-                                    result.dados[i].nome,
-                                    result.dados[i].email,
-                                    result.dados[i].telefone,
-                                    result.dados[i].privilegio
-                                    ));
-                                  }
-              }
-
-
-                    resolve(this.usuarios);
-              }
-            },
-            (error) => {
-              console.log("retornarTodosDocente error");
-              reject(error);
-
-            });
-        });*/
   }
 }

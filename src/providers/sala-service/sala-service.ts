@@ -35,36 +35,6 @@ export class SalaServiceProvider extends ConexaoProvider {
           }
         });
     });
-
-    /*this.http.get(this.baseUri+'sala/buscaPorDepartamento/?id_departamento='
-                    +btoa(id_departamento+""), {headers: this.headersToken}).subscribe((result:any) => {
-            if(result.retorno == "false"){
-              resolve(new Sala());
-            }
-            else{
-              if(result.dados.length>0){
-                let tamanho = result.dados.length;
-                for(var i = 0;i<tamanho;i++){
-                  this.salas.push(new Sala(
-                                    result.dados[i].id,
-                                    result.dados[i].id_departamento,
-                                    result.dados[i].numero,
-                                    result.dados[i].descricao,
-                                    result.dados[i].tipo,
-                                    result.dados[i].status,
-                                    result.dados[i].capacidade
-                                    ));
-                                  }
-              }
-                    resolve(this.salas);
-              }
-            },
-            (error) => {
-              console.log("carregarSalaPorDepartamento error");
-              reject(error);
-
-            });
-        });*/
   }
 
   //carrega todas as disponiveis para aquele departamento naquele determinado dia e periodo
@@ -101,43 +71,5 @@ export class SalaServiceProvider extends ConexaoProvider {
           }
         });
     });
-
-    /*return new Promise((resolve, reject) => {
-
-            let headers = new HttpHeaders({'x-access-token':ConexaoProvider.token});
-
-
-          this.http.get(this.baseUri+'sala/bucaDisponiveisPorDepartamentoDiaPeriodoTipo/?id_departamento='
-                    +btoa(id_departamento+"")+'&data='+btoa(data_reserva+"")+'&periodo='+btoa(periodo+"")+
-                  '&tipo='+tipo_uso, {headers: headers}).subscribe((result:any) => {
-            if(result.retorno == "false"){
-              resolve(new Sala());
-            }
-            else{
-              if(result.dados.length>0){
-                let tamanho = result.dados.length;
-                for(var i = 0;i<tamanho;i++){
-                  /*this.salas.push(new Sala(
-                                    result.dados[i].id,
-                                    result.dados[i].id_departamento,
-                                    result.dados[i].numero,
-                                    result.dados[i].descricao,
-                                    result.dados[i].tipo,
-                                    result.dados[i].status,
-                                    result.dados[i].capacidade
-                                    ));
-                                  }
-              }
-
-
-                    resolve(this.salas);
-              }
-            },
-            (error) => {
-              console.log("carregarDisponiveisPorDepartamentoDiaPeriodo error");
-              reject(error);
-
-            });
-        });*/
   }
 }
