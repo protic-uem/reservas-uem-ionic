@@ -4,9 +4,13 @@ import { ConexaoProvider } from "../conexao/conexao";
 import { UsuarioGraphql } from "../../model/Usuario.graphql";
 import {
   getUsuariosPorDepartamento,
-  updateUsuario
+  updateUsuario,
+  updateUsuarioPassword
 } from "../../graphql/usuario/usuario-json";
-import { usuarioUpdateInput } from "../../graphql/usuario/usuarioInput";
+import {
+  usuarioUpdateInput,
+  usuarioUpdatePasswordInput
+} from "../../graphql/usuario/usuarioInput";
 
 @Injectable()
 export class UsuarioServiceProvider extends ConexaoProvider {
@@ -57,6 +61,28 @@ export class UsuarioServiceProvider extends ConexaoProvider {
           } else {
             let usuarioAtualizado: UsuarioGraphql = result.data.updateUsuario;
             resolve(usuarioAtualizado);
+          }
+        });
+    });
+  }
+
+  //atualiza o usuário
+  async atualizarSenhaUsuario(senha: string) {
+    return await new Promise((resolve, reject) => {
+      this.http
+        .post(
+          this.baseUri,
+          updateUsuarioPassword(usuarioUpdatePasswordInput(senha)),
+          {
+            headers: ConexaoProvider.headersToken
+          }
+        )
+        .subscribe((result: any) => {
+          if (result.errors) {
+            reject(result.errors[0].message);
+          } else {
+            let senhaAtalizada: boolean = result.data.updateUsuarioPassword;
+            resolve(senhaAtalizada);
           }
         });
     });
