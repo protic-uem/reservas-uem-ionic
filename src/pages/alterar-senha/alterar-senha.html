@@ -48,14 +48,19 @@
       </ion-card-content>
     </ion-card>
     <ion-row class="botoes" justify-content-center>
-      <ion-col>
+      <ion-col col-3 justify-content-end>
         <button
           ion-button
           block
-          class="btnReserva"
-          (click)="atualizar()"
-          [disabled]="reactiveForm.invalid"
+          class="btnCancelar"
+          (click)="back()"
+          color="danger"
         >
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-9>
+        <button ion-button block class="btnReserva" (click)="atualizar()">
           Atualizar
         </button>
       </ion-col>

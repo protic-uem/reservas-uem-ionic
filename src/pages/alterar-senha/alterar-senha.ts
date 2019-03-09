@@ -57,15 +57,14 @@ export class AlterarSenhaPage {
   }
 
   atualizar() {
-    console.log("senha", this.reactiveForm.get("senha").value);
-    /*let loading = this.loadingCtrl.create({
+    let loading = this.loadingCtrl.create({
       content: "Atualizando senha..."
     });
 
     loading.present();
 
     this.usuarioService
-      .atualizarSenhaUsuario()
+      .atualizarSenhaUsuario(this.reactiveForm.get("senha").value)
       .then((result: any) => {
         if (result) {
           loading.dismiss().then(() => {
@@ -85,7 +84,7 @@ export class AlterarSenhaPage {
       .catch(error => {
         loading.dismiss();
         apresentarErro(this.alertCtrl, error.message);
-      });*/
+      });
   }
 
   get senha() {
