@@ -36,6 +36,7 @@ import { SalaServiceProvider } from "../providers/sala-service/sala-service";
 import { TimeoutPromise } from "../util/timeout-promise";
 
 import { CalendarModule } from "ion2-calendar";
+import { BrMaskerModule } from "brmasker-ionic-3";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { CalendarModule } from "ion2-calendar";
     IonicStorageModule.forRoot(),
     HttpClientModule,
     ComponentsModule,
-    CalendarModule
+    CalendarModule,
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

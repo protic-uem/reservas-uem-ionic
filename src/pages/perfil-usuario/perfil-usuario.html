@@ -55,6 +55,7 @@
               type="text"
               [(ngModel)]="usuario.telefone"
               formControlName="celular"
+              [brmasker]="{ phone: true }"
             ></ion-input>
           </ion-item>
           <ion-item
