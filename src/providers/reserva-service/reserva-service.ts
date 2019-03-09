@@ -95,41 +95,6 @@ export class ReservaServiceProvider extends ConexaoProvider {
     //zera a lista sempre que fazer a busca para evitar valores duplicados
     this.reservas = new Array<ReservaGraphql>();
 
-    return new Promise((resolve, reject) => {
-      let headers = new HttpHeaders({
-        "x-access-token": ConexaoProvider.token
-      });
-
-      this.http
-        .get(
-          this.baseUri +
-            "reserva/buscaPorDepartamentoData/" +
-            this.hash +
-            "&data=" +
-            btoa(data + "") +
-            "&id_departamento=" +
-            btoa(id_dept + ""),
-          { headers: headers }
-        )
-        .subscribe(
-          (result: any) => {
-            if (result.retorno == "false") {
-              resolve(new ReservaGraphql());
-            } else {
-              if (result.dados.length > 0) {
-                let tamanho = result.dados.length;
-                for (var i = 0; i < tamanho; i++) {}
-              }
-
-              resolve(this.reservas);
-            }
-          },
-          error => {
-            console.log("carregarReservaPorData error");
-            reject(error);
-          }
-        );
-    });
   }
 
   carregarReservaPorDataSala(data: string, id_dept: number, id_sala: number) {

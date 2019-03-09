@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="secondary" hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <h5>Alteração Senha</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <form [formGroup]="reactiveForm">
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Nova Senha</ion-label>
+            <ion-input type="password" formControlName="senha"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="senha.invalid && (senha.dirty || senha.touched)">
+            <div class="text-danger">
+              Senha é obrigatória
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Confirmar Senha</ion-label>
+            <ion-input
+              type="password"
+              formControlName="confirmSenha"
+              compare="senha"
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            *ngIf="
+              confirmSenha.invalid &&
+              (confirmSenha.dirty || confirmSenha.touched)
+            "
+          >
+            <div class="text-danger" *ngIf="confirmSenha.errors['required']">
+              Confirmar Senha é obrigatória
+            </div>
+            <div class="text-danger" *ngIf="confirmSenha.errors['compare']">
+              As senhas não correspondem
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-row class="botoes" justify-content-center>
+      <ion-col>
+        <button
+          ion-button
+          block
+          class="btnReserva"
+          (click)="atualizar()"
+          [disabled]="reactiveForm.invalid"
+        >
+          Atualizar
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

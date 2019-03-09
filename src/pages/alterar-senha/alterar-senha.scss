@@ -1,0 +1,52 @@
+page-alterar-senha {
+  ion-content {
+    background-image: $fundo;
+    display: flex;
+  }
+
+  .scroll-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  ion-card {
+    border-radius: 10px !important;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.04) !important;
+    opacity: 0.9;
+    flex-grow: 0;
+    overflow: visible !important;
+  }
+
+  form {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  //BOTÕES
+  .btnReserva {
+    width: 100%;
+    background-color: #28a745;
+  }
+
+  .btnCancelar {
+    width: 100%;
+  }
+
+  .botoes {
+    flex-grow: 0;
+    left: 0;
+    bottom: 5px;
+    right: 0;
+  }
+
+  .transp {
+    background-color: transparent !important;
+  }
+
+  .text-danger {
+    color: red;
+  }
+}

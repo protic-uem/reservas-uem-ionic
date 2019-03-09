@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="secondary" hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <h5>Meu perfil</h5>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Nome</ion-label>
+          <ion-input type="text" [(ngModel)]="usuario.nome"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>E-mail</ion-label>
+          <ion-input type="email" [(ngModel)]="usuario.email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Celular</ion-label>
+          <ion-input type="text" [(ngModel)]="usuario.telefone"></ion-input>
+        </ion-item>
+        <ion-item> </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-row class="botoes" justify-content-center>
+    <ion-col col-3 justify-content-end>
+      <button
+        ion-button
+        block
+        class="btnCancelar"
+        (click)="back()"
+        color="danger"
+      >
+        <ion-icon name="ios-arrow-back"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col col-9>
+      <button ion-button block class="btnReserva" (click)="atualizar()">
+        Atualizar
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-content>

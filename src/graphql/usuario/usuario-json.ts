@@ -1,3 +1,5 @@
+import { identifierModuleUrl } from "@angular/compiler";
+
 export const getUsuarioPorId = (id: number) => {
   return {
     query: `query getUsuarioPorId($id: ID!) {
@@ -67,5 +69,33 @@ export const getCurrentUsuario = () => {
                             }
                         }
                     }`
+  };
+};
+
+export const updateUsuario = (id: number, input: any) => {
+  return {
+    query: `mutation updateUsuario($id: ID!, $usuarioInput: UsuarioUpdateInput!) {
+              updateUsuario(id: $id, input: $usuarioInput) {
+                                  nome
+                                  email
+                                  telefone
+                                  privilegio
+              }
+            }`,
+    variables: {
+      id: id,
+      usuarioInput: input
+    }
+  };
+};
+
+export const updateUsuarioPassword = (input: any) => {
+  return {
+    query: `mutation updateUsuarioPassword($usuarioInput: UsuarioUpdatePasswordInput!) {
+      updateUsuarioPassword(input: $usuarioInput)
+    }`,
+    variables: {
+      usuarioInput: input
+    }
   };
 };

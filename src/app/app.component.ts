@@ -5,6 +5,8 @@ import { SplashScreen } from "@ionic-native/splash-screen";
 import { Storage } from "@ionic/storage";
 import { LoginPage } from "../pages/login/login";
 import { AjudaUsuarioPage } from "../pages/ajuda-usuario/ajuda-usuario";
+import { PerfilUsuarioPage } from "../pages/perfil-usuario/perfil-usuario";
+import { AlterarSenhaPage } from "../pages/alterar-senha/alterar-senha";
 import { ReservaSearchPage } from "../pages/reserva-search/reserva-search";
 import { ReservaMyPage } from "../pages/reserva-my/reserva-my";
 import { CreateSegmentPage } from "../pages/create-segment/create-segment";
@@ -51,6 +53,16 @@ export class MyApp {
         icon: "help-buoy",
         title: "Ajuda Usuários",
         component: AjudaUsuarioPage
+      },
+      {
+        icon: "contact",
+        title: "Meu Perfil",
+        component: PerfilUsuarioPage
+      },
+      {
+        icon: "key",
+        title: "Alterar senha",
+        component: AlterarSenhaPage
       }
     ];
   }

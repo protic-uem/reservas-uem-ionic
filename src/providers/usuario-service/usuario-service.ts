@@ -2,7 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ConexaoProvider } from "../conexao/conexao";
 import { UsuarioGraphql } from "../../model/Usuario.graphql";
-import { getUsuariosPorDepartamento } from "../../graphql/usuario/usuario-json";
+import {
+  getUsuariosPorDepartamento,
+  updateUsuario
+} from "../../graphql/usuario/usuario-json";
+import { usuarioUpdateInput } from "../../graphql/usuario/usuarioInput";
 
 @Injectable()
 export class UsuarioServiceProvider extends ConexaoProvider {
@@ -31,6 +35,28 @@ export class UsuarioServiceProvider extends ConexaoProvider {
           } else {
             this.usuarios = result.data.usuariosPorDepartamento;
             resolve(this.usuarios);
+          }
+        });
+    });
+  }
+
+  //atualiza o usuário
+  async atualizarUsuario(usuario: UsuarioGraphql) {
+    return await new Promise((resolve, reject) => {
+      this.http
+        .post(
+          this.baseUri,
+          updateUsuario(usuario.id, usuarioUpdateInput(usuario)),
+          {
+            headers: ConexaoProvider.headersToken
+          }
+        )
+        .subscribe((result: any) => {
+          if (result.errors) {
+            reject(result.errors[0].message);
+          } else {
+            let usuarioAtualizado: UsuarioGraphql = result.data.updateUsuario;
+            resolve(usuarioAtualizado);
           }
         });
     });

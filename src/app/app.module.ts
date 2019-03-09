@@ -10,10 +10,11 @@ import { ReservaMyPage } from "../pages/reserva-my/reserva-my";
 import { LoginPage } from "../pages/login/login";
 import { ReservaVisitanteListPage } from "../pages/reserva-visitante-list/reserva-visitante-list";
 import { AjudaUsuarioPage } from "../pages/ajuda-usuario/ajuda-usuario";
+import { PerfilUsuarioPage } from "../pages/perfil-usuario/perfil-usuario";
 import { ReservaSearchPage } from "../pages/reserva-search/reserva-search";
 import { CreateSegmentPage } from "../pages/create-segment/create-segment";
 import { ReservaCreateSearchPage } from "../pages/reserva-create-search/reserva-create-search";
-EsqueceuSenhaPage;
+import { AlterarSenhaPage } from "../pages/alterar-senha/alterar-senha";
 import { HomePage } from "../pages/home/home";
 import { EsqueceuSenhaPage } from "../pages/esqueceu-senha/esqueceu-senha";
 
@@ -48,7 +49,9 @@ import { CalendarModule } from "ion2-calendar";
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
     CreateSegmentPage,
-    HomePage
+    HomePage,
+    PerfilUsuarioPage,
+    AlterarSenhaPage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,9 @@ import { CalendarModule } from "ion2-calendar";
     ReservaCreateSearchPage,
     EsqueceuSenhaPage,
     CreateSegmentPage,
-    HomePage
+    HomePage,
+    PerfilUsuarioPage,
+    AlterarSenhaPage
   ],
   providers: [
     StatusBar,
