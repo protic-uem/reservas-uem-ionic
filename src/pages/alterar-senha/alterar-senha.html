@@ -60,7 +60,13 @@
         </button>
       </ion-col>
       <ion-col col-9>
-        <button ion-button block class="btnReserva" (click)="atualizar()">
+        <button
+          ion-button
+          block
+          class="btnReserva"
+          (click)="atualizar()"
+          [disabled]="reactiveForm.invalid"
+        >
           Atualizar
         </button>
       </ion-col>

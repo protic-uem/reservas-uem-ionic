@@ -10,41 +10,86 @@
 </ion-header>
 
 <ion-content no-bounce>
-  <ion-card>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label floating>Nome</ion-label>
-          <ion-input type="text" [(ngModel)]="usuario.nome"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>E-mail</ion-label>
-          <ion-input type="email" [(ngModel)]="usuario.email"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Celular</ion-label>
-          <ion-input type="text" [(ngModel)]="usuario.telefone"></ion-input>
-        </ion-item>
-        <ion-item> </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-  <ion-row class="botoes" justify-content-center>
-    <ion-col col-3 justify-content-end>
-      <button
-        ion-button
-        block
-        class="btnCancelar"
-        (click)="back()"
-        color="danger"
-      >
-        <ion-icon name="ios-arrow-back"></ion-icon>
-      </button>
-    </ion-col>
-    <ion-col col-9>
-      <button ion-button block class="btnReserva" (click)="atualizar()">
-        Atualizar
-      </button>
-    </ion-col>
-  </ion-row>
+  <form [formGroup]="reactiveForm">
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label floating>Nome</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="usuario.nome"
+              formControlName="nome"
+            ></ion-input>
+          </ion-item>
+          <ion-item *ngIf="nome.invalid && (nome.dirty || nome.touched)">
+            <div class="text-danger" *ngIf="nome.errors['required']">
+              Nome é obrigatória
+            </div>
+            <div class="text-danger" *ngIf="nome.errors['minlength']">
+              Nome pequeno
+            </div>
+            <div class="text-danger" *ngIf="nome.errors['pattern']">
+              Nome inválido
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>E-mail</ion-label>
+            <ion-input
+              type="email"
+              [(ngModel)]="usuario.email"
+              formControlName="email"
+            ></ion-input>
+          </ion-item>
+          <ion-item *ngIf="email.invalid && (email.dirty || email.touched)">
+            <div class="text-danger" *ngIf="email.errors['required']">
+              Email é obrigatório
+            </div>
+            <div class="text-danger" *ngIf="email.errors['email']">
+              Email inválido
+            </div>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Celular</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="usuario.telefone"
+              formControlName="celular"
+            ></ion-input>
+          </ion-item>
+          <ion-item
+            *ngIf="celular.invalid && (celular.dirty || celular.touched)"
+          >
+            <div class="text-danger">
+              Celular é obrigatório
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-row class="botoes" justify-content-center>
+      <ion-col col-3 justify-content-end>
+        <button
+          ion-button
+          block
+          class="btnCancelar"
+          (click)="back()"
+          color="danger"
+        >
+          <ion-icon name="ios-arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-9>
+        <button
+          ion-button
+          block
+          class="btnReserva"
+          (click)="atualizar()"
+          [disabled]="reactiveForm.invalid"
+        >
+          Atualizar
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>

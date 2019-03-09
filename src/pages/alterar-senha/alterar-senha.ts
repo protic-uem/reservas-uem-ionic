@@ -7,7 +7,7 @@ import {
   AlertController
 } from "ionic-angular";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { compareValidator } from "../../util/compare-validator.directive";
+import { compareValidator } from "../../directives/compare-validator/compare-validator";
 import { Storage } from "@ionic/storage";
 import { HomePage } from "../home/home";
 import { UsuarioGraphql } from "../../model/Usuario.graphql";

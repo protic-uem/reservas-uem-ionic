@@ -11,12 +11,14 @@ import { Storage } from "@ionic/storage";
 import { HomePage } from "../home/home";
 import { UsuarioServiceProvider } from "../../providers/usuario-service/usuario-service";
 import { apresentarToast, apresentarErro } from "../../util/util";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "page-perfil-usuario",
   templateUrl: "perfil-usuario.html"
 })
 export class PerfilUsuarioPage {
+  reactiveForm: FormGroup;
   usuario: UsuarioGraphql;
 
   constructor(
@@ -28,8 +30,29 @@ export class PerfilUsuarioPage {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
+    this.createForm();
     this.usuario = this.navParams.get("login");
     if (this.usuario == undefined) this.loadResources();
+  }
+
+  createForm() {
+    this.reactiveForm = new FormGroup({
+      nome: new FormControl(
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(3),
+          Validators.pattern(
+            "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪ\\s]+$"
+          )
+        ])
+      ),
+      email: new FormControl(
+        "",
+        Validators.compose([Validators.required, Validators.email])
+      ),
+      celular: new FormControl("", Validators.compose([Validators.required]))
+    });
   }
 
   async loadResources() {
@@ -86,5 +109,17 @@ export class PerfilUsuarioPage {
         loading.dismiss();
         apresentarErro(this.alertCtrl, error.message);
       });
+  }
+
+  get nome() {
+    return this.reactiveForm.get("nome");
+  }
+
+  get email() {
+    return this.reactiveForm.get("email");
+  }
+
+  get celular() {
+    return this.reactiveForm.get("celular");
   }
 }
