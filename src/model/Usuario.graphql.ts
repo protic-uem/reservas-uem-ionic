@@ -4,6 +4,7 @@ export class UsuarioGraphql {
   id: number;
   nome: string;
   email: string;
+  senha: string;
   telefone: string;
   privilegio: string;
   ultimo_acesso: string;
@@ -15,6 +16,7 @@ export class UsuarioGraphql {
     id?: number,
     nome?: string,
     email?: string,
+    senha?: string,
     telefone?: string,
     privilegio?: string,
     ultimo_acesso?: string,
@@ -25,6 +27,7 @@ export class UsuarioGraphql {
     this.id = id;
     this.nome = nome;
     this.email = email;
+    this.senha = senha;
     this.telefone = telefone;
     this.privilegio = privilegio;
     this.ultimo_acesso = ultimo_acesso;

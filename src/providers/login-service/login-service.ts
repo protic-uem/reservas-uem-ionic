@@ -37,9 +37,6 @@ export class LoginServiceProvider extends ConexaoProvider {
   }
 
   async confirmLogin(email: string, senha: string) {
-    console.log("usuario:" + btoa(email));
-    console.log("senha:" + btoa(senha));
-
     return await new Promise((resolver, reject) => {
       this.getToken(email, senha)
         .then(() => {
@@ -54,8 +51,6 @@ export class LoginServiceProvider extends ConexaoProvider {
                 reject(result.errors[0].message);
               } else {
                 var usuario: UsuarioGraphql = result.data.currentUsuario;
-                console.log("USUARIO", usuario.email);
-
                 resolver(usuario);
               }
             });

@@ -48,6 +48,7 @@ export class AlterarSenhaPage {
 
   createForm() {
     this.reactiveForm = new FormGroup({
+      senhaAtual: new FormControl("", Validators.required),
       senha: new FormControl("", Validators.required),
       confirmSenha: new FormControl("", [
         Validators.required,
@@ -85,6 +86,31 @@ export class AlterarSenhaPage {
         loading.dismiss();
         apresentarErro(this.alertCtrl, error.message);
       });
+  }
+
+  verificarSenhaAtual() {
+    this.usuarioService
+      .verificarSenhaAtual(
+        this.usuario.id,
+        this.reactiveForm.get("senhaAtual").value
+      )
+      .then((result: any) => {
+        if (result) {
+          this.atualizar();
+        } else {
+          apresentarErro(
+            this.alertCtrl,
+            "A senha atual digitada está incorreta!"
+          );
+        }
+      })
+      .catch(error => {
+        apresentarErro(this.alertCtrl, error);
+      });
+  }
+
+  get senhaAtual() {
+    return this.reactiveForm.get("senhaAtual");
   }
 
   get senha() {

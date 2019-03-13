@@ -56,6 +56,7 @@ export const getCurrentUsuario = () => {
                         currentUsuario {
                             id
                             nome
+                            senha
                             email
                             telefone
                             privilegio
@@ -69,6 +70,18 @@ export const getCurrentUsuario = () => {
                             }
                         }
                     }`
+  };
+};
+
+export const verificarSenha = (id: number, senha: string) => {
+  return {
+    query: `query verificarSenha($id: ID!, $senha: String! ) {
+      verificarSenha (id: $id, senha: $senha) 
+    }`,
+    variables: {
+      id: id,
+      senha: senha
+    }
   };
 };
 

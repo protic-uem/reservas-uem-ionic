@@ -6,7 +6,7 @@ import { HttpHeaders } from "@angular/common/http";
 */
 @Injectable()
 export class ConexaoProvider {
-  //protected baseUri: string = "http://localhost:3000/";
+  //protected baseUri: string = "http://localhost:3210/graphql";
   static token: string;
   protected baseUri: string = "https://www.npd.uem.br/graphql";
   protected static headersToken: HttpHeaders;

@@ -5,7 +5,8 @@ import { UsuarioGraphql } from "../../model/Usuario.graphql";
 import {
   getUsuariosPorDepartamento,
   updateUsuario,
-  updateUsuarioPassword
+  updateUsuarioPassword,
+  verificarSenha
 } from "../../graphql/usuario/usuario-json";
 import {
   usuarioUpdateInput,
@@ -83,6 +84,24 @@ export class UsuarioServiceProvider extends ConexaoProvider {
           } else {
             let senhaAtalizada: boolean = result.data.updateUsuarioPassword;
             resolve(senhaAtalizada);
+          }
+        });
+    });
+  }
+
+  //atualiza o usuário
+  async verificarSenhaAtual(id: number, senha: string) {
+    return await new Promise((resolve, reject) => {
+      this.http
+        .post(this.baseUri, verificarSenha(id, senha), {
+          headers: ConexaoProvider.headersToken
+        })
+        .subscribe((result: any) => {
+          if (result.errors) {
+            reject(result.errors[0].message);
+          } else {
+            let senhaCorreta: boolean = result.data.verificarSenha;
+            resolve(senhaCorreta);
           }
         });
     });
